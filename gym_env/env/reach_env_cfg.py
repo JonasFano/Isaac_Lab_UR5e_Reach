@@ -128,22 +128,22 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     )
 
     # Set Cube as object
-    object = RigidObjectCfg(
-        prim_path="{ENV_REGEX_NS}/Object",
-        init_state=RigidObjectCfg.InitialStateCfg(pos=[0.04, 0.35, 0.055], rot=[1, 0, 0, 0]),
-        spawn=UsdFileCfg(
-            usd_path=f"{ISAAC_NUCLEUS_DIR}/Props/Blocks/DexCube/dex_cube_instanceable.usd",
-            scale=(0.3, 0.3, 0.3),
-            rigid_props=RigidBodyPropertiesCfg(
-                solver_position_iteration_count=16,
-                solver_velocity_iteration_count=1,
-                max_angular_velocity=1000.0,
-                max_linear_velocity=1000.0,
-                max_depenetration_velocity=5.0,
-                disable_gravity=False,
-            ),
-        ),
-    )
+    # object = RigidObjectCfg(
+    #     prim_path="{ENV_REGEX_NS}/Object",
+    #     init_state=RigidObjectCfg.InitialStateCfg(pos=[0.04, 0.35, 0.055], rot=[1, 0, 0, 0]),
+    #     spawn=UsdFileCfg(
+    #         usd_path=f"{ISAAC_NUCLEUS_DIR}/Props/Blocks/DexCube/dex_cube_instanceable.usd",
+    #         scale=(0.3, 0.3, 0.3),
+    #         rigid_props=RigidBodyPropertiesCfg(
+    #             solver_position_iteration_count=16,
+    #             solver_velocity_iteration_count=1,
+    #             max_angular_velocity=1000.0,
+    #             max_linear_velocity=1000.0,
+    #             max_depenetration_velocity=5.0,
+    #             disable_gravity=False,
+    #         ),
+    #     ),
+    # )
 
     # ground plane
     ground = AssetBaseCfg(
@@ -180,11 +180,11 @@ class CommandsCfg:
         resampling_time_range=(4.0, 4.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(0.35, 0.65),
-            pos_y=(-0.2, 0.2),
-            pos_z=(0.15, 0.5),
+            pos_x=(-0.2, 0.2),
+            pos_y=(0.35, 0.55),
+            pos_z=(0.15, 0.4),
             roll=(0.0, 0.0),
-            pitch=(math.pi / 2, math.pi / 2),  # depends on end-effector axis
+            pitch=(math.pi, math.pi),  # depends on end-effector axis
             yaw=(-3.14, 3.14),
         ),
     )
@@ -195,12 +195,12 @@ class ActionsCfg:
     # Set actions
     arm_action: mdp.JointPositionActionCfg | mdp.DifferentialInverseKinematicsActionCfg = MISSING
 
-    gripper_action = mdp.BinaryJointPositionActionCfg(
-        asset_name="robot",
-        joint_names=["joint_left", "joint_right"],
-        open_command_expr={"joint_left": 0.0, "joint_right": 0.0},
-        close_command_expr={"joint_left": 0.02, "joint_right": 0.02},
-    )
+    # gripper_action = mdp.BinaryJointPositionActionCfg(
+    #     asset_name="robot",
+    #     joint_names=["joint_left", "joint_right"],
+    #     open_command_expr={"joint_left": 0.0, "joint_right": 0.0},
+    #     close_command_expr={"joint_left": 0.02, "joint_right": 0.02},
+    # )
 
 
 @configclass
