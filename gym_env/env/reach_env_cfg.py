@@ -13,6 +13,7 @@ from omni.isaac.lab.managers import TerminationTermCfg as DoneTerm
 from omni.isaac.lab.scene import InteractiveSceneCfg
 from omni.isaac.lab.utils import configclass
 from omni.isaac.lab.actuators import ImplicitActuatorCfg
+from omni.isaac.lab.utils.noise import AdditiveUniformNoiseCfg as Unoise
 from . import mdp
 import os
 import math
@@ -213,8 +214,13 @@ class ObservationsCfg:
         # joint_pos = ObsTerm(func=mdp.joint_pos_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
         # joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
 
-        # gripper_joint_pos = ObsTerm(func=mdp.joint_pos, params={"asset_cfg": SceneEntityCfg("robot", joint_names=["joint_left", "joint_right"]),},)
+        # For debugging
         tcp_pose = ObsTerm(func=mdp.get_current_tcp_pose)
+        joint_pos = ObsTerm(func=mdp.joint_pos)
+        joint_vel = ObsTerm(func=mdp.joint_vel)
+
+        # gripper_joint_pos = ObsTerm(func=mdp.joint_pos, params={"asset_cfg": SceneEntityCfg("robot", joint_names=["joint_left", "joint_right"]),},)
+        # tcp_pose = ObsTerm(func=mdp.get_current_tcp_pose)
         
         pose_command = ObsTerm(func=mdp.generated_commands, params={"command_name": "ee_pose"})
         actions = ObsTerm(func=mdp.last_action)
@@ -236,7 +242,7 @@ class EventCfg:
         func=mdp.reset_joints_by_scale,
         mode="reset",
         params={
-            "position_range": (0.75, 1.25),
+            "position_range": (1.0, 1.0),
             "velocity_range": (0.0, 0.0),
         },
     )
