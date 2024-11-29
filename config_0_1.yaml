@@ -1,6 +1,6 @@
 program: train_sb3_wandb.py
 method: grid
-name: rel_ik_sb3_ppo_ur5e_reach
+name: rel_ik_sb3_ppo_ur5e_reach_0_1_v2
 metric:
   goal: minimize
   name: train/loss
@@ -9,7 +9,7 @@ parameters:
   seed:
     value: 42
 
-  n_timesteps: # iteration * n_steps * nenvs: 200 * 64 * 4096 = 52428800
+  n_timesteps: # iteration * n_steps * nenvs: 400 * 64 * 8192 = 209715200
     value: 209715200
 
   policy:
@@ -19,7 +19,7 @@ parameters:
     value: 64
 
   batch_size:
-    values: [2048, 8192, 16384]
+    values: [2048, 16384]
 
   gae_lambda:
     value: 0.95
@@ -31,10 +31,10 @@ parameters:
     value: 8
 
   ent_coef: # Possibly change this to encourange more exploration
-    value: [0.01, 0.001]
+    values: [0.01, 0.001]
 
   vf_coef:
-    values: [2, 0.1, 0.0001]
+    value: 0.1
 
   learning_rate:
     values: [1e-4, 1e-3]
@@ -49,9 +49,9 @@ parameters:
       net_arch:
         parameters:
           pi:
-            values: [[256, 128], [64, 64], [128, 64]]
+            value: [128, 64]
           vf:
-            values: [[256, 128], [64, 64], [128, 64]]
+            value: [128, 64]
 
   target_kl:
     value: 0.02
@@ -66,4 +66,4 @@ parameters:
     values: [True, False]
 
   clip_obs:
-    value: [100, 50, 5]
+    value: 50.0

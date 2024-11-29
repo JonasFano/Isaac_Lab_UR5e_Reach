@@ -35,11 +35,11 @@ from wandb.integration.sb3 import WandbCallback
 def main():
     """Train with stable-baselines agent."""
     # WandB initialization (config.yaml values come from WandB during sweep)
-    with open("./config.yaml") as file:
+    with open("./config_0_1.yaml") as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     run = wandb.init(
-        project="rel_ik_sb3_ppo_ur5e_reach",
+        project="rel_ik_sb3_ppo_ur5e_reach_0_1",
         config=config,
         sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
         monitor_gym=False,  # auto-upload the videos of agents playing the game
