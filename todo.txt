@@ -1,6 +1,6 @@
 # Next steps
 1. Check if get_current_tcp_pose works correctly by testing the offset transforms when robot end-effector z-axis points into the x-axis
-        - 
+        - Yes, get_current_tcp_pose using isaac lab math functions works accurately as tested in BitBucket isaac_lab_peg_in_hole_manual
 2. Check if get_current_tcp_pose works with multiple environments
         - Yes it works
 3. Train PPO agent
