@@ -10,7 +10,7 @@ parameters:
     value: 42
 
   n_timesteps: # iteration * n_steps * nenvs: 400 * 64 * 8192 = 209715200
-    value: 209715200
+    value: 157286400 # 300 steps
 
   policy:
     value: 'MlpPolicy'
@@ -19,7 +19,7 @@ parameters:
     value: 64
 
   batch_size:
-    values: [2048, 16384]
+    values: [2048, 8192, 16384]
 
   gae_lambda:
     value: 0.95

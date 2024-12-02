@@ -1,0 +1,233 @@
+2024-11-30 04:53:03,641 INFO    MainThread:2465043 [wandb_setup.py:_flush():76] Configure stats pid to 2465043
+2024-11-30 04:53:03,641 INFO    MainThread:2465043 [wandb_setup.py:_flush():76] Loading settings from /home/jofa/.config/wandb/settings
+2024-11-30 04:53:03,641 INFO    MainThread:2465043 [wandb_setup.py:_flush():76] Loading settings from wandb/settings
+2024-11-30 04:53:03,641 INFO    MainThread:2465043 [wandb_setup.py:_flush():76] Loading settings from environment variables: {'entity': 'jofan23-university-of-southern-denmark', 'project': 'rel_ik_sb3_ppo_ur5e_reach_0_1_corrected', 'sweep_id': 's5h00sc3', 'root_dir': '/home/jofa/Downloads/Isaac_Lab_UR5e_Reach', 'run_id': 'lkv2d0ve', 'sweep_param_path': '/home/jofa/Downloads/Isaac_Lab_UR5e_Reach/wandb/sweep-s5h00sc3/config-lkv2d0ve.yaml'}
+2024-11-30 04:53:03,641 INFO    MainThread:2465043 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'train_sb3_wandb.py', 'program': '/home/jofa/Downloads/Isaac_Lab_UR5e_Reach/train_sb3_wandb.py'}
+2024-11-30 04:53:03,641 INFO    MainThread:2465043 [wandb_init.py:_log_setup():461] Logging user logs to /home/jofa/Downloads/Isaac_Lab_UR5e_Reach/wandb/run-20241130_045303-lkv2d0ve/logs/debug.log
+2024-11-30 04:53:03,641 INFO    MainThread:2465043 [wandb_init.py:_log_setup():462] Logging internal logs to /home/jofa/Downloads/Isaac_Lab_UR5e_Reach/wandb/run-20241130_045303-lkv2d0ve/logs/debug-internal.log
+2024-11-30 04:53:03,642 INFO    MainThread:2465043 [wandb_init.py:init():495] calling init triggers
+2024-11-30 04:53:03,642 INFO    MainThread:2465043 [wandb_init.py:init():498] wandb.init called with sweep_config: {'batch_size': 2048, 'clip_obs': 50, 'clip_range': 0.2, 'ent_coef': 0.001, 'gae_lambda': 0.95, 'gamma': 0.99, 'learning_rate': 0.0001, 'max_grad_norm': 1, 'n_epochs': 8, 'n_steps': 64, 'n_timesteps': 209715200, 'normalize_input': True, 'normalize_value': False, 'policy': 'MlpPolicy', 'policy_kwargs': {'activation_fn': 'nn.ELU', 'net_arch': {'pi': [128, 64], 'vf': [128, 64]}}, 'seed': 42, 'target_kl': 0.02, 'vf_coef': 0.1}
+config: {'program': 'train_sb3_wandb.py', 'method': 'grid', 'name': 'rel_ik_sb3_ppo_ur5e_reach_0_1_corrected', 'metric': {'goal': 'minimize', 'name': 'train/loss'}, 'parameters': {'seed': {'value': 42}, 'n_timesteps': {'value': 209715200}, 'policy': {'value': 'MlpPolicy'}, 'n_steps': {'value': 64}, 'batch_size': {'values': [2048, 16384]}, 'gae_lambda': {'value': 0.95}, 'gamma': {'value': 0.99}, 'n_epochs': {'value': 8}, 'ent_coef': {'values': [0.01, 0.001]}, 'vf_coef': {'value': 0.1}, 'learning_rate': {'values': ['1e-4', '1e-3']}, 'clip_range': {'value': 0.2}, 'policy_kwargs': {'parameters': {'activation_fn': {'value': 'nn.ELU'}, 'net_arch': {'parameters': {'pi': {'value': [128, 64]}, 'vf': {'value': [128, 64]}}}}}, 'target_kl': {'value': 0.02}, 'max_grad_norm': {'value': 1.0}, 'normalize_input': {'values': [True, False]}, 'normalize_value': {'values': [True, False]}, 'clip_obs': {'value': 50.0}}}
+2024-11-30 04:53:03,642 INFO    MainThread:2465043 [wandb_init.py:init():548] starting backend
+2024-11-30 04:53:03,642 INFO    MainThread:2465043 [backend.py:_multiprocessing_setup():97] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-11-30 04:53:03,645 INFO    MainThread:2465043 [backend.py:ensure_launched():217] starting backend process...
+2024-11-30 04:53:03,645 INFO    MainThread:2465043 [backend.py:ensure_launched():222] started backend process with pid: 2465185
+2024-11-30 04:53:03,645 INFO    MainThread:2465043 [wandb_init.py:init():558] backend started and connected
+2024-11-30 04:53:03,648 INFO    MainThread:2465043 [wandb_run.py:_config_callback():1131] config_cb None None {'batch_size': 2048, 'clip_obs': 50, 'clip_range': 0.2, 'ent_coef': 0.001, 'gae_lambda': 0.95, 'gamma': 0.99, 'learning_rate': 0.0001, 'max_grad_norm': 1, 'n_epochs': 8, 'n_steps': 64, 'n_timesteps': 209715200, 'normalize_input': True, 'normalize_value': False, 'policy': 'MlpPolicy', 'policy_kwargs': {'activation_fn': 'nn.ELU', 'net_arch': {'pi': [128, 64], 'vf': [128, 64]}}, 'seed': 42, 'target_kl': 0.02, 'vf_coef': 0.1}
+2024-11-30 04:53:03,649 INFO    MainThread:2465043 [wandb_init.py:init():634] updated telemetry
+2024-11-30 04:53:03,652 INFO    MainThread:2465043 [wandb_init.py:init():665] communicating run to backend with 30 second timeout
+2024-11-30 04:53:04,275 INFO    MainThread:2465043 [wandb_run.py:_on_init():1919] communicating current version
+2024-11-30 04:53:04,402 INFO    MainThread:2465043 [wandb_run.py:_on_init():1923] got version response upgrade_message: "wandb version 0.18.7 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2024-11-30 04:53:04,402 INFO    MainThread:2465043 [wandb_init.py:init():700] starting run threads in backend
+2024-11-30 04:53:04,476 INFO    MainThread:2465043 [wandb_run.py:_console_start():1893] atexit reg
+2024-11-30 04:53:04,476 INFO    MainThread:2465043 [wandb_run.py:_redirect():1766] redirect: SettingsConsole.REDIRECT
+2024-11-30 04:53:04,477 INFO    MainThread:2465043 [wandb_run.py:_redirect():1771] Redirecting console.
+2024-11-30 04:53:04,477 INFO    MainThread:2465043 [wandb_run.py:_redirect():1827] Redirects installed.
+2024-11-30 04:53:04,477 INFO    MainThread:2465043 [wandb_init.py:init():732] run started, returning control to user process
+2024-11-30 04:53:13,249 INFO    MainThread:2465043 [wandb_run.py:_tensorboard_callback():1239] tensorboard callback: runs/lkv2d0ve/PPO_1, True
+2024-11-30 04:53:13,260 INFO    MainThread:2465043 [wandb_watch.py:watch():47] Watching
+2024-11-30 04:53:13,262 INFO    MainThread:2465043 [wandb_run.py:_config_callback():1131] config_cb None None {'algo': 'PPO', 'policy_class': "<class 'stable_baselines3.common.policies.ActorCriticPolicy'>", 'device': 'cuda', 'verbose': 1, 'num_timesteps': 0, '_total_timesteps': 209715200, '_num_timesteps_at_start': 0, 'action_noise': 'None', 'start_time': 1732938792998608538, 'tensorboard_log': 'runs/lkv2d0ve', '_last_obs': '[[ 0.01437294 -0.04300677  0.0456157  ...  0.          0.\n   0.        ]\n [ 0.01437294 -0.04300677  0.0456157  ...  0.          0.\n   0.        ]\n [ 0.01437294 -0.04300677  0.0456157  ...  0.          0.\n   0.        ]\n ...\n [ 0.01437294 -0.04300677  0.0456157  ...  0.          0.\n   0.        ]\n [ 0.01437294 -0.04300677  0.0456157  ...  0.          0.\n   0.        ]\n [ 0.01437294 -0.04300677  0.0456157  ...  0.          0.\n   0.        ]]', '_last_episode_starts': '[ True  True  True ...  True  True  True]', '_last_original_obs': '[[-0.06447601  0.32811737  0.30583996 ...  0.          0.\n   0.        ]\n [-0.06447601  0.32811737  0.30583996 ...  0.          0.\n   0.        ]\n [-0.06447601  0.32811737  0.30583996 ...  0.          0.\n   0.        ]\n ...\n [-0.06447601  0.32811737  0.30583996 ...  0.          0.\n   0.        ]\n [-0.06447601  0.32811737  0.30583996 ...  0.          0.\n   0.        ]\n [-0.06447601  0.32811737  0.30583996 ...  0.          0.\n   0.        ]]', '_episode_num': 0, 'use_sde': 'False', 'sde_sample_freq': -1, '_current_progress_remaining': 1.0, '_stats_window_size': 100, 'ep_info_buffer': 'deque([], maxlen=100)', 'ep_success_buffer': 'deque([], maxlen=100)', '_n_updates': 0, '_custom_logger': 'False', 'env': '<stable_baselines3.common.vec_env.vec_normalize.VecNormalize object at 0x7651c0e56a10>', '_vec_normalize_env': '<stable_baselines3.common.vec_env.vec_normalize.VecNormalize object at 0x7651c0e56a10>', 'observation_space': 'Box(-inf, inf, (17,), float32)', 'action_space': 'Box(-100.0, 100.0, (3,), float32)', 'n_envs': 8192, 'rollout_buffer_class': "<class 'stable_baselines3.common.buffers.RolloutBuffer'>", 'rollout_buffer_kwargs': '{}', 'clip_range_vf': 'None', 'normalize_advantage': 'True', 'lr_schedule': '<function get_schedule_fn.<locals>.<lambda> at 0x7651c0192050>', 'rollout_buffer': '<stable_baselines3.common.buffers.RolloutBuffer object at 0x7651c0e56830>', '_logger': '<stable_baselines3.common.logger.Logger object at 0x7651c0e56320>'}
+2024-11-30 07:00:13,821 INFO    MainThread:2465043 [sb3.py:save_model():149] Saving model checkpoint to models/lkv2d0ve/model.zip
+2024-11-30 07:00:14,003 INFO    MainThread:2465043 [wandb_run.py:_finish():1680] finishing run jofan23-university-of-southern-denmark/rel_ik_sb3_ppo_ur5e_reach_0_1_corrected/lkv2d0ve
+2024-11-30 07:00:14,003 INFO    MainThread:2465043 [wandb_run.py:_atexit_cleanup():1862] got exitcode: 0
+2024-11-30 07:00:14,003 INFO    MainThread:2465043 [wandb_run.py:_restore():1834] restore
+2024-11-30 07:00:16,422 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 2
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2072626
+  total_bytes: 2072626
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:21,523 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: None
+2024-11-30 07:00:22,785 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 2
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2072626
+  total_bytes: 2072626
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:22,981 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 2
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2072626
+  total_bytes: 2072626
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:23,226 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 3
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2072626
+  total_bytes: 2078097
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:23,327 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 1802632
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:23,428 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 1802632
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:23,529 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2001748
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:23,630 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:23,731 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:23,832 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:23,933 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:24,034 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:24,135 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:24,236 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:24,337 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:24,438 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:24,539 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:25,113 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+
+2024-11-30 07:00:25,499 INFO    MainThread:2465043 [wandb_run.py:_on_finish():1991] got exit ret: done: true
+exit_result {
+}
+file_counts {
+  wandb_count: 6
+  other_count: 3
+}
+pusher_stats {
+  uploaded_bytes: 2535267
+  total_bytes: 2535267
+  deduped_bytes: 4543
+}
+local_info {
+}
+
+2024-11-30 07:00:26,611 INFO    MainThread:2465043 [wandb_run.py:_footer_history_summary_info():3099] rendering history
+2024-11-30 07:00:26,612 INFO    MainThread:2465043 [wandb_run.py:_footer_history_summary_info():3131] rendering summary
+2024-11-30 07:00:26,613 INFO    MainThread:2465043 [wandb_run.py:_footer_sync_info():3055] logging synced files

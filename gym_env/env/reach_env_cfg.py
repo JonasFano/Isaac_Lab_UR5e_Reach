@@ -215,8 +215,8 @@ class ObservationsCfg:
         # joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
 
         # gripper_joint_pos = ObsTerm(func=mdp.joint_pos, params={"asset_cfg": SceneEntityCfg("robot", joint_names=["joint_left", "joint_right"]),},)
-        tcp_pose = ObsTerm(func=mdp.get_current_tcp_pose)
-        pose_command = ObsTerm(func=mdp.generated_commands, params={"command_name": "ee_pose"})
+        tcp_pose = ObsTerm(func=mdp.get_current_tcp_pose) # TCP pose in base frame
+        pose_command = ObsTerm(func=mdp.generated_commands, params={"command_name": "ee_pose"}) # Desired ee (or tcp) pose in base frame
         actions = ObsTerm(func=mdp.last_action)
 
         def __post_init__(self):
