@@ -38,7 +38,7 @@ cd isaaclab/IsaacLab
 
 # UR5e Scale of 0.1
 source isaaclab/bin/activate
-cd /home/jofa/Downloads/Isaac_Lab_UR5e_Reach
-wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_1 config_0_1.yaml
+cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach
+wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_1_corrected_v2 config_0_1.yaml
 wandb agent jofan23-university-of-southern-denmark/rel_ik_sb3_ppo_ur5e_reach_0_1/za203z2j
 wandb agent jofan23-university-of-southern-denmark/rel_ik_sb3_ppo_ur5e_reach_0_1_v2/cs6czrhy

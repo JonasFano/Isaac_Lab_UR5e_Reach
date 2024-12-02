@@ -1,9 +1,9 @@
 program: train_sb3_wandb.py
 method: grid
-name: rel_ik_sb3_ppo_ur5e_reach_0_1_v2
+name: rel_ik_sb3_ppo_ur5e_reach_0_1_corrected_v2
 metric:
-  goal: minimize
-  name: train/loss
+  goal: maximize
+  name: rollout/ep_rew_mean
 
 parameters:
   seed:
@@ -37,7 +37,7 @@ parameters:
     value: 0.1
 
   learning_rate:
-    values: [1e-4, 1e-3]
+    value: 1e-4
 
   clip_range:
     value: 0.2
@@ -60,10 +60,10 @@ parameters:
     value: 1.0
 
   normalize_input:
-    values: [True, False]
+    value: True
 
   normalize_value:
-    values: [True, False]
+    value: True
 
   clip_obs:
     value: 50.0
