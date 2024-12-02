@@ -1,6 +1,6 @@
 program: train_sb3_wandb.py
 method: grid
-name: rel_ik_sb3_ppo_ur5e_reach_0_1_corrected_v2
+name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -10,7 +10,7 @@ parameters:
     value: 42
 
   n_timesteps: # iteration * n_steps * nenvs: 400 * 64 * 8192 = 209715200
-    value: 157286400 # 300 steps
+    value: 209715200
 
   policy:
     value: 'MlpPolicy'
@@ -60,10 +60,10 @@ parameters:
     value: 1.0
 
   normalize_input:
-    value: True
+    values: False
 
   normalize_value:
-    value: True
+    values: [True, False]
 
   clip_obs:
     value: 50.0
