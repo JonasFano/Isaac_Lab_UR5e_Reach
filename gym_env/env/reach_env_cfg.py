@@ -215,9 +215,23 @@ class ObservationsCfg:
         # joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
 
         # gripper_joint_pos = ObsTerm(func=mdp.joint_pos, params={"asset_cfg": SceneEntityCfg("robot", joint_names=["joint_left", "joint_right"]),},)
-        tcp_pose = ObsTerm(func=mdp.get_current_tcp_pose) # TCP pose in base frame
-        pose_command = ObsTerm(func=mdp.generated_commands, params={"command_name": "ee_pose"}) # Desired ee (or tcp) pose in base frame
-        actions = ObsTerm(func=mdp.last_action)
+        
+        # TCP pose in base frame
+        tcp_pose = ObsTerm(
+            func=mdp.get_current_tcp_pose,
+            params={"robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
+        )
+
+        # Desired ee (or tcp) pose in base frame
+        pose_command = ObsTerm(
+            func=mdp.generated_commands, 
+            params={"command_name": "ee_pose"},
+        )
+
+        # Previous action
+        actions = ObsTerm(
+            func=mdp.last_action
+        )
 
         def __post_init__(self):
             self.enable_corruption = True
@@ -256,11 +270,11 @@ class RewardsCfg:
         weight=0.1,
         params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": 0.1, "command_name": "ee_pose"},
     )
-    # end_effector_orientation_tracking = RewTerm(
-    #     func=mdp.orientation_command_error,
-    #     weight=-0.1,
-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
-    # )
+    end_effector_orientation_tracking = RewTerm(
+        func=mdp.orientation_command_error,
+        weight=-0.1,
+        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
+    )
 
     # action penalty
     action_rate = RewTerm(func=mdp.action_rate_l2, weight=-0.0001)

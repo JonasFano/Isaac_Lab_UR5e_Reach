@@ -37,7 +37,7 @@ def quat_rotate_vector(quat: torch.Tensor, vec: torch.Tensor) -> torch.Tensor:
     return rotated_vec
 
 
-def get_current_tcp_pose(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+def get_current_tcp_pose(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg) -> torch.Tensor:
     """
     Compute the current TCP pose in both the base frame and world frame.
     
@@ -47,19 +47,15 @@ def get_current_tcp_pose(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg = Sce
     
     Returns:
         tcp_pose_b: TCP pose in the robot's base frame (position + quaternion).
-        tcp_pose_w: TCP pose in the world frame (position + quaternion).
     """
     # Access the robot object from the scene using the provided configuration
     robot: RigidObject = env.scene[robot_cfg.name]
-
-    # Index of the end-effector link "wrist_3_link" in the robot's state array
-    wrist_3_index = 8
 
     # Clone the body states in the world frame to avoid modifying the original tensor
     body_state_w_list = robot.data.body_state_w.clone()
 
     # Extract the pose of the end-effector (position + orientation) in the world frame
-    ee_pose_w = body_state_w_list[:, wrist_3_index, :7]
+    ee_pose_w = body_state_w_list[:, robot_cfg.body_ids[0], :7]
 
     # Define the offset from the end-effector frame to the TCP in the end-effector frame
     offset_ee = torch.tensor([0.0, 0.0, 0.135], device="cuda").unsqueeze(0).repeat(env.scene.num_envs, 1)
