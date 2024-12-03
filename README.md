@@ -11,7 +11,7 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
 
 source isaaclab/bin/activate
 cd isaaclab/IsaacLab
-./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/train_sb3.py --num_envs 4096 --task UR5e-Reach-IK --headless
+./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/train_sb3.py --num_envs 1 --task UR5e-Reach-IK --headless --no_logging
 
 ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/play_sb3.py --task UR5e-Reach-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/models/lkv2d0ve/model.zip
 
@@ -39,7 +39,7 @@ cd isaaclab/IsaacLab
 # UR5e Scale of 0.1
 source isaaclab/bin/activate
 cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach
-wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_position config_0_05.yaml
+wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose config_0_05.yaml
 wandb agent jofan23-university-of-southern-denmark/rel_ik_sb3_ppo_ur5e_reach_0_1/za203z2j
 wandb agent jofan23-university-of-southern-denmark/rel_ik_sb3_ppo_ur5e_reach_0_1_v2/cs6czrhy
 

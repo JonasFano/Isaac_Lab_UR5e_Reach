@@ -4,4 +4,8 @@
 2. Check if get_current_tcp_pose works with multiple environments
         - Yes it works
 3. Train PPO agent
+        - Works. It solved the issue
 4. Get robotiq gripper working
+        - Not yet working
+5. Train PPO agent for reach target pose task
+        

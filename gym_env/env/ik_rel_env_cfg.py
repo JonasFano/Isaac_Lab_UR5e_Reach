@@ -35,7 +35,7 @@ class RelIK_UR5e_ReachEnvCfg(reach_env_cfg.UR5e_ReachEnvCfg):
             asset_name="robot",
             joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
             body_name="wrist_3_link",
-            controller=DifferentialIKControllerCfg(command_type="position", use_relative_mode=True, ik_method="dls"), # DifferentialIKControllerCfg(command_type="pose", use_relative_mode=True, ik_method="dls"),
+            controller=DifferentialIKControllerCfg(command_type="pose", use_relative_mode=True, ik_method="dls"), # DifferentialIKControllerCfg(command_type="pose", use_relative_mode=True, ik_method="dls"),
             body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.0, 0.0, 0.135]),
             scale=0.05,
             debug_vis=True  # Enable debug visualization, set to False for production
