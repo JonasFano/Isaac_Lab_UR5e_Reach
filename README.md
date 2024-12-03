@@ -13,7 +13,7 @@ source isaaclab/bin/activate
 cd isaaclab/IsaacLab
 ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/train_sb3.py --num_envs 1 --task UR5e-Reach-IK --headless --no_logging
 
-./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/play_sb3.py --task UR5e-Reach-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/models/lkv2d0ve/model.zip
+./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/play_sb3.py --task UR5e-Reach-IK --num_envs 4 --checkpoint /home/jofa/Downloads/model.zip
 
 
 
