@@ -56,7 +56,7 @@ parameters:
       activation_fn: 
         value: nn.ELU
       net_arch:
-        values: [[300, 300], [256, 128], [128, 64]]
+        values: [[300, 300], [128, 64]]
 
 
   normalize_input:
