@@ -54,7 +54,7 @@ parameters:
             value: [128, 64]
 
   target_kl:
-    values: [0.02, 0.03]
+    value: 0.02
 
   max_grad_norm:
     value: 1.0
