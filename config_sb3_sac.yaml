@@ -37,8 +37,8 @@ parameters:
   target_update_interval: 
     value: 1
 
-  target_entropy: 
-    value: -6 # - action space dimensions (6 elements in TCP pose)
+  # target_entropy: 
+  #   value: -6 # - action space dimensions (6 elements in TCP pose)
   
   buffer_size: 
     value: 10000000
