@@ -8,4 +8,12 @@
 4. Get robotiq gripper working
         - Not yet working
 5. Train PPO agent for reach target pose task
-        
+        - Worked
+
+
+
+1. Training: PPO reach pose task - rel diff IK control and tcp_pose (7,)
+2. Training: PPO reach pose task - abs diff IK control and tcp_pose (7,)
+3. Training: PPO reach pose task - rel diff IK control and tcp_pose (6,)
+4. Training: SAC reach pose task - with whatever results were the best above
+5. Training: TD3 reach pose task - with whatever results were the best above

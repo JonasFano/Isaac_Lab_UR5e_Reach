@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 
 from omni.isaac.lab.assets import RigidObject
 from omni.isaac.lab.managers import SceneEntityCfg
-from omni.isaac.lab.utils.math import subtract_frame_transforms, quat_apply
+from omni.isaac.lab.utils.math import subtract_frame_transforms, quat_apply, euler_xyz_from_quat
 
 if TYPE_CHECKING:
     from omni.isaac.lab.envs import ManagerBasedRLEnv
@@ -74,5 +74,7 @@ def get_current_tcp_pose(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg) -> t
         tcp_pose_w[:, 3:7]  # TCP orientation in world frame
     )
 
-    tcp_pose_b = torch.cat((tcp_pos_b, tcp_quat_b), dim=-1)
+    tcp_euler_xyz_b = euler_xyz_from_quat(tcp_quat_b.unsqueeze(0))
+
+    tcp_pose_b = torch.cat((tcp_pos_b, tcp_euler_xyz_b), dim=-1)
     return tcp_pose_b

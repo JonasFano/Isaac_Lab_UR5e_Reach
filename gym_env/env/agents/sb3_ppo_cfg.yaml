@@ -1,10 +1,10 @@
 # Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/ppo.yml#L32
 seed: 42
 
-# epoch * n_steps * nenvs: 200 * 64 * 4096 = 52428800
+# epoch * n_steps * nenvs: 200 * 64 * 8192 = 104857600
 # epoch * n_steps * nenvs: 400 * 64 * 8192 = 209715200
 # epochs = iterations
-n_timesteps: 209715200
+n_timesteps: 104857600
 policy: 'MlpPolicy'
 n_steps: 64
 batch_size: 16384 # 192

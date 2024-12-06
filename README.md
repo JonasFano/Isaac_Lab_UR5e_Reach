@@ -3,9 +3,9 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
 
 
 
-#######################
-# IK Relative Control #
-#######################
+###########################
+# Rel IK Relative Control #
+###########################
 
 # Stable-baselines3 - UR5e
 
@@ -21,6 +21,20 @@ cd isaaclab/IsaacLab
 
 # Tensorboard
 tensorboard --logdir='directory'
+
+
+
+
+###########################
+# Abs IK Relative Control #
+###########################
+
+# Stable-baselines3 - UR5e
+
+source isaaclab/bin/activate
+cd isaaclab/IsaacLab
+./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/train_sb3.py --num_envs 8192 --task UR5e-Reach-Pose-Abs-IK --headless
+
 
 
 
