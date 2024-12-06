@@ -74,9 +74,13 @@ def get_current_tcp_pose(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg) -> t
         tcp_pose_w[:, 3:7]  # TCP orientation in world frame
     )
 
-    # Convert orientation from quat to euler angles xyz
+    # # Convert orientation from quat to euler angles xyz
     # tcp_euler_xyz_b = euler_xyz_from_quat(tcp_quat_b)
-    # tcp_pose_b = torch.cat((tcp_pos_b, tcp_euler_xyz_b), dim=-1)
+    # # Unpack the tuple of Euler angles
+    # roll_b, pitch_b, yaw_b = tcp_euler_xyz_b
+    # # Concatenate the position and Euler angles into a single tensor
+    # tcp_pose_b = torch.cat((tcp_pos_b, roll_b.unsqueeze(-1), pitch_b.unsqueeze(-1), yaw_b.unsqueeze(-1)), dim=-1)
+
 
     tcp_pose_b = torch.cat((tcp_pos_b, tcp_quat_b), dim=-1)
     return tcp_pose_b
