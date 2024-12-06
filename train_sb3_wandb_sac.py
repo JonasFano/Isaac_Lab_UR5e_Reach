@@ -3,7 +3,7 @@ from omni.isaac.lab.app import AppLauncher
 import gymnasium as gym
 import numpy as np
 import torch.nn as nn  # Import nn to access activation functions
-from stable_baselines3 import PPO
+from stable_baselines3 import SAC
 from stable_baselines3.common.vec_env import VecNormalize
 
 # argparse for non-agent parameters
@@ -35,11 +35,11 @@ from wandb.integration.sb3 import WandbCallback
 def main():
     """Train with stable-baselines agent."""
     # WandB initialization (config.yaml values come from WandB during sweep)
-    with open("./config_0_05.yaml") as file:
+    with open("./config_sb3_sac.yaml") as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     run = wandb.init(
-        project="rel_ik_sb3_ppo_ur5e_reach_0_05_pose",
+        project="rel_ik_sb3_sac_ur5e_reach_0_05_pose",
         config=config,
         sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
         monitor_gym=False,  # auto-upload the videos of agents playing the game
@@ -47,7 +47,7 @@ def main():
     )
 
     # Load env cfg
-    task = "UR5e-Reach-Pose-IK" # "UR5e-Lift-Cube"
+    task = "UR5e-Reach-Pose-IK"
     num_envs = 8192
     device = "cuda"
     env_cfg = parse_env_cfg(task, device=device, num_envs=num_envs)
@@ -89,23 +89,23 @@ def main():
             raise ValueError(f"Unknown activation function: {activation_fn_name}")
         
     # Create a new agent from stable baselines
-    agent = PPO(
+    agent = SAC(
         wandb.config["policy"], 
         env, 
         verbose=1, 
         tensorboard_log=f"runs/{run.id}", 
-        n_steps=wandb.config.n_steps,
         batch_size=wandb.config.batch_size,
-        gae_lambda=wandb.config.gae_lambda,
         gamma=wandb.config.gamma,
-        n_epochs=wandb.config.n_epochs,
         ent_coef=wandb.config.ent_coef,
-        vf_coef=wandb.config.vf_coef,
         learning_rate=wandb.config.learning_rate,
-        clip_range=wandb.config.clip_range,
+        train_freq=wandb.config.train_freq,
+        gradient_steps=wandb.config.gradient_steps,
+        target_update_interval=wandb.config.target_update_interval,
+        buffer_size=wandb.config.buffer_size,
+        learning_starts=wandb.config.learning_starts,
+        tau=wandb.config.tau,
+        use_sde=wandb.config.use_sde,
         policy_kwargs=policy_kwargs,
-        target_kl=wandb.config.target_kl,
-        max_grad_norm=wandb.config.max_grad_norm,
     )
 
     # Train the agent

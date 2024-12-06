@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Replace with the path to your log file
-log_file_path = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-IK/2024-11-25_13-05-41/progress.csv'
+log_file_path = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-IK/2024-12-03_18-24-40/progress.csv'
 # log_file_path = '/home/joefa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach/2024-11-26_07-31-34/progress.csv'
 
 
