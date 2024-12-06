@@ -31,7 +31,7 @@ parameters:
     value: 8
 
   ent_coef: # Possibly change this to encourange more exploration
-    values: [0,05, 0.01]
+    values: [0.05, 0.01]
 
   vf_coef:
     values: [0.1, 0.01]

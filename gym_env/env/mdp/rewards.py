@@ -131,4 +131,4 @@ def orientation_command_error(env: ManagerBasedRLEnv, command_name: str, asset_c
     # Not necessary to account for end-effector to TCP offset, as there is no change in orientation 
     curr_quat_w = asset.data.body_state_w[:, asset_cfg.body_ids[0], 3:7]  # type: ignore
 
-    return (curr_quat_w, des_quat_w)
+    return quat_error_magnitude(curr_quat_w, des_quat_w)
