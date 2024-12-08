@@ -1,7 +1,7 @@
-# Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/sac.yml
-program: train_sb3_wandb_td3.py
+# Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/ddpg.yml
+program: train_sb3_wandb_ddpg.py
 method: grid
-name: rel_ik_sb3_td3_ur5e_reach_0_05_pose
+name: rel_ik_sb3_ddpg_ur5e_reach_0_05_pose
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -37,20 +37,11 @@ parameters:
   buffer_size: 
     value: 1000000
 
-  policy_delay:
-    value: 2
-
   learning_starts: 
     value: 10000
 
   tau: 
     value: 0.02
-
-  target_policy_noise:
-    value: 0.2
-
-  target_noise_clip:
-    value: 0.5
 
   # action_noise:
   #   values: [NormalActionNoise, OrnsteinUhlenbeckActionNoise]
