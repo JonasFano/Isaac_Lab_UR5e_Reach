@@ -227,7 +227,7 @@ class ObservationsCfg:
 
         # Desired ee (or tcp) pose in base frame
         pose_command = ObsTerm(
-            func=mdp.generated_commands, 
+            func=mdp.generated_commands, #generated_commands_euler_xyz
             params={"command_name": "ee_pose"},
         )
 
@@ -345,4 +345,4 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
         self.sim.physx.gpu_found_lost_aggregate_pairs_capacity = 1024 * 1024 * 4
         self.sim.physx.gpu_total_aggregate_pairs_capacity = 16 * 1024
         self.sim.physx.friction_correlation_distance = 0.00625
-        self.sim.physx.gpu_collision_stack_size = 4096 * 4096 * 100 # Was added due to an PhysX error: collisionStackSize buffer overflow detected
+        self.sim.physx.gpu_collision_stack_size = 4096 * 4096 * 110 # Was added due to an PhysX error: collisionStackSize buffer overflow detected

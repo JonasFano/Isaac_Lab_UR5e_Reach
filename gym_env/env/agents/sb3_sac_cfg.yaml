@@ -11,7 +11,7 @@ learning_rate: !!float 3e-4
 train_freq: 8
 gradient_steps: 8
 target_update_interval: 1
-target_entropy: -7 # - action space dimensions (3 translational components, 3 rotational components, 1 binary gripper)
+target_entropy: -6 # - action space dimensions (3 translational components, 3 rotational components, 1 binary gripper)
 buffer_size: 1000000
 learning_starts: 10000
 tau: 0.02
@@ -22,7 +22,7 @@ policy_kwargs: "dict(
                 )"
 
 # Uses VecNormalize class to normalize obs
-normalize_input: True
+normalize_input: False
 # Uses VecNormalize class to normalize rew
-normalize_value: True
-clip_obs: 5
+normalize_value: False
+clip_obs: 50.0

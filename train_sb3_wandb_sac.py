@@ -48,7 +48,7 @@ def main():
 
     # Load env cfg
     task = "UR5e-Reach-Pose-IK"
-    num_envs = 8192
+    num_envs = 4096
     device = "cuda"
     env_cfg = parse_env_cfg(task, device=device, num_envs=num_envs)
     env_cfg.seed = wandb.config["seed"]

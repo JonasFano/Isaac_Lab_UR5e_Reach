@@ -84,3 +84,18 @@ def get_current_tcp_pose(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg) -> t
 
     tcp_pose_b = torch.cat((tcp_pos_b, tcp_quat_b), dim=-1)
     return tcp_pose_b
+
+
+
+def generated_commands_euler_xyz(env: ManagerBasedRLEnv, command_name: str) -> torch.Tensor:
+    """The generated command from command term in the command manager with the given name."""
+    pose_quat_b = env.command_manager.get_command(command_name)
+
+    # Convert orientation from quat to euler angles xyz
+    euler_xyz_b = euler_xyz_from_quat(pose_quat_b[:, 3:7])
+    # Unpack the tuple of Euler angles
+    roll_b, pitch_b, yaw_b = euler_xyz_b
+    # Concatenate the position and Euler angles into a single tensor
+    pose_euler_b = torch.cat((pose_quat_b[:, :3], roll_b.unsqueeze(-1), pitch_b.unsqueeze(-1), yaw_b.unsqueeze(-1)), dim=-1)
+
+    return pose_euler_b
