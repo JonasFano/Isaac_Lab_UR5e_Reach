@@ -20,7 +20,7 @@ parameters:
     values: [256, 8192] 
 
   gamma:
-    values: [0.95, 0.99]
+    value: 0.95
 
   ent_coef: 
     value: "auto"
