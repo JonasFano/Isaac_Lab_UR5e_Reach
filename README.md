@@ -12,7 +12,7 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
 source isaaclab/bin/activate
 cd isaaclab/IsaacLab
 ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/train_sb3.py --num_envs 1 --task UR5e-Reach-IK --headless --no_logging
-./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/train_sb3.py --num_envs 2048 --task UR5e-Reach-Pose-IK --headless
+./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/train_sb3.py --num_envs 8192 --task UR5e-Reach-Pose-IK --headless
 
 
 ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/play_sb3.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-Abs-IK/2024-12-07_21-18-23/model.zip
