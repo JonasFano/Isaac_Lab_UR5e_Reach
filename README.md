@@ -70,6 +70,8 @@ wandb agent jofan23-university-of-southern-denmark/rel_ik_sb3_ppo_ur5e_reach_0_0
 source isaaclab/bin/activate
 cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach
 wandb sweep --project rel_ik_sb3_sac_ur5e_reach_0_05_pose config_sb3_sac.yaml
+wandb sweep --project rel_ik_sb3_sac_ur5e_reach_0_05_pose_2 config_sb3_sac.yaml
+
 
 
 # UR5e Wandb TD3

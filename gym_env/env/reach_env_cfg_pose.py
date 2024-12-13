@@ -227,7 +227,7 @@ class ObservationsCfg:
 
         # Desired ee (or tcp) pose in base frame
         pose_command = ObsTerm(
-            func=mdp.generated_commands, #generated_commands_euler_xyz
+            func=mdp.generated_commands_axis_angle, #generated_commands_euler_xyz
             params={"command_name": "ee_pose"},
         )
 

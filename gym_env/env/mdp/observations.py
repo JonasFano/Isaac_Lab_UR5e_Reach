@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 
 from omni.isaac.lab.assets import RigidObject
 from omni.isaac.lab.managers import SceneEntityCfg
-from omni.isaac.lab.utils.math import subtract_frame_transforms, quat_apply, euler_xyz_from_quat
+from omni.isaac.lab.utils.math import subtract_frame_transforms, quat_apply, axis_angle_from_quat
 
 if TYPE_CHECKING:
     from omni.isaac.lab.envs import ManagerBasedRLEnv
@@ -74,28 +74,23 @@ def get_current_tcp_pose(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg) -> t
         tcp_pose_w[:, 3:7]  # TCP orientation in world frame
     )
 
-    # # Convert orientation from quat to euler angles xyz
-    # tcp_euler_xyz_b = euler_xyz_from_quat(tcp_quat_b)
-    # # Unpack the tuple of Euler angles
-    # roll_b, pitch_b, yaw_b = tcp_euler_xyz_b
-    # # Concatenate the position and Euler angles into a single tensor
-    # tcp_pose_b = torch.cat((tcp_pos_b, roll_b.unsqueeze(-1), pitch_b.unsqueeze(-1), yaw_b.unsqueeze(-1)), dim=-1)
+    # Convert orientation from quat to axis-angle
+    tcp_axis_angle_b = axis_angle_from_quat(tcp_quat_b)
+    # Concatenate the position and axis-angle into a single tensor
+    tcp_pose_b = torch.cat((tcp_pos_b, tcp_axis_angle_b), dim=-1)
 
-
-    tcp_pose_b = torch.cat((tcp_pos_b, tcp_quat_b), dim=-1)
+    # tcp_pose_b = torch.cat((tcp_pos_b, tcp_quat_b), dim=-1)
     return tcp_pose_b
 
 
 
-def generated_commands_euler_xyz(env: ManagerBasedRLEnv, command_name: str) -> torch.Tensor:
+def generated_commands_axis_angle(env: ManagerBasedRLEnv, command_name: str) -> torch.Tensor:
     """The generated command from command term in the command manager with the given name."""
     pose_quat_b = env.command_manager.get_command(command_name)
 
     # Convert orientation from quat to euler angles xyz
-    euler_xyz_b = euler_xyz_from_quat(pose_quat_b[:, 3:7])
-    # Unpack the tuple of Euler angles
-    roll_b, pitch_b, yaw_b = euler_xyz_b
-    # Concatenate the position and Euler angles into a single tensor
-    pose_euler_b = torch.cat((pose_quat_b[:, :3], roll_b.unsqueeze(-1), pitch_b.unsqueeze(-1), yaw_b.unsqueeze(-1)), dim=-1)
+    axis_angle_b = axis_angle_from_quat(pose_quat_b[:, 3:7])
+    # Concatenate the position and axis angle orientation into a single tensor
+    pose_b = torch.cat((pose_quat_b[:, :3], axis_angle_b), dim=-1)
 
-    return pose_euler_b
+    return pose_b

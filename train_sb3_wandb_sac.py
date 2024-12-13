@@ -3,8 +3,7 @@ from omni.isaac.lab.app import AppLauncher
 import gymnasium as gym
 import numpy as np
 import torch.nn as nn  # Import nn to access activation functions
-from stable_baselines3 import SAC
-from stable_baselines3.common.buffers import HerReplayBuffer
+from stable_baselines3 import SAC, HerReplayBuffer
 from stable_baselines3.common.vec_env import VecNormalize
 
 # argparse for non-agent parameters
