@@ -1,5 +1,5 @@
 seed: 42
-n_timesteps: 104857600
+n_timesteps: 209715200
 policy: MlpPolicy
 n_steps: 64
 batch_size: 16384
