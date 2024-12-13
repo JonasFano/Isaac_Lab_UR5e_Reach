@@ -4,6 +4,7 @@ import gymnasium as gym
 import numpy as np
 import torch.nn as nn  # Import nn to access activation functions
 from stable_baselines3 import SAC
+from stable_baselines3.common.buffers import HerReplayBuffer
 from stable_baselines3.common.vec_env import VecNormalize
 
 # argparse for non-agent parameters
@@ -39,7 +40,7 @@ def main():
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     run = wandb.init(
-        project="rel_ik_sb3_sac_ur5e_reach_0_05_pose",
+        project="rel_ik_sb3_sac_ur5e_reach_0_05_pose_2",
         config=config,
         sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
         monitor_gym=False,  # auto-upload the videos of agents playing the game
@@ -88,6 +89,14 @@ def main():
         else:
             raise ValueError(f"Unknown activation function: {activation_fn_name}")
         
+    # HER Replay Buffer (if enabled)
+    if "replay_buffer_class" in wandb.config and wandb.config["replay_buffer_class"] == "HerReplayBuffer":
+        replay_buffer_kwargs = eval(wandb.config["replay_buffer_kwargs"])
+        replay_buffer_class = HerReplayBuffer
+    else:
+        replay_buffer_class = None
+        replay_buffer_kwargs = None
+        
     # Create a new agent from stable baselines
     agent = SAC(
         wandb.config["policy"], 
@@ -106,6 +115,8 @@ def main():
         tau=wandb.config.tau,
         use_sde=wandb.config.use_sde,
         policy_kwargs=policy_kwargs,
+        replay_buffer_class=replay_buffer_class,
+        replay_buffer_kwargs=replay_buffer_kwargs,
     )
 
     # Train the agent

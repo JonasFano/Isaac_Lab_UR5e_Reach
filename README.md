@@ -15,9 +15,10 @@ cd isaaclab/IsaacLab
 ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/train_sb3.py --num_envs 2048 --task UR5e-Reach-Pose-IK --headless
 
 
-./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/play_sb3.py --task UR5e-Reach-Pose-Abs-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-Abs-IK/2024-12-06_12-11-32/model.zip
+./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/play_sb3.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-Abs-IK/2024-12-07_21-18-23/model.zip
 
-
+# SAC
+./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/play_sb3_sac.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/models/293fw7iy/model.zip
 
 # Tensorboard
 tensorboard --logdir='directory'
@@ -75,3 +76,9 @@ wandb sweep --project rel_ik_sb3_sac_ur5e_reach_0_05_pose config_sb3_sac.yaml
 source isaaclab/bin/activate
 cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach
 wandb sweep --project rel_ik_sb3_td3_ur5e_reach_0_05_pose config_sb3_td3.yaml
+
+
+# UR5e Wandb DDPG
+source isaaclab/bin/activate
+cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach
+wandb sweep --project rel_ik_sb3_ddpg_ur5e_reach_0_05_pose config_sb3_ddpg.yaml
