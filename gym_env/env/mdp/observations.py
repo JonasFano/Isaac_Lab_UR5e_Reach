@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import torch
-from scipy.spatial.transform import Rotation as R
 from typing import TYPE_CHECKING
 
 from omni.isaac.lab.assets import RigidObject

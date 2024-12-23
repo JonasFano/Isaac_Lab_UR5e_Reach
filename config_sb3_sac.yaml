@@ -11,13 +11,13 @@ parameters:
     value: 42
 
   n_timesteps: # n_timesteps = total gradient updates * train_freq/gradient_steps = 52428800
-    value: 157286400
+    value: 209715200
 
   policy:
     value: 'MlpPolicy'
 
   batch_size:
-    values: [256, 8192] 
+    values: [16384, 8192] 
 
   gamma:
     value: 0.95
@@ -26,7 +26,7 @@ parameters:
     value: "auto"
 
   learning_rate:
-    values: [1e-4, 1e-3]
+    values: [5e-4, 1e-3]
 
   train_freq:
     value: 4

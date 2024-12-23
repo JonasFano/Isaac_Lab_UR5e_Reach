@@ -114,6 +114,7 @@ def main():
         tau=wandb.config.tau,
         use_sde=wandb.config.use_sde,
         policy_kwargs=policy_kwargs,
+        target_entropy=wandb.config.target_entropy
         # replay_buffer_class=replay_buffer_class,
         # replay_buffer_kwargs=replay_buffer_kwargs,
     )
