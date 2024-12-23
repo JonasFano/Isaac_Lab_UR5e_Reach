@@ -39,7 +39,7 @@ def main():
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     run = wandb.init(
-        project="rel_ik_sb3_sac_ur5e_reach_0_05_pose_2",
+        project="rel_ik_sb3_sac_ur5e_reach_0_05_pose_3",
         config=config,
         sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
         monitor_gym=False,  # auto-upload the videos of agents playing the game
