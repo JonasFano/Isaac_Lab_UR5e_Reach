@@ -39,7 +39,7 @@ def main():
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     run = wandb.init(
-        project="rel_ik_sb3_sac_ur5e_reach_0_05_pose_3",
+        project="rel_ik_sb3_sac_ur5e_reach_0_05_pose_4",
         config=config,
         sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
         monitor_gym=False,  # auto-upload the videos of agents playing the game
@@ -114,7 +114,7 @@ def main():
         tau=wandb.config.tau,
         use_sde=wandb.config.use_sde,
         policy_kwargs=policy_kwargs,
-        target_entropy=wandb.config.target_entropy
+        # target_entropy=wandb.config.target_entropy
         # replay_buffer_class=replay_buffer_class,
         # replay_buffer_kwargs=replay_buffer_kwargs,
     )
@@ -123,7 +123,7 @@ def main():
     agent.learn(
         total_timesteps=wandb.config["n_timesteps"],
         callback=WandbCallback(
-            gradient_save_freq=1000,
+            gradient_save_freq=5000,
             model_save_path=f"models/{run.id}",
             verbose=2,
         ),

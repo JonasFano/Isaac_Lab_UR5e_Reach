@@ -36,7 +36,7 @@ import numpy as np
 import os
 from datetime import datetime
 
-from stable_baselines3 import SAC
+from stable_baselines3 import SAC, HerReplayBuffer
 from stable_baselines3.common.callbacks import CheckpointCallback
 from stable_baselines3.common.logger import configure
 from stable_baselines3.common.vec_env import VecNormalize
@@ -121,12 +121,27 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
             clip_reward=np.inf,
         )
 
+
+    # HER Replay Buffer (if enabled)
+    if "replay_buffer_class" in agent_cfg and agent_cfg["replay_buffer_class"] == "HerReplayBuffer":
+        replay_buffer_kwargs = "dict(goal_selection_strategy='future', n_sampled_goal=4)"
+        replay_buffer_class = HerReplayBuffer
+    else:
+        replay_buffer_class = None
+        replay_buffer_kwargs = None
+
     # Load or create a new agent from stable baselines
     if args_cli.checkpoint is not None:
         print(f"Loading checkpoint from: {args_cli.checkpoint}")
         agent = SAC.load(args_cli.checkpoint, env)  # Load the model from the checkpoint
     else:
-        agent = SAC(policy_arch, env, verbose=1, **agent_cfg)  # Create a new model
+        agent = SAC(
+            policy_arch, 
+            env, 
+            verbose=1, 
+            replay_buffer_class=replay_buffer_class,
+            replay_buffer_kwargs=replay_buffer_kwargs,
+            **agent_cfg)  # Create a new model
 
 
     # configure the logger
