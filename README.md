@@ -75,7 +75,7 @@ cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach
 wandb sweep --project rel_ik_sb3_sac_ur5e_reach_0_05_pose config_sb3_sac.yaml
 wandb sweep --project rel_ik_sb3_sac_ur5e_reach_0_05_pose_2 config_sb3_sac.yaml
 wandb sweep --project rel_ik_sb3_sac_ur5e_reach_0_05_pose_3 config_sb3_sac.yaml
-
+wandb sweep --project rel_ik_sb3_sac_ur5e_reach_0_05_pose_4 config_sb3_sac.yaml
 
 
 

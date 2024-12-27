@@ -23,10 +23,10 @@ parameters:
     value: 0.95
 
   ent_coef: 
-    value: 0.01
+    value: 0.1
 
   learning_rate:
-    values: [5e-4, 1e-3]
+    value: 1e-3
 
   train_freq:
     value: 4
