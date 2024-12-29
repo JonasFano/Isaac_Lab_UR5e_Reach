@@ -1,7 +1,7 @@
 # Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/sac.yml
 program: train_sb3_wandb_sac.py
 method: grid
-name: rel_ik_sb3_sac_ur5e_reach_0_05_pose_5
+name: rel_ik_sb3_sac_ur5e_reach_0_05_pose_6
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -17,16 +17,16 @@ parameters:
     value: 'MlpPolicy'
 
   batch_size:
-    value: 16384
+    values: [512, 1024, 4096]
 
   gamma:
     value: 0.95
 
   ent_coef: 
-    value: 0.1
+    value: "auto"
 
   learning_rate:
-    value: 1e-3
+    value: 3e-4
 
   train_freq:
     value: 4
@@ -37,8 +37,8 @@ parameters:
   target_update_interval: 
     value: 1
 
-  # target_entropy: 
-  #   value: -6 # - action space dimensions (6 elements in TCP pose)
+  target_entropy: 
+    value: -6 # - action space dimensions (6 elements in TCP pose)
   
   buffer_size: 
     value: 1000000
@@ -63,14 +63,14 @@ parameters:
       activation_fn: 
         values: ['nn.ELU', 'nn.ReLU', 'nn.Tanh']
       net_arch:
-        value: [128, 64]
+        value: [256, 256]
 
 
   normalize_input:
     value: False
 
   normalize_value:
-    value: False
+    value: True
 
   clip_obs:
     value: 50.0
