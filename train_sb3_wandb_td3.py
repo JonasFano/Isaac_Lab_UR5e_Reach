@@ -3,8 +3,10 @@ from omni.isaac.lab.app import AppLauncher
 import gymnasium as gym
 import numpy as np
 import torch.nn as nn  # Import nn to access activation functions
-from stable_baselines3 import TD3
+from stable_baselines3 import TD3, HerReplayBuffer
 from stable_baselines3.common.vec_env import VecNormalize
+from stable_baselines3.common.noise import NormalActionNoise
+
 
 # argparse for non-agent parameters
 parser = argparse.ArgumentParser(description="Train an RL agent with Stable-Baselines3.")
@@ -48,7 +50,7 @@ def main():
 
     # Load env cfg
     task = "UR5e-Reach-Pose-IK"
-    num_envs = 8192
+    num_envs = 4096
     device = "cuda"
     env_cfg = parse_env_cfg(task, device=device, num_envs=num_envs)
     env_cfg.seed = wandb.config["seed"]
@@ -88,6 +90,22 @@ def main():
         else:
             raise ValueError(f"Unknown activation function: {activation_fn_name}")
         
+
+    if "action_noise" in wandb.config and wandb.config["action_noise"] == "NormalActionNoise":
+        action_dim = env.action_space.shape[0]
+        action_noise = NormalActionNoise(mean=np.zeros(action_dim), sigma=wandb.config.action_sigma * np.ones(action_dim))
+    else:
+        action_noise = None
+        
+    # HER Replay Buffer (if enabled)
+    # if "replay_buffer_class" in wandb.config and wandb.config["replay_buffer_class"] == "HerReplayBuffer":
+    #     replay_buffer_kwargs = eval(wandb.config["replay_buffer_kwargs"])
+    #     replay_buffer_class = HerReplayBuffer
+    # else:
+    #     replay_buffer_class = None
+    #     replay_buffer_kwargs = None
+
+
     # Create a new agent from stable baselines
     agent = TD3(
         wandb.config["policy"], 
@@ -106,13 +124,16 @@ def main():
         tau=wandb.config.tau,
         target_noise_clip=wandb.config.target_noise_clip,
         policy_kwargs=policy_kwargs,
+        action_noise=action_noise,
+        # replay_buffer_class=replay_buffer_class,
+        # replay_buffer_kwargs=replay_buffer_kwargs,
     )
 
     # Train the agent
     agent.learn(
         total_timesteps=wandb.config["n_timesteps"],
         callback=WandbCallback(
-            gradient_save_freq=1000,
+            gradient_save_freq=10000,
             model_save_path=f"models/{run.id}",
             verbose=2,
         ),

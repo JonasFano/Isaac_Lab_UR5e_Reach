@@ -1,6 +1,6 @@
-# Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/sac.yml
+# Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/td3.yml
 program: train_sb3_wandb_td3.py
-method: grid
+method: bayes
 name: rel_ik_sb3_td3_ur5e_reach_0_05_pose
 metric:
   goal: maximize
@@ -20,50 +20,63 @@ parameters:
     value: 'MlpPolicy'
 
   batch_size:
-    values: [256, 8192] 
+    values: [64, 128, 256, 512]
 
   gamma:
-    value: 0.99
+    min: 0.9
+    max: 0.99
 
   learning_rate:
-    values: [1e-4, 3e-4]
+    min: !!float 5e-5
+    max: !!float 1e-3
 
   train_freq:
-    value: 4
+    values: [1, 4, 8]
 
   gradient_steps:
-    value: 4
+    values: [1, 4, 8]
 
   buffer_size: 
-    value: 1000000
+    values: [50000, 100000, 1000000, 5000000]
 
   policy_delay:
     value: 2
 
   learning_starts: 
-    value: 10000
+    values: [100, 1000, 10000]
 
   tau: 
-    value: 0.02
+    min: 0.001
+    max: 0.05
 
   target_policy_noise:
-    value: 0.2
+    min: 0.0
+    max: 0.3
 
   target_noise_clip:
-    value: 0.5
+    min: 0.0
+    max: 0.6
 
-  # action_noise:
-  #   values: [NormalActionNoise, OrnsteinUhlenbeckActionNoise]
+  action_noise:
+    value: NormalActionNoise
 
-  # optimize_memory_usage:
-  #   value: True
+  action_sigma:
+    min: 0.0
+    max: 0.1
+
+  # replay_buffer_class: 
+  #   value: "HerReplayBuffer"
+
+  # replay_buffer_kwargs: 
+  #   value: "dict(goal_selection_strategy='future', n_sampled_goal=4)"
 
   policy_kwargs:
     parameters:
       activation_fn: 
-        value: nn.ELU
+        values: ['nn.ELU', 'nn.ReLU', 'nn.Tanh']
       net_arch:
-        values: [[300, 300], [256, 128], [128, 64]]
+        values: [[64, 64], [128, 128], [256, 256], [400, 300]]
+
 
   normalize_input:
     value: False
@@ -73,3 +86,89 @@ parameters:
 
   clip_obs:
     value: 50.0
+
+
+#######################
+# Previous parameters #
+#######################
+
+
+
+
+
+
+
+# program: train_sb3_wandb_td3.py
+# method: grid
+# name: rel_ik_sb3_td3_ur5e_reach_0_05_pose
+# metric:
+#   goal: maximize
+#   name: rollout/ep_rew_mean
+
+# parameters:
+#   seed:
+#     value: 42
+
+#   device:
+#     value: "cuda:0"
+
+#   n_timesteps: # iteration * n_steps * nenvs: 400 * 64 * 8192 = 209715200
+#     value: 209715200
+
+#   policy:
+#     value: 'MlpPolicy'
+
+#   batch_size:
+#     values: [256, 8192] 
+
+#   gamma:
+#     value: 0.99
+
+#   learning_rate:
+#     values: [1e-4, 3e-4]
+
+#   train_freq:
+#     value: 4
+
+#   gradient_steps:
+#     value: 4
+
+#   buffer_size: 
+#     value: 1000000
+
+#   policy_delay:
+#     value: 2
+
+#   learning_starts: 
+#     value: 10000
+
+#   tau: 
+#     value: 0.02
+
+#   target_policy_noise:
+#     value: 0.2
+
+#   target_noise_clip:
+#     value: 0.5
+
+#   # action_noise:
+#   #   values: [NormalActionNoise, OrnsteinUhlenbeckActionNoise]
+
+#   # optimize_memory_usage:
+#   #   value: True
+
+#   policy_kwargs:
+#     parameters:
+#       activation_fn: 
+#         value: nn.ELU
+#       net_arch:
+#         values: [[300, 300], [256, 128], [128, 64]]
+
+#   normalize_input:
+#     value: False
+
+#   normalize_value:
+#     value: False
+
+#   clip_obs:
+#     value: 50.0
