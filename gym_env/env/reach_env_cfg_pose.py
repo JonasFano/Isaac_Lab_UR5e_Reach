@@ -339,11 +339,11 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
         self.episode_length_s = 5.0
         # simulation settings
         self.sim.dt = 0.01
-        self.sim.render_interval = self.decimation * 2
+        self.sim.render_interval = self.decimation
 
         self.sim.physx.bounce_threshold_velocity = 0.2
         self.sim.physx.bounce_threshold_velocity = 0.01
         self.sim.physx.gpu_found_lost_aggregate_pairs_capacity = 1024 * 1024 * 4
         self.sim.physx.gpu_total_aggregate_pairs_capacity = 16 * 1024
         self.sim.physx.friction_correlation_distance = 0.00625
-        self.sim.physx.gpu_collision_stack_size = 4096 * 4096 * 110 # Was added due to an PhysX error: collisionStackSize buffer overflow detected
+        self.sim.physx.gpu_collision_stack_size = 4096 * 4096 * 120 # Was added due to an PhysX error: collisionStackSize buffer overflow detected
