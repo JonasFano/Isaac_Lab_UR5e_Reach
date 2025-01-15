@@ -335,7 +335,7 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
     def __post_init__(self):
         """Post initialization."""
         # general settings
-        self.decimation = 4
+        self.decimation = 2
         self.episode_length_s = 5.0
         # simulation settings
         self.sim.dt = 0.01
