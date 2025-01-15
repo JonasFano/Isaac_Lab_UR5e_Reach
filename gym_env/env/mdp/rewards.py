@@ -58,7 +58,7 @@ def get_current_tcp_pose_w(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg) ->
     ee_pose_w = body_state_w_list[:, robot_cfg.body_ids[0], :7]
 
     # Define the offset from the end-effector frame to the TCP in the end-effector frame
-    offset_ee = torch.tensor([0.0, 0.0, 0.135], device="cuda").unsqueeze(0).repeat(env.scene.num_envs, 1)
+    offset_ee = torch.tensor([0.0, 0.0, 0.15], device="cuda").unsqueeze(0).repeat(env.scene.num_envs, 1)
 
     # Rotate the offset from the end-effector frame to the world frame
     offset_w = quat_rotate_vector(ee_pose_w[:, 3:7], offset_ee)
