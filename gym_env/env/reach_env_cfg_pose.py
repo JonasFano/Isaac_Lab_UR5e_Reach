@@ -264,21 +264,39 @@ class EventCfg:
 class RewardsCfg:
     """Reward terms for the MDP."""
     # task terms
+    # end_effector_position_tracking = RewTerm(
+    #     func=mdp.position_command_error,
+    #     weight=-0.2,
+    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
+    # )
+    # end_effector_position_tracking_fine_grained = RewTerm(
+    #     func=mdp.position_command_error_tanh,
+    #     weight=0.1,
+    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": 0.1, "command_name": "ee_pose"},
+    # )
+    # end_effector_orientation_tracking = RewTerm(
+    #     func=mdp.orientation_command_error,
+    #     weight=-0.1,
+    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
+    # )
+
+    # New reward function
     end_effector_position_tracking = RewTerm(
-        func=mdp.position_command_error,
-        weight=-0.2,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
+        func=mdp.position_command_error_tanh,
+        weight=5.0,
+        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": 0.3, "command_name": "ee_pose"},
     )
     end_effector_position_tracking_fine_grained = RewTerm(
         func=mdp.position_command_error_tanh,
-        weight=0.1,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": 0.1, "command_name": "ee_pose"},
+        weight=1.0,
+        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": 0.05, "command_name": "ee_pose"},
     )
     end_effector_orientation_tracking = RewTerm(
         func=mdp.orientation_command_error,
-        weight=-0.1,
+        weight=-1.0,
         params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
     )
+
 
     # action penalty
     action_rate = RewTerm(func=mdp.action_rate_l2, weight=-0.0001)
