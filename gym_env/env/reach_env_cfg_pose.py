@@ -283,7 +283,7 @@ class RewardsCfg:
     # New reward function
     end_effector_position_tracking = RewTerm(
         func=mdp.position_command_error_tanh,
-        weight=5.0,
+        weight=10.0,
         params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": 0.3, "command_name": "ee_pose"},
     )
     end_effector_position_tracking_fine_grained = RewTerm(
