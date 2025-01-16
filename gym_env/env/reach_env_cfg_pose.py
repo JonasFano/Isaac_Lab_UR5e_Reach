@@ -179,12 +179,12 @@ class CommandsCfg:
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
         body_name="wrist_3_link",
-        resampling_time_range=(4.0, 4.0),
+        resampling_time_range=(5.0, 5.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(-0.2, 0.2),
-            pos_y=(0.35, 0.55),
-            pos_z=(0.15, 0.4),
+            pos_x=(-0.05, 0.05),
+            pos_y=(0.35, 0.45),
+            pos_z=(0.25, 0.35),
             roll=(0.0, 0.0),
             pitch=(math.pi, math.pi),  # depends on end-effector axis
             yaw=(-3.14, 3.14), # (0.0, 0.0), # y
@@ -346,4 +346,4 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
         self.sim.physx.gpu_found_lost_aggregate_pairs_capacity = 1024 * 1024 * 4
         self.sim.physx.gpu_total_aggregate_pairs_capacity = 16 * 1024
         self.sim.physx.friction_correlation_distance = 0.00625
-        self.sim.physx.gpu_collision_stack_size = 4096 * 4096 * 110 # Was added due to an PhysX error: collisionStackSize buffer overflow detected
+        self.sim.physx.gpu_collision_stack_size = 4096 * 4096 * 120 # Was added due to an PhysX error: collisionStackSize buffer overflow detected
