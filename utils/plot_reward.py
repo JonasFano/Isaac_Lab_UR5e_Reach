@@ -3,9 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Replace with the path to your log file
-log_file_path = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-IK/Axis_angle_implementation/progress.csv'
+# log_file_path = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-IK/Axis_angle_implementation/progress.csv'
 # log_file_path = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-IK/Quat_implementation/progress.csv'
-# log_file_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-Abs-IK/2024-12-07_21-18-23\progress.csv"
+log_file_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-Abs-IK/2024-12-07_21-18-23/progress.csv"
 
 # Read the log file
 data = pd.read_csv(log_file_path)
