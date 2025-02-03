@@ -18,6 +18,9 @@ from . import mdp
 import os
 import math
 
+from omni.isaac.lab.sensors import ContactSensorCfg
+
+
 ##
 # Scene definition
 ##
@@ -26,13 +29,12 @@ MODEL_PATH = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__)
 MIN_HEIGHT = 0.1 # 0.04 # 0.1
 
 @configclass
-class UR5e_ReachSceneCfg(InteractiveSceneCfg):
+class UR5e_Domain_Rand_ReachSceneCfg(InteractiveSceneCfg):
     """Configuration for the lift scene with a robot and a object."""
     # articulation
     robot = ArticulationCfg(
         prim_path="{ENV_REGEX_NS}/robot", 
         spawn=sim_utils.UsdFileCfg(
-            # usd_path=os.path.join(MODEL_PATH, "ur5e_robotiq_new.usd"), # SDU gripper
             usd_path=os.path.join(MODEL_PATH, "ur5e_robotiq_hand_e.usd"), # Robotiq Hand E
             rigid_props=sim_utils.RigidBodyPropertiesCfg(
                 disable_gravity=False,
@@ -123,6 +125,7 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
             )
         }
     )
+    # Body_names: ['base_link', 'base', 'base_link_inertia', 'shoulder_link', 'upper_arm_link', 'forearm_link', 'wrist_1_link', 'wrist_2_link', 'wrist_3_link', 'flange', 'hand_base', 'finger_left', 'finger_right']
 
     # ground plane
     ground = AssetBaseCfg(
@@ -156,12 +159,12 @@ class CommandsCfg:
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
         body_name="wrist_3_link",
-        resampling_time_range=(5.0, 5.0),
+        resampling_time_range=(4.0, 4.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(-0.05, 0.05),
-            pos_y=(0.35, 0.45),
-            pos_z=(0.25, 0.35),
+            pos_x=(-0.2, 0.2),
+            pos_y=(0.35, 0.55),
+            pos_z=(0.15, 0.3),
             roll=(0.0, 0.0),
             pitch=(math.pi, math.pi),  # depends on end-effector axis
             yaw=(-3.14, 3.14), # (0.0, 0.0), # y
@@ -174,13 +177,6 @@ class ActionsCfg:
     # Set actions
     arm_action: mdp.JointPositionActionCfg | mdp.DifferentialInverseKinematicsActionCfg = MISSING
 
-    # gripper_action = mdp.BinaryJointPositionActionCfg(
-    #     asset_name="robot",
-    #     joint_names=["joint_left", "joint_right"],
-    #     open_command_expr={"joint_left": 0.0, "joint_right": 0.0},
-    #     close_command_expr={"joint_left": 0.02, "joint_right": 0.02},
-    # )
-
 
 @configclass
 class ObservationsCfg:
@@ -189,29 +185,18 @@ class ObservationsCfg:
     @configclass
     class PolicyCfg(ObsGroup):
         """Observations for policy group."""
-        # joint_pos = ObsTerm(func=mdp.joint_pos_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
-        # joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
-
-        # gripper_joint_pos = ObsTerm(func=mdp.joint_pos, params={"asset_cfg": SceneEntityCfg("robot", joint_names=["joint_left", "joint_right"]),},)
-        
-        # For debugging joint positions
-        # joint_pos = ObsTerm(func=mdp.joint_pos)
-                            
         # TCP pose in base frame
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
-            params={"robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
+            params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
+            noise=Unoise(n_min=-0.001, n_max=0.001),
         )
 
         # Desired ee (or tcp) pose in base frame
-        # pose_command = ObsTerm(
-        #     func=mdp.generated_commands_axis_angle,
-        #     params={"command_name": "ee_pose"},
-        # )
-
         pose_command = ObsTerm(
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
+            noise=Unoise(n_min=-0.001, n_max=0.001),
         )
 
         # Previous action
@@ -230,15 +215,29 @@ class ObservationsCfg:
 @configclass
 class EventCfg:
     """Configuration for events."""
-    # reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
+    reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
 
     reset_robot_joints = EventTerm(
         func=mdp.reset_joints_by_scale,
         mode="reset",
         params={
-            "position_range": (1.0, 1.0),
+            "position_range": (0.5, 1.5),
             "velocity_range": (0.0, 0.0),
         },
+    )
+
+    randomize_robot_gains = EventTerm(
+        func=mdp.randomize_actuator_gains_custom,
+        mode="reset",
+        params={
+            "asset_cfg": SceneEntityCfg("robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"]),
+            "stiffness_distribution_params": (0.8, 1.2),
+            "damping_distribution_params": (0.9, 1.1),
+            "operation_stiffness": "scale",
+            "operation_damping": "scale",
+            "distribution_stiffness": "uniform",
+            "distribution_damping": "uniform",
+        }
     )
 
 
@@ -261,7 +260,6 @@ class RewardsCfg:
         weight=-0.1,
         params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
     )
-
 
     # action penalty
     action_rate = RewTerm(func=mdp.action_rate_l2, weight=-0.0001)
@@ -299,10 +297,10 @@ class CurriculumCfg:
 ##
 
 @configclass
-class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
+class UR5e_Domain_Rand_ReachEnvCfg(ManagerBasedRLEnvCfg):
     """Configuration for the lifting environment."""
     # Scene settings
-    scene: UR5e_ReachSceneCfg = UR5e_ReachSceneCfg(num_envs=4, env_spacing=2.5)
+    scene: UR5e_Domain_Rand_ReachSceneCfg = UR5e_Domain_Rand_ReachSceneCfg(num_envs=4, env_spacing=2.5)
 
     # Basic settings
     observations: ObservationsCfg = ObservationsCfg()
@@ -321,7 +319,7 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
         self.decimation = 2
         self.episode_length_s = 12.0
         # simulation settings
-        self.sim.dt = 1/60
+        self.sim.dt = 1.0/60.0
         self.sim.render_interval = self.decimation
 
         self.sim.physx.bounce_threshold_velocity = 0.2

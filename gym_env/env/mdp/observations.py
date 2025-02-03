@@ -73,12 +73,14 @@ def get_current_tcp_pose(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg) -> t
         tcp_pose_w[:, 3:7]  # TCP orientation in world frame
     )
 
-    # Convert orientation from quat to axis-angle
-    tcp_axis_angle_b = axis_angle_from_quat(tcp_quat_b)
-    # Concatenate the position and axis-angle into a single tensor
-    tcp_pose_b = torch.cat((tcp_pos_b, tcp_axis_angle_b), dim=-1)
+    # Either axis angle orientation representation:
+    # # Convert orientation from quat to axis-angle
+    # tcp_axis_angle_b = axis_angle_from_quat(tcp_quat_b)
+    # # Concatenate the position and axis-angle into a single tensor
+    # tcp_pose_b = torch.cat((tcp_pos_b, tcp_axis_angle_b), dim=-1)
 
-    # tcp_pose_b = torch.cat((tcp_pos_b, tcp_quat_b), dim=-1)
+    # Or quaternion representation:
+    tcp_pose_b = torch.cat((tcp_pos_b, tcp_quat_b), dim=-1)
     return tcp_pose_b
 
 
