@@ -14,9 +14,16 @@ rtde_c = rtde_control.RTDEControlInterface(ROBOT_IP)
 rtde_r = rtde_receive.RTDEReceiveInterface(ROBOT_IP)
 
 # Load the pre-trained model
-checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/models/nqblneg1/model.zip"
+checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-IK/Quat_implementation/model.zip"
 print(f"Loading checkpoint from: {checkpoint_path}")
 agent = PPO.load(checkpoint_path)
+
+def move_robot_to_home():
+    """Move robot to home pose specified with joint positions"""
+    home_pose = np.array((1.3, -2.0, 2.0, -1.5, -1.5, 3.14, 0.0, 0.0))
+    speed = 0.5
+    acceleration = 0.5
+    rtde_c.moveJ(home_pose, speed=speed, acceleration=acceleration)
 
 
 # Random Pose Sampling Function
@@ -68,6 +75,7 @@ def send_robot_action(action):
 
 # Main control loop
 def run_on_real_robot():
+    move_robot_to_home()
     previous_actions = np.zeros(6)
     target_pose = sample_random_pose()  # Generate a random target pose
     print(f"Target Pose: {target_pose}")
@@ -86,6 +94,7 @@ def run_on_real_robot():
         current_tcp = rtde_r.getActualTCPPose()
         distance = np.linalg.norm(np.array(target_pose[:3]) - np.array(current_tcp[:3]))
         if distance < 0.02:  # Target reached within a 2 cm threshold
+            move_robot_to_home()
             print("Target pose reached. Sampling new pose.")
             target_pose = sample_random_pose()  # Sample a new pose
             print(f"New Target Pose: {target_pose}")

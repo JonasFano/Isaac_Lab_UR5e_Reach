@@ -1,6 +1,6 @@
-program: train_sb3_wandb.py
+program: train_sb3_wandb_ppo.py
 method: grid
-name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose
+name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose_domain_rand
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -10,13 +10,13 @@ parameters:
     value: 42
 
   n_timesteps: # iteration * n_steps * nenvs: 400 * 64 * 8192 = 209715200
-    value: 209715200
+    value: 524288000
 
   policy:
     value: 'MlpPolicy'
 
   n_steps:
-    value: 64
+    values: [64, 128]
 
   batch_size:
     value: 16384
@@ -25,27 +25,27 @@ parameters:
     value: 0.95
 
   gamma:
-    value: 0.99
+    value: 0.95
 
   n_epochs:
     value: 8
 
   ent_coef: # Possibly change this to encourange more exploration
-    values: [0.05, 0.01]
+    value: 0.01
 
   vf_coef:
-    values: [0.1, 0.01]
+    value: 0.1
 
   learning_rate:
-    values: [1e-4, 3e-4]
+    value: !!float 3e-4
 
   clip_range:
-    values: [0.2, 0.3]
+    value: 0.2
 
   policy_kwargs:
     parameters:
       activation_fn: 
-        value: nn.ELU
+        values: [nn.ELU, nn.Tanh]
       net_arch:
         parameters:
           pi:
