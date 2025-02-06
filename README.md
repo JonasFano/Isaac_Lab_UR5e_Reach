@@ -60,12 +60,8 @@ cd isaaclab/IsaacLab
 source isaaclab/bin/activate
 cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3
 wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose config_sb3_ppo.yaml
-wandb agent jofan23-university-of-southern-denmark/rel_ik_sb3_ppo_ur5e_reach_0_1/za203z2j
-wandb agent jofan23-university-of-southern-denmark/rel_ik_sb3_ppo_ur5e_reach_0_1_v2/cs6czrhy
 
-wandb agent jofan23-university-of-southern-denmark/rel_ik_sb3_ppo_ur5e_reach_0_1_corrected/s5h00sc3
-
-wandb agent jofan23-university-of-southern-denmark/rel_ik_sb3_ppo_ur5e_reach_0_05_position/xvaf23h3
+wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e config_sb3_ppo.yaml
 
 
 

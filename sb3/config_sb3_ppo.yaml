@@ -1,6 +1,6 @@
 program: train_sb3_wandb_ppo.py
 method: grid
-name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose_domain_rand
+name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -16,7 +16,7 @@ parameters:
     value: 'MlpPolicy'
 
   n_steps:
-    values: [64, 128]
+    values: [32, 64]
 
   batch_size:
     value: 16384
