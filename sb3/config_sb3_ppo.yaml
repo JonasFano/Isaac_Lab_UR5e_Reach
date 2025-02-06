@@ -7,10 +7,10 @@ metric:
 
 parameters:
   seed:
-    value: 42
+    values: [42, 24]
 
   n_timesteps: # iteration * n_steps * nenvs: 400 * 64 * 8192 = 209715200
-    value: 524288000
+    value: 157286400
 
   policy:
     value: 'MlpPolicy'
