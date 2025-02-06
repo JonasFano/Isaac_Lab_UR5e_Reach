@@ -39,8 +39,12 @@ import torch
 
 from stable_baselines3 import SAC
 from stable_baselines3.common.vec_env import VecNormalize
-
 from omni.isaac.lab.utils.dict import print_dict
+
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import gym_env.env # This import is strictly necessary otherwise it would recognize the registered custom gym environment
 from omni.isaac.lab_tasks.utils.parse_cfg import get_checkpoint_path, load_cfg_from_registry, parse_env_cfg
