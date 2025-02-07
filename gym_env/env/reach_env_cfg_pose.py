@@ -23,7 +23,6 @@ import math
 ##
 
 MODEL_PATH = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")), "scene_models")
-MIN_HEIGHT = 0.1 # 0.04 # 0.1
 
 @configclass
 class UR5e_ReachSceneCfg(InteractiveSceneCfg):
@@ -194,9 +193,9 @@ class CommandsCfg:
         resampling_time_range=(5.0, 5.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(-0.3, 0.3),
-            pos_y=(0.15, 0.55),
-            pos_z=(0.05, 0.5),
+            pos_x=(-0.2, 0.2),
+            pos_y=(0.15, 0.5),
+            pos_z=(0.05, 0.4),
             roll=(0.0, 0.0),
             pitch=(math.pi, math.pi),  # depends on end-effector axis
             yaw=(-3.14, 3.14), # (0.0, 0.0), # y
