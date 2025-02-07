@@ -1,6 +1,6 @@
 program: train_sb3_wandb_ppo.py
 method: grid
-name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -9,14 +9,17 @@ parameters:
   seed:
     values: [42, 24]
 
+  num_envs:
+    value: 2048
+
   n_timesteps: # iteration * n_steps * nenvs: 400 * 64 * 8192 = 209715200
-    value: 157286400
+    value: 98304000
 
   policy:
     value: 'MlpPolicy'
 
   n_steps:
-    values: [32, 64]
+    value: 64
 
   batch_size:
     value: 16384
@@ -45,7 +48,7 @@ parameters:
   policy_kwargs:
     parameters:
       activation_fn: 
-        values: [nn.ELU, nn.Tanh]
+        value: nn.Tanh
       net_arch:
         parameters:
           pi:

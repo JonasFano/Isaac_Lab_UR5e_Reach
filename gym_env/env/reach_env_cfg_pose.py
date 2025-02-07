@@ -174,20 +174,35 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
 @configclass
 class CommandsCfg:
     """Command terms for the MDP."""
+    # ee_pose = mdp.UniformPoseCommandCfg(
+    #     asset_name="robot",
+    #     body_name="wrist_3_link",
+    #     resampling_time_range=(5.0, 5.0),
+    #     debug_vis=True,
+    #     ranges=mdp.UniformPoseCommandCfg.Ranges(
+    #         pos_x=(-0.05, 0.05),
+    #         pos_y=(0.35, 0.45),
+    #         pos_z=(0.25, 0.35),
+    #         roll=(0.0, 0.0),
+    #         pitch=(math.pi, math.pi),  # depends on end-effector axis
+    #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
+    #     ),
+    # )
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
         body_name="wrist_3_link",
         resampling_time_range=(5.0, 5.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(-0.05, 0.05),
-            pos_y=(0.35, 0.45),
-            pos_z=(0.25, 0.35),
+            pos_x=(-0.3, 0.3),
+            pos_y=(0.15, 0.55),
+            pos_z=(0.05, 0.5),
             roll=(0.0, 0.0),
             pitch=(math.pi, math.pi),  # depends on end-effector axis
             yaw=(-3.14, 3.14), # (0.0, 0.0), # y
         ),
     )
+
 
 @configclass
 class ActionsCfg:
@@ -222,6 +237,7 @@ class ObservationsCfg:
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
             params={"robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
+            noise=Unoise(n_min=-0.001, n_max=0.001),
         )
 
         # Desired ee (or tcp) pose in base frame
@@ -233,6 +249,7 @@ class ObservationsCfg:
         pose_command = ObsTerm(
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
+            noise=Unoise(n_min=-0.001, n_max=0.001),
         )
 
         # Previous action
@@ -251,13 +268,13 @@ class ObservationsCfg:
 @configclass
 class EventCfg:
     """Configuration for events."""
-    # reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
+    reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
 
     reset_robot_joints = EventTerm(
         func=mdp.reset_joints_by_scale,
         mode="reset",
         params={
-            "position_range": (1.0, 1.0),
+            "position_range": (0.5, 1.5),
             "velocity_range": (0.0, 0.0),
         },
     )
@@ -340,7 +357,7 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
         """Post initialization."""
         # general settings
         self.decimation = 2
-        self.episode_length_s = 12.0
+        self.episode_length_s = 15.0
         # simulation settings
         self.sim.dt = 1/60
         self.sim.render_interval = self.decimation
