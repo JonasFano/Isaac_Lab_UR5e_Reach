@@ -194,8 +194,8 @@ class CommandsCfg:
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
             pos_x=(-0.2, 0.2),
-            pos_y=(0.15, 0.5),
-            pos_z=(0.05, 0.4),
+            pos_y=(0.25, 0.5),
+            pos_z=(0.1, 0.4),
             roll=(0.0, 0.0),
             pitch=(math.pi, math.pi),  # depends on end-effector axis
             yaw=(-3.14, 3.14), # (0.0, 0.0), # y
