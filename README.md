@@ -78,7 +78,7 @@ source isaaclab/bin/activate
 cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3
 wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose config_sb3_ppo.yaml
 
-wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2 config_sb3_ppo.yaml
+wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3 config_sb3_ppo.yaml
 
 
 
