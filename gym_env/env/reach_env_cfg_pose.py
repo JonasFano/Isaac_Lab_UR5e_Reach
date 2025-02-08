@@ -187,13 +187,28 @@ class CommandsCfg:
     #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
     #     ),
     # )
+    # Final training
+    # ee_pose = mdp.UniformPoseCommandCfg(
+    #     asset_name="robot",
+    #     body_name="wrist_3_link",
+    #     resampling_time_range=(5.0, 5.0),
+    #     debug_vis=True,
+    #     ranges=mdp.UniformPoseCommandCfg.Ranges(
+    #         pos_x=(-0.2, 0.2),
+    #         pos_y=(0.25, 0.5),
+    #         pos_z=(0.1, 0.4),
+    #         roll=(0.0, 0.0),
+    #         pitch=(math.pi, math.pi),  # depends on end-effector axis
+    #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
+    #     ),
+    # )
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
         body_name="wrist_3_link",
         resampling_time_range=(5.0, 5.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(-0.15, 0.2),
+            pos_x=(-0.15, 0.15),
             pos_y=(0.25, 0.5),
             pos_z=(0.1, 0.4),
             roll=(0.0, 0.0),
