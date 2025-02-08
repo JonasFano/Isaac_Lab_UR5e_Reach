@@ -193,7 +193,7 @@ class CommandsCfg:
         resampling_time_range=(5.0, 5.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(-0.2, 0.2),
+            pos_x=(-0.15, 0.2),
             pos_y=(0.25, 0.5),
             pos_z=(0.1, 0.4),
             roll=(0.0, 0.0),
@@ -236,7 +236,7 @@ class ObservationsCfg:
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
             params={"robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
-            noise=Unoise(n_min=-0.001, n_max=0.001),
+            noise=Unoise(n_min=-0.0001, n_max=0.0001),
         )
 
         # Desired ee (or tcp) pose in base frame
@@ -248,7 +248,7 @@ class ObservationsCfg:
         pose_command = ObsTerm(
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
-            noise=Unoise(n_min=-0.001, n_max=0.001),
+            noise=Unoise(n_min=-0.0001, n_max=0.0001),
         )
 
         # Previous action
