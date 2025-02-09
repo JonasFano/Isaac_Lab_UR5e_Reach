@@ -42,6 +42,14 @@ cd isaaclab/IsaacLab
 
 
 
+# Hand E domain rand: Unoise: 0.0001 - Robot Reset" "position_range": (0.7, 1.3) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Actuator randomization: "stiffness_distribution_params": (0.75, 1.25), "damping_distribution_params": (0.8, 1.2),
+
+
+
+# Hand E domain rand v2: Unoise: 0.0001 - Robot Reset" "position_range": (0.7, 1.3) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Actuator randomization: "stiffness_distribution_params": (0.7, 1.3), "damping_distribution_params": (0.7, 1.3),
+
+
+
 # Record data
 
 ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_test.py --task UR5e-Reach-Pose-IK --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/053yyx3b/model.zip
@@ -93,7 +101,7 @@ wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose config_sb3_ppo.yaml
 
 wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4 config_sb3_ppo.yaml
 
-wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand config_sb3_ppo.yaml
+wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand_v2 config_sb3_ppo.yaml
 
 
 
