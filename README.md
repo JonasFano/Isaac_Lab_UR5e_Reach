@@ -25,8 +25,21 @@ cd isaaclab/IsaacLab
 
 ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/mirz9884_UR5e_Hand_E_Reach_Pose_IK/model.zip
 
-## Larger pose generation ranges and Unoise to the observations
+## Larger pose generation ranges and add Unoise to the observations
 ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/053yyx3b/model.zip
+
+
+
+# v2: Unoise: 0.001 - Robot Reset" "position_range": (0.5, 1.5) - Pose Generation: pos_x=(-0.2, 0.2), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4),
+
+
+
+# v3: Unoise: 0.0001 - Robot Reset" "position_range": (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4),
+
+
+
+# v4: Unoise: 0.0001 - Robot Reset" "position_range": (0.7, 1.3) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4),
+
 
 
 # Record data
@@ -79,6 +92,9 @@ cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3
 wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose config_sb3_ppo.yaml
 
 wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4 config_sb3_ppo.yaml
+
+wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand config_sb3_ppo.yaml
+
 
 
 

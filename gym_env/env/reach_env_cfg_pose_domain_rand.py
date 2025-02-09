@@ -26,7 +26,6 @@ from omni.isaac.lab.sensors import ContactSensorCfg
 ##
 
 MODEL_PATH = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")), "scene_models")
-MIN_HEIGHT = 0.1 # 0.04 # 0.1
 
 @configclass
 class UR5e_Domain_Rand_ReachSceneCfg(InteractiveSceneCfg):
@@ -242,7 +241,7 @@ class EventCfg:
         func=mdp.reset_joints_by_scale,
         mode="reset",
         params={
-            "position_range": (0.5, 1.5),
+            "position_range": (0.7, 1.3),
             "velocity_range": (0.0, 0.0),
         },
     )
