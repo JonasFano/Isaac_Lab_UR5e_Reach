@@ -18,7 +18,18 @@ from . import mdp
 import os
 import math
 
-from omni.isaac.lab.sensors import ContactSensorCfg
+
+# This script includes several parts that can be commented in/out depending on the specific preference. 
+# This can be used to run pretrained models with the specific setting used to train these models in sb3/models/
+# This folder includes several subfolders that are named according to the wandb run name. Possible names are:
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand_v2
+
+# With ctrl + F and these names, it is possible to comment in the specific settings used during training of these models.
+
+# Or search for 
+# New training setting
+# to start a new training with new settings.
 
 
 ##
@@ -224,7 +235,7 @@ class ObservationsCfg:
         # TCP pose in base frame
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
-            params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
+            params={"gripper_offset": [0.0, 0.0, 0.15], "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
             noise=Unoise(n_min=-0.0001, n_max=0.0001),
         )
 
@@ -289,8 +300,8 @@ class EventCfg:
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"]),
-            "stiffness_distribution_params": (0.8, 1.2),
-            "damping_distribution_params": (0.8, 1.2),
+            "stiffness_distribution_params": (0.7, 1.3),
+            "damping_distribution_params": (0.7, 1.3),
             "operation_stiffness": "scale",
             "operation_damping": "scale",
             "distribution_stiffness": "uniform",

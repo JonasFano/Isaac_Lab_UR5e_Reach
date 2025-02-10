@@ -27,7 +27,7 @@ import math
 # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3
 # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
 
-# With ctrl + f and these names, it is possible to comment in the specific settings used during training of these models.
+# With ctrl + F and these names, it is possible to comment in the specific settings used during training of these models.
 
 # Or search for 
 # New training setting
@@ -204,21 +204,21 @@ class CommandsCfg:
     #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
     #     ),
     # )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
-    # ee_pose = mdp.UniformPoseCommandCfg(
-    #     asset_name="robot",
-    #     body_name="wrist_3_link",
-    #     resampling_time_range=(5.0, 5.0),
-    #     debug_vis=True,
-    #     ranges=mdp.UniformPoseCommandCfg.Ranges(
-    #         pos_x=(-0.05, 0.05),
-    #         pos_y=(0.35, 0.45),
-    #         pos_z=(0.25, 0.35),
-    #         roll=(0.0, 0.0),
-    #         pitch=(math.pi, math.pi),  # depends on end-effector axis
-    #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
-    #     ),
-    # )
+    # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+    ee_pose = mdp.UniformPoseCommandCfg(
+        asset_name="robot",
+        body_name="wrist_3_link",
+        resampling_time_range=(5.0, 5.0),
+        debug_vis=True,
+        ranges=mdp.UniformPoseCommandCfg.Ranges(
+            pos_x=(-0.05, 0.05),
+            pos_y=(0.35, 0.45),
+            pos_z=(0.25, 0.35),
+            roll=(0.0, 0.0),
+            pitch=(math.pi, math.pi),  # depends on end-effector axis
+            yaw=(-3.14, 3.14), # (0.0, 0.0), # y
+        ),
+    )
     # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
     # ee_pose = mdp.UniformPoseCommandCfg(
     #     asset_name="robot",
@@ -234,23 +234,23 @@ class CommandsCfg:
     #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
     #     ),
     # )
-    # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
-    # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3
-    # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
-    ee_pose = mdp.UniformPoseCommandCfg(
-        asset_name="robot",
-        body_name="wrist_3_link",
-        resampling_time_range=(5.0, 5.0),
-        debug_vis=True,
-        ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(-0.15, 0.15),
-            pos_y=(0.25, 0.5),
-            pos_z=(0.1, 0.4),
-            roll=(0.0, 0.0),
-            pitch=(math.pi, math.pi),  # depends on end-effector axis
-            yaw=(-3.14, 3.14), # (0.0, 0.0), # y
-        ),
-    )
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
+    # ee_pose = mdp.UniformPoseCommandCfg(
+    #     asset_name="robot",
+    #     body_name="wrist_3_link",
+    #     resampling_time_range=(5.0, 5.0),
+    #     debug_vis=True,
+    #     ranges=mdp.UniformPoseCommandCfg.Ranges(
+    #         pos_x=(-0.15, 0.15),
+    #         pos_y=(0.25, 0.5),
+    #         pos_z=(0.1, 0.4),
+    #         roll=(0.0, 0.0),
+    #         pitch=(math.pi, math.pi),  # depends on end-effector axis
+    #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
+    #     ),
+    # )
 
 
 @configclass
@@ -270,11 +270,11 @@ class ObservationsCfg:
         # TCP pose in base frame
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
-            params={"robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
+            params={"gripper_offset": [0.0, 0.0, 0.15], "robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
             # noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
-            # No Unoise for rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+            # # No Unoise for rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
             # noise=Unoise(n_min=-0.001, n_max=0.001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
-            noise=Unoise(n_min=-0.0001, n_max=0.0001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
+            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
 
         )
 
@@ -290,7 +290,7 @@ class ObservationsCfg:
             # noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
             # No Unoise for rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
             # noise=Unoise(n_min=-0.001, n_max=0.001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
-            noise=Unoise(n_min=-0.0001, n_max=0.0001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
+            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
         )
 
         # Previous action
@@ -320,15 +320,15 @@ class EventCfg:
     #         "velocity_range": (0.0, 0.0),
     #     },
     # )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
-    # reset_robot_joints = EventTerm(
-    #     func=mdp.reset_joints_by_scale,
-    #     mode="reset",
-    #     params={
-    #         "position_range": (1.0, 1.0),
-    #         "velocity_range": (0.0, 0.0),
-    #     },
-    # )
+    # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+    reset_robot_joints = EventTerm(
+        func=mdp.reset_joints_by_scale,
+        mode="reset",
+        params={
+            "position_range": (1.0, 1.0),
+            "velocity_range": (0.0, 0.0),
+        },
+    )
     # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
     # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
     # reset_robot_joints = EventTerm(

@@ -20,3 +20,12 @@
         - 
 4. Training: SAC reach pose task - with whatever results were the best above
 5. Training: TD3 reach pose task - with whatever results were the best above
+
+
+
+10.02.2025
+1. Search for UR3 usd model
+2. Plot observations for rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e run
+3. Write section force/torque validation, 
+4. Write section domain randomization validation
+5. Write section short explanation of observation plots and the illustrated issue
