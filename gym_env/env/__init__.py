@@ -4,7 +4,7 @@ from . import agents, ik_rel_env_cfg, joint_pos_env_cfg, ik_rel_env_cfg_pose, ik
 # Register Gym environments.
 
 
-# Relative Differential Inverse Kinematics Actin Space
+# Relative Differential Inverse Kinematics Action Space
 
 gym.register(
     id="UR5e-Reach-IK",
@@ -31,6 +31,7 @@ gym.register(
     },
 )
 
+# Rel IK UR5e with domain randomization
 gym.register(
     id="UR5e-Domain-Rand-Reach-Pose-IK",
     entry_point="omni.isaac.lab.envs:ManagerBasedRLEnv",

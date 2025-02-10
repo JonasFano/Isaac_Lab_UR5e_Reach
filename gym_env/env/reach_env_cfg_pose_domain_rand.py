@@ -176,6 +176,22 @@ class UR5e_Domain_Rand_ReachSceneCfg(InteractiveSceneCfg):
 @configclass
 class CommandsCfg:
     """Command terms for the MDP."""
+    # # New training setting
+    # ee_pose = mdp.UniformPoseCommandCfg(
+    #     asset_name="robot",
+    #     body_name="wrist_3_link",
+    #     resampling_time_range=(5.0, 5.0),
+    #     debug_vis=True,
+    #     ranges=mdp.UniformPoseCommandCfg.Ranges(
+    #         pos_x=(-0.15, 0.15),
+    #         pos_y=(0.25, 0.5),
+    #         pos_z=(0.1, 0.4),
+    #         roll=(0.0, 0.0),
+    #         pitch=(math.pi, math.pi),  # depends on end-effector axis
+    #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
+    #     ),
+    # )
+    # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand_v2
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
         body_name="wrist_3_link",
@@ -237,6 +253,29 @@ class EventCfg:
     """Configuration for events."""
     reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
 
+    # # New training setting
+    # reset_robot_joints = EventTerm(
+    #     func=mdp.reset_joints_by_scale,
+    #     mode="reset",
+    #     params={
+    #         "position_range": (0.7, 1.3),
+    #         "velocity_range": (0.0, 0.0),
+    #     },
+    # )
+    # randomize_robot_gains = EventTerm(
+    #     func=mdp.randomize_actuator_gains_custom,
+    #     mode="reset",
+    #     params={
+    #         "asset_cfg": SceneEntityCfg("robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"]),
+    #         "stiffness_distribution_params": (0.8, 1.2),
+    #         "damping_distribution_params": (0.8, 1.2),
+    #         "operation_stiffness": "scale",
+    #         "operation_damping": "scale",
+    #         "distribution_stiffness": "uniform",
+    #         "distribution_damping": "uniform",
+    #     }
+    # )
+    # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand_v2
     reset_robot_joints = EventTerm(
         func=mdp.reset_joints_by_scale,
         mode="reset",
@@ -245,14 +284,13 @@ class EventCfg:
             "velocity_range": (0.0, 0.0),
         },
     )
-
     randomize_robot_gains = EventTerm(
         func=mdp.randomize_actuator_gains_custom,
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"]),
-            "stiffness_distribution_params": (0.7, 1.3),
-            "damping_distribution_params": (0.7, 1.3),
+            "stiffness_distribution_params": (0.8, 1.2),
+            "damping_distribution_params": (0.8, 1.2),
             "operation_stiffness": "scale",
             "operation_damping": "scale",
             "distribution_stiffness": "uniform",
@@ -284,12 +322,6 @@ class RewardsCfg:
     # action penalty
     action_rate = RewTerm(func=mdp.action_rate_l2, weight=-0.0001)
 
-    # joint_vel = RewTerm(
-    #     func=mdp.joint_vel_l2,
-    #     weight=-1e-4,
-    #     params={"asset_cfg": SceneEntityCfg("robot")},
-    # )
-
 
 @configclass
 class TerminationsCfg:
@@ -306,10 +338,6 @@ class CurriculumCfg:
     action_rate = CurrTerm(
         func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.005, "num_steps": 4500}
     )
-
-    # joint_vel = CurrTerm(
-    #     func=mdp.modify_reward_weight, params={"term_name": "joint_vel", "weight": -0.001, "num_steps": 4500}
-    # )
 
 
 ##

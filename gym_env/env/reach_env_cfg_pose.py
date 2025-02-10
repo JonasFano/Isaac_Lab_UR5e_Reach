@@ -18,6 +18,22 @@ from . import mdp
 import os
 import math
 
+# This script includes several parts that can be commented in/out depending on the specific preference. 
+# This can be used to run pretrained models with the specific setting used to train these models in sb3/models/
+# This folder includes several subfolders that are named according to the wandb run name. Possible names are:
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
+
+# With ctrl + f and these names, it is possible to comment in the specific settings used during training of these models.
+
+# Or search for 
+# New training setting
+# to start a new training with new settings.
+
+
 ##
 # Scene definition
 ##
@@ -173,6 +189,7 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
 @configclass
 class CommandsCfg:
     """Command terms for the MDP."""
+    # # New training setting
     # ee_pose = mdp.UniformPoseCommandCfg(
     #     asset_name="robot",
     #     body_name="wrist_3_link",
@@ -187,7 +204,22 @@ class CommandsCfg:
     #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
     #     ),
     # )
-    # Final training
+    # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+    ee_pose = mdp.UniformPoseCommandCfg(
+        asset_name="robot",
+        body_name="wrist_3_link",
+        resampling_time_range=(5.0, 5.0),
+        debug_vis=True,
+        ranges=mdp.UniformPoseCommandCfg.Ranges(
+            pos_x=(-0.05, 0.05),
+            pos_y=(0.35, 0.45),
+            pos_z=(0.25, 0.35),
+            roll=(0.0, 0.0),
+            pitch=(math.pi, math.pi),  # depends on end-effector axis
+            yaw=(-3.14, 3.14), # (0.0, 0.0), # y
+        ),
+    )
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
     # ee_pose = mdp.UniformPoseCommandCfg(
     #     asset_name="robot",
     #     body_name="wrist_3_link",
@@ -202,20 +234,23 @@ class CommandsCfg:
     #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
     #     ),
     # )
-    ee_pose = mdp.UniformPoseCommandCfg(
-        asset_name="robot",
-        body_name="wrist_3_link",
-        resampling_time_range=(5.0, 5.0),
-        debug_vis=True,
-        ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(-0.15, 0.15),
-            pos_y=(0.25, 0.5),
-            pos_z=(0.1, 0.4),
-            roll=(0.0, 0.0),
-            pitch=(math.pi, math.pi),  # depends on end-effector axis
-            yaw=(-3.14, 3.14), # (0.0, 0.0), # y
-        ),
-    )
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
+    # ee_pose = mdp.UniformPoseCommandCfg(
+    #     asset_name="robot",
+    #     body_name="wrist_3_link",
+    #     resampling_time_range=(5.0, 5.0),
+    #     debug_vis=True,
+    #     ranges=mdp.UniformPoseCommandCfg.Ranges(
+    #         pos_x=(-0.15, 0.15),
+    #         pos_y=(0.25, 0.5),
+    #         pos_z=(0.1, 0.4),
+    #         roll=(0.0, 0.0),
+    #         pitch=(math.pi, math.pi),  # depends on end-effector axis
+    #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
+    #     ),
+    # )
 
 
 @configclass
@@ -224,13 +259,6 @@ class ActionsCfg:
     # Set actions
     arm_action: mdp.JointPositionActionCfg | mdp.DifferentialInverseKinematicsActionCfg = MISSING
 
-    # gripper_action = mdp.BinaryJointPositionActionCfg(
-    #     asset_name="robot",
-    #     joint_names=["joint_left", "joint_right"],
-    #     open_command_expr={"joint_left": 0.0, "joint_right": 0.0},
-    #     close_command_expr={"joint_left": 0.02, "joint_right": 0.02},
-    # )
-
 
 @configclass
 class ObservationsCfg:
@@ -238,20 +266,16 @@ class ObservationsCfg:
 
     @configclass
     class PolicyCfg(ObsGroup):
-        """Observations for policy group."""
-        # joint_pos = ObsTerm(func=mdp.joint_pos_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
-        # joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
-
-        # gripper_joint_pos = ObsTerm(func=mdp.joint_pos, params={"asset_cfg": SceneEntityCfg("robot", joint_names=["joint_left", "joint_right"]),},)
-        
-        # For debugging joint positions
-        # joint_pos = ObsTerm(func=mdp.joint_pos)
-                            
+        """Observations for policy group."""              
         # TCP pose in base frame
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
             params={"robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
-            noise=Unoise(n_min=-0.0001, n_max=0.0001),
+            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
+            # No Unoise for rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+            # noise=Unoise(n_min=-0.001, n_max=0.001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
+            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
+
         )
 
         # Desired ee (or tcp) pose in base frame
@@ -263,7 +287,10 @@ class ObservationsCfg:
         pose_command = ObsTerm(
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
-            noise=Unoise(n_min=-0.0001, n_max=0.0001),
+            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
+            # No Unoise for rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+            # noise=Unoise(n_min=-0.001, n_max=0.001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
+            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
         )
 
         # Previous action
@@ -284,14 +311,60 @@ class EventCfg:
     """Configuration for events."""
     reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
 
+    # # New training setting
+    # reset_robot_joints = EventTerm(
+    #     func=mdp.reset_joints_by_scale,
+    #     mode="reset",
+    #     params={
+    #         "position_range": (1.0, 1.0),
+    #         "velocity_range": (0.0, 0.0),
+    #     },
+    # )
+    # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
     reset_robot_joints = EventTerm(
         func=mdp.reset_joints_by_scale,
         mode="reset",
         params={
-            "position_range": (0.7, 1.3),
+            "position_range": (1.0, 1.0),
             "velocity_range": (0.0, 0.0),
         },
     )
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
+    # reset_robot_joints = EventTerm(
+    #     func=mdp.reset_joints_by_scale,
+    #     mode="reset",
+    #     params={
+    #         "position_range": (0.5, 1.5),
+    #         "velocity_range": (0.0, 0.0),
+    #     },
+    # )
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
+    # reset_robot_joints = EventTerm(
+    #     func=mdp.reset_joints_by_scale,
+    #     mode="reset",
+    #     params={
+    #         "position_range": (0.5, 1.5),
+    #         "velocity_range": (0.0, 0.0),
+    #     },
+    # )
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3
+    # reset_robot_joints = EventTerm(
+    #     func=mdp.reset_joints_by_scale,
+    #     mode="reset",
+    #     params={
+    #         "position_range": (0.8, 1.2),
+    #         "velocity_range": (0.0, 0.0),
+    #     },
+    # )
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
+    # reset_robot_joints = EventTerm(
+    #     func=mdp.reset_joints_by_scale,
+    #     mode="reset",
+    #     params={
+    #         "position_range": (0.7, 1.3),
+    #         "velocity_range": (0.0, 0.0),
+    #     },
+    # )
 
 
 @configclass
@@ -318,12 +391,6 @@ class RewardsCfg:
     # action penalty
     action_rate = RewTerm(func=mdp.action_rate_l2, weight=-0.0001)
 
-    # joint_vel = RewTerm(
-    #     func=mdp.joint_vel_l2,
-    #     weight=-1e-4,
-    #     params={"asset_cfg": SceneEntityCfg("robot")},
-    # )
-
 
 @configclass
 class TerminationsCfg:
@@ -340,10 +407,6 @@ class CurriculumCfg:
     action_rate = CurrTerm(
         func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.005, "num_steps": 4500}
     )
-
-    # joint_vel = CurrTerm(
-    #     func=mdp.modify_reward_weight, params={"term_name": "joint_vel", "weight": -0.001, "num_steps": 4500}
-    # )
 
 
 ##
