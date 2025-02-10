@@ -58,15 +58,26 @@ class UR3e_ReachSceneCfg(InteractiveSceneCfg):
             #     solver_velocity_iteration_count=0
             # ),
             activate_contact_sensors=True,), 
+        # init_state=ArticulationCfg.InitialStateCfg(
+        #     pos=(0.175, -0.175, 0.0), 
+        #     joint_pos={
+        #         "shoulder_pan_joint": 1.3, 
+        #         "shoulder_lift_joint": -2.0, 
+        #         "elbow_joint": 2.0, 
+        #         "wrist_1_joint": -1.5, 
+        #         "wrist_2_joint": -1.5, 
+        #         "wrist_3_joint": 3.14,
+        #     }
+        # ),
         init_state=ArticulationCfg.InitialStateCfg(
             pos=(0.175, -0.175, 0.0), 
             joint_pos={
-                "shoulder_pan_joint": 1.3, 
-                "shoulder_lift_joint": -2.0, 
-                "elbow_joint": 2.0, 
-                "wrist_1_joint": -1.5, 
-                "wrist_2_joint": -1.5, 
-                "wrist_3_joint": 3.14,
+                "shoulder_pan_joint": 1.30899694, 
+                "shoulder_lift_joint": -1.83259571, 
+                "elbow_joint": 1.65806279, 
+                "wrist_1_joint": 4.79965544, 
+                "wrist_2_joint": 4.71238898, 
+                "wrist_3_joint": 0.0,
             }
         ),
         actuators={
@@ -162,12 +173,14 @@ class CommandsCfg:
         resampling_time_range=(5.0, 5.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(-0.05, 0.05),
-            pos_y=(0.25, 0.35),
-            pos_z=(0.1, 0.2),
+            pos_x=(-0.1, 0.1),
+            # pos_y=(0.2, 0.4),
+            pos_y=(0.2, 0.4),
+            pos_z=(0.25, 0.4),
             roll=(0.0, 0.0),
             pitch=(math.pi, math.pi),  # depends on end-effector axis
-            yaw=(-3.14, 3.14), # (0.0, 0.0), # y
+            # yaw=(-math.pi, math.pi), # (0.0, 0.0), # y
+            yaw=(-math.pi/2, math.pi/2), # +/- 90 degrees
         ),
     )
     # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e

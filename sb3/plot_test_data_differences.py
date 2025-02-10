@@ -5,7 +5,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 
 # Path to the CSV file
-csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_1.csv"
+csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_ur5e_with_unoise.csv"
 
 # Output directory for saving the plots
 output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots"
@@ -39,7 +39,7 @@ actions_cols = [col for col in data.columns if "actions" in col]
 
 tcp_pose = data[tcp_pose_cols]
 pose_command = data[pose_command_cols]
-actions = data[actions_cols] * 0.05 # Given in robot base frame
+actions = data[actions_cols] * 0.01 # Given in robot base frame
 
 
 # Compute TCP displacement
@@ -58,6 +58,7 @@ tcp_pose_error = pose_command.values - tcp_pose.values
 tcp_pose_error = pd.DataFrame(tcp_pose_error, columns=[col.replace("tcp_pose", "tcp_pose_error") for col in tcp_pose.columns], index=data.index)
 
 amount = min(3, len(tcp_pose.columns))  # Ensure we only use available columns
+save = False # False True
 
 # Function to create and save individual plots
 def create_and_save_plot(y_data, amount, title, filename):
@@ -67,12 +68,13 @@ def create_and_save_plot(y_data, amount, title, filename):
         fig.add_trace(go.Scatter(x=timesteps, y=y_data[column_name], mode='lines', name=f"{column_name}"))
     fig.update_layout(title=title, xaxis_title="Timestep", hovermode="x unified")
 
-    # Save the figure as PDF and PNG
-    pdf_path = os.path.join(output_dir, filename + ".pdf")
-    png_path = os.path.join(output_dir, filename + ".png")
+    if save:
+        # Save the figure as PDF and PNG
+        pdf_path = os.path.join(output_dir, filename + ".pdf")
+        png_path = os.path.join(output_dir, filename + ".png")
 
-    fig.write_image(pdf_path, width=1100, height=600)  # Save as PDF
-    fig.write_image(png_path, width=1100, height=600)  # Save as PNG
+        fig.write_image(pdf_path, width=1100, height=600)  # Save as PDF
+        fig.write_image(png_path, width=1100, height=600)  # Save as PNG
 
     fig.show()
 
@@ -87,12 +89,13 @@ def create_and_save_comparison_plot(y_data1, y_data2, amount, title, filename):
         fig.add_trace(go.Scatter(x=timesteps, y=y_data2[column_name2], mode='lines', name=f"{column_name2}"))
     fig.update_layout(title=title, xaxis_title="Timestep", hovermode="x unified")
 
-    # Save the figure as PDF and PNG
-    pdf_path = os.path.join(output_dir, filename + ".pdf")
-    png_path = os.path.join(output_dir, filename + ".png")
+    if save:
+        # Save the figure as PDF and PNG
+        pdf_path = os.path.join(output_dir, filename + ".pdf")
+        png_path = os.path.join(output_dir, filename + ".png")
 
-    fig.write_image(pdf_path, width=1000, height=600)  # Save as PDF
-    fig.write_image(png_path, width=1000, height=600)  # Save as PNG
+        fig.write_image(pdf_path, width=1000, height=600)  # Save as PDF
+        fig.write_image(png_path, width=1000, height=600)  # Save as PNG
 
     fig.show()
 
@@ -108,12 +111,13 @@ def create_and_save_tripple_comparison_plot(y_data1, y_data2, y_data3, amount, t
         fig.add_trace(go.Scatter(x=timesteps, y=y_data3[column_name3], mode='lines', name=f"{column_name3}"))
     fig.update_layout(title=title, xaxis_title="Timestep", hovermode="x unified")
 
-    # Save the figure as PDF and PNG
-    pdf_path = os.path.join(output_dir, filename + ".pdf")
-    png_path = os.path.join(output_dir, filename + ".png")
+    if save:
+        # Save the figure as PDF and PNG
+        pdf_path = os.path.join(output_dir, filename + ".pdf")
+        png_path = os.path.join(output_dir, filename + ".png")
 
-    fig.write_image(pdf_path, width=1000, height=600)  # Save as PDF
-    fig.write_image(png_path, width=1000, height=600)  # Save as PNG
+        fig.write_image(pdf_path, width=1000, height=600)  # Save as PDF
+        fig.write_image(png_path, width=1000, height=600)  # Save as PNG
 
     fig.show()
 
