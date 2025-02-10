@@ -222,7 +222,7 @@ class ObservationsCfg:
         # TCP pose in base frame
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
-            params={"robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
+            params={"gripper_offset": [0.0, 0.0, 0.15], "robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
         )
 
         # Desired ee (or tcp) pose in base frame
