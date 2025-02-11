@@ -111,7 +111,7 @@ def main():
     timestep = 0
 
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data"
-    csv_path = os.path.join(save_dir, "observations_4.csv")
+    csv_path = os.path.join(save_dir, "observations_1.csv")
 
     # simulate environment
     while simulation_app.is_running():

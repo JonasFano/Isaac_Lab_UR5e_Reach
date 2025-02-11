@@ -18,21 +18,16 @@
         - Takes more timesteps to get good result
 3. Training: PPO reach pose task - rel diff IK control and tcp_pose (6,)
         - 
-4. Training: SAC reach pose task - with whatever results were the best above
-5. Training: TD3 reach pose task - with whatever results were the best above
 
 
 
 10.02.2025
-1. Write section force/torque validation, 
-2. Write section domain randomization validation
-3. Write section short explanation of observation plots and the illustrated issue
-4. Google problem that action is larger than the actual problem performed in the environments
+1. Penalize TCP speed/acceleration
+2. Analyse force/torque issue (visualize frames and try different movement while recording forces)
+3. Write section force/torque validation
+4. Write section short explanation of observation plots and the illustrated issue
 5. What friction/restitution coefficients to choose - General rules/values?
-6. Record video of m3itgft1 run and add it to PowerPoint
+6. Describe what to write in each section
 
-
-
-
-4. Get connection to real robot
-5. Apply trained agent on real robot
+1. Get connection to real robot
+2. Apply trained agent on real robot
