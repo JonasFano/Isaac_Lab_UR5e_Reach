@@ -27,5 +27,12 @@
 1. Write section force/torque validation, 
 2. Write section domain randomization validation
 3. Write section short explanation of observation plots and the illustrated issue
+4. Google problem that action is larger than the actual problem performed in the environments
+5. What friction/restitution coefficients to choose - General rules/values?
+6. Record video of m3itgft1 run and add it to PowerPoint
+
+
+
+
 4. Get connection to real robot
 5. Apply trained agent on real robot
