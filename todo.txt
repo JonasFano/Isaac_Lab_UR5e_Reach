@@ -22,12 +22,13 @@
 
 
 10.02.2025
-1. Penalize TCP speed/acceleration
-2. Analyse force/torque issue (visualize frames and try different movement while recording forces)
+(1. Penalize TCP speed/acceleration)
+2. Analyse force/torque issue (visualize frames and try different movement while recording forces and add a mass to the gripper)
 3. Write section force/torque validation
 4. Write section short explanation of observation plots and the illustrated issue
 5. What friction/restitution coefficients to choose - General rules/values?
 6. Describe what to write in each section
+7. How to randomize starting pose of the robot? Sample Pose and then use IK to get joint positions?
 
 1. Get connection to real robot
 2. Apply trained agent on real robot

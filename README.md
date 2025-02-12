@@ -57,6 +57,13 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_decimation_4/vp0dv3v3/model.zip
 
 
+### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_penalize_joint_vel: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01 - Added penalty for joint velocity
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_penalize_joint_vel/bvwa3dka/model.zip
+
+
+
+
+
 ## UR3e
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR3e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e/cccnto37/model.zip
 
@@ -111,6 +118,10 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_decimation_4 config_sb3_ppo.yaml
 
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_penalize_joint_vel config_sb3_ppo.yaml
+    wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_joint_vel config_sb3_ppo.yaml
+
+
+    
     
 
 # UR5e Wandb PPO with domain randomization
