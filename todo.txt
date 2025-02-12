@@ -22,7 +22,6 @@
 
 
 10.02.2025
-(1. Penalize TCP speed/acceleration)
 2. Analyse force/torque issue (visualize frames and try different movement while recording forces and add a mass to the gripper)
 3. Write section force/torque validation
 4. Write section short explanation of observation plots and the illustrated issue

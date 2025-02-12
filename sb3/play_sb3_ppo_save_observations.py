@@ -124,7 +124,7 @@ def main():
             save_observations_to_csv(csv_path, timestep, obs)
             timestep += 1
 
-            if timestep > 448:
+            if timestep > 748:
                 env.close()
 
     # close the simulator
