@@ -8,12 +8,15 @@ from scipy.spatial.transform import Rotation as R
 # csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_ur5e_with_unoise.csv"
 # csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_1.csv"
 
-filename = "observations_ur5e_without_unoise"
+# filename = "observations_ur5e_without_unoise"
 # filename = "observations_ur5e_decimation_4"
 # filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_01"
 # filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_001"
 # filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_005"
-# filename = "observations_ur5e_scale_0_1_penalized_joint_vel"
+# filename = "observations_ur5e_scale_0_1_penalized_joint_vel_0_001"
+# filename = "observations_ur5e_scale_0_1_penalized_joint_vel_and_ee_acc_0_001"
+filename = "observations_ur3e_scale_0_04_penalized_ee_acc_0_01"
+
 
 
 
@@ -53,7 +56,7 @@ actions_cols = [col for col in data.columns if "actions" in col]
 
 tcp_pose = data[tcp_pose_cols]
 pose_command = data[pose_command_cols]
-actions = data[actions_cols] * 0.05 # Given in robot base frame
+actions = data[actions_cols] * 0.1 # Given in robot base frame
 
 
 # Compute TCP displacement

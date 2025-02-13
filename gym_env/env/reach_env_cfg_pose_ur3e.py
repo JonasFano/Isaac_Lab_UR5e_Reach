@@ -58,26 +58,15 @@ class UR3e_ReachSceneCfg(InteractiveSceneCfg):
             #     solver_velocity_iteration_count=0
             # ),
             activate_contact_sensors=True,), 
-        # init_state=ArticulationCfg.InitialStateCfg(
-        #     pos=(0.175, -0.175, 0.0), 
-        #     joint_pos={
-        #         "shoulder_pan_joint": 1.3, 
-        #         "shoulder_lift_joint": -2.0, 
-        #         "elbow_joint": 2.0, 
-        #         "wrist_1_joint": -1.5, 
-        #         "wrist_2_joint": -1.5, 
-        #         "wrist_3_joint": 3.14,
-        #     }
-        # ),
         init_state=ArticulationCfg.InitialStateCfg(
             pos=(0.175, -0.175, 0.0), 
             joint_pos={
-                "shoulder_pan_joint": 1.30899694, 
-                "shoulder_lift_joint": -1.83259571, 
-                "elbow_joint": 1.65806279, 
-                "wrist_1_joint": 4.79965544, 
-                "wrist_2_joint": 4.71238898, 
-                "wrist_3_joint": 0.0,
+                "shoulder_pan_joint": 1.3, 
+                "shoulder_lift_joint": -2.0, 
+                "elbow_joint": 2.0, 
+                "wrist_1_joint": -1.5, 
+                "wrist_2_joint": -1.5, 
+                "wrist_3_joint": 3.14,
             }
         ),
         actuators={
@@ -99,7 +88,7 @@ class UR3e_ReachSceneCfg(InteractiveSceneCfg):
                     "wrist_2_joint": 87.0,
                     "wrist_3_joint": 87.0,
                 },
-                # ############### Stiffness original ###############
+                # ############### Stiffness original # # End-effector pointing down##############
                 # stiffness={
                 #     "shoulder_pan_joint": 209.43953,
                 #     "shoulder_lift_joint": 209.43953,
@@ -407,7 +396,7 @@ class UR3e_ReachEnvCfg(ManagerBasedRLEnvCfg):
         self.decimation = 2
         self.episode_length_s = 15.0
         # simulation settings
-        self.sim.dt = 1/60
+        self.sim.dt = 0.01
         self.sim.render_interval = self.decimation
 
         self.sim.physx.bounce_threshold_velocity = 0.2

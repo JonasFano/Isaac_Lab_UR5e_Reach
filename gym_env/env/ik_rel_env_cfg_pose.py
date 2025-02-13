@@ -37,7 +37,7 @@ class RelIK_UR5e_ReachEnvCfg(reach_env_cfg_pose.UR5e_ReachEnvCfg):
             body_name="wrist_3_link",
             controller=DifferentialIKControllerCfg(command_type="pose", use_relative_mode=True, ik_method="dls"), # DifferentialIKControllerCfg(command_type="pose", use_relative_mode=True, ik_method="dls"),
             body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.0, 0.0, 0.15]),
-            scale=0.01,
+            scale=0.04,
             debug_vis=False  # Enable debug visualization, set to False for production
         )
 

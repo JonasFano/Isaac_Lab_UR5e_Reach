@@ -26,31 +26,76 @@ def move_robot_to_home():
 # Random Pose Sampling Function
 def sample_random_pose():
     """Randomly sample a target pose within specified bounds."""
-    pos_x = random.uniform(-0.1, 0.1)
-    # pos_y = random.uniform(0.35, 0.55)
-    pos_y = random.uniform(-0.4, -0.2)
-    pos_z = random.uniform(0.25, 0.35)
+    # pos_x = random.uniform(-0.1, 0.1)
+    # # pos_y = random.uniform(0.35, 0.55)
+    # pos_y = random.uniform(-0.4, -0.2)
+    # pos_z = random.uniform(0.25, 0.35)
+    # roll = 0.0
+    # pitch = np.pi  # End-effector pointing down
+    # yaw = random.uniform(-np.pi/2, np.pi/2) # 90 degrees
+
+    pos_x = 0.05
+    pos_y = -0.3
+    pos_z = 0.3
     roll = 0.0
-    pitch = np.pi  # End-effector pointing down
-    yaw = random.uniform(-np.pi/2, np.pi/2) # 90 degrees
+    pitch = np.pi
+    yaw = np.pi #np.pi/4
 
     r = R.from_euler('xyz', [roll, pitch, yaw], degrees=False)  # RPY to rotation vector
     rx, ry, rz = r.as_rotvec()
+
+    # Convert Roll-Pitch-Yaw to Quaternion [w, x, y, z] format
+    r = R.from_euler('xyz', [roll, pitch, yaw], degrees=False)
+    quat = r.as_quat()  # Default format is [x, y, z, w]
+
+    # Reorder quaternion to [w, x, y, z]
+    quat_wxyz = np.array([quat[3], quat[0], quat[1], quat[2]])
+
+    # Normalize the quaternion
+    quat_wxyz /= np.linalg.norm(quat_wxyz)
+
+    print(quat_wxyz)
 
     return [pos_x, pos_y, pos_z, rx, ry, rz]
 
 
 
-# Function to get the robot's current state
-def get_robot_state():
-    tcp_pose = rtde_r.getActualTCPPose()
-    return tcp_pose
+# Returns the actual TCP received from the robot in [X, Y, Z] + Quaternion in [w, x, y, z]
+def get_actual_TCP_Pose():
+    tcp_pose = rtde_r.getActualTCPPose()  # Returns [X, Y, Z, RX, RY, RZ]
+
+    print("Original TCP Pose (Axis-Angle):", tcp_pose)
+
+    # Extract position (X, Y, Z) and orientation (RX, RY, RZ)
+    pos = np.array(tcp_pose[:3])  # [X, Y, Z]
+    axis_angle = np.array(tcp_pose[3:])  # [RX, RY, RZ]
+
+    # Convert Axis-Angle to Quaternion
+    rot = R.from_rotvec(axis_angle)  # Convert to rotation object
+    quat = rot.as_quat()  # Default output: [x, y, z, w]
+
+    # Reorder quaternion to [w, x, y, z]
+    quat_wxyz = np.array([quat[3], quat[0], quat[1], quat[2]])
+
+    # Normalize the quaternion
+    quat_wxyz /= np.linalg.norm(quat_wxyz)
+
+    # Convert back from quaternion to axis-angle
+    reconverted_rot = R.from_quat([quat_wxyz[1], quat_wxyz[2], quat_wxyz[3], quat_wxyz[0]])
+    reconverted_axis_angle = reconverted_rot.as_rotvec()
+
+    # Print the transformed data
+    print("Converted TCP Pose (Position + Quaternion):", np.concatenate((pos, quat_wxyz), axis=0))
+    print("Reconverted Axis-Angle (rx, ry, rz):", reconverted_axis_angle)
+
+    return np.concatenate((pos, quat_wxyz), axis=0)
+
 
 
 def main():
     move_robot_to_home()
 
-    print("Home Pose: ", get_robot_state())
+    print("Home Pose: ", get_actual_TCP_Pose())
 
     while True:
         target_pose = sample_random_pose()  # Generate a random target pose
@@ -61,11 +106,11 @@ def main():
         acceleration = 0.5
         rtde_c.moveL(target_pose, speed=speed, acceleration=acceleration)
 
-        print("End Pose: ", get_robot_state())
+        print("End Pose: ", get_actual_TCP_Pose())
 
-        move_robot_to_home()
+        # move_robot_to_home()
 
-        print("Home Pose: ", get_robot_state())
+        # print("Home Pose: ", get_actual_TCP_Pose())
 
 
 # Run the main function

@@ -1,3 +1,5 @@
+import os
+import csv
 import rtde_control
 import rtde_receive
 import numpy as np
@@ -7,20 +9,50 @@ import random
 from scipy.spatial.transform import Rotation as R
 
 # Replace with the IP address of your robot
-ROBOT_IP = "192.168.0.100"
+ROBOT_IP = "192.168.1.100"
 
+print("start")
 # Initialize RTDE Control and Receive Interfaces
 rtde_c = rtde_control.RTDEControlInterface(ROBOT_IP)
+print("Connected to Control Interface")
 rtde_r = rtde_receive.RTDEReceiveInterface(ROBOT_IP)
+print("Connected to Receive Interface")
 
 # Load the pre-trained model
-checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-IK/Quat_implementation/model.zip"
+checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v2/j90cbcg2/model.zip"
 print(f"Loading checkpoint from: {checkpoint_path}")
 agent = PPO.load(checkpoint_path)
 
+# Set CSV save directory
+save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
+csv_path = os.path.join(save_dir, "real_observations_3.csv")
+
+save = True # False
+
+def save_observations_to_csv(file_path, timestep, tcp_pose, target_pose, last_action):
+    """Save TCP pose, target pose, and last action to a CSV file."""
+    header = (
+        ["timestep"]
+        + [f"tcp_pose_{i}" for i in range(7)]
+        + [f"target_pose_{i}" for i in range(7)]
+        + [f"last_action_{i}" for i in range(6)]
+    )
+
+    # Flatten all observations into a single list
+    data = [timestep] + tcp_pose.tolist() + target_pose.tolist() + last_action.tolist()
+
+    file_exists = os.path.isfile(file_path)
+
+    with open(file_path, mode="a", newline="") as file:
+        writer = csv.writer(file)
+        if not file_exists:
+            writer.writerow(header)  # Write header if file doesn't exist
+        writer.writerow(data)
+
+
 def move_robot_to_home():
-    """Move robot to home pose specified with joint positions"""
-    home_pose = np.array((1.3, -2.0, 2.0, -1.5, -1.5, 3.14, 0.0, 0.0))
+    """Move robot to home pose specified with joint positions."""
+    home_pose = np.array([1.3, -2.0, 2.0, -1.5, -1.5, 3.14])
     speed = 0.5
     acceleration = 0.5
     rtde_c.moveJ(home_pose, speed=speed, acceleration=acceleration)
@@ -29,25 +61,26 @@ def move_robot_to_home():
 # Random Pose Sampling Function
 def sample_random_pose():
     """Randomly sample a target pose within specified bounds."""
-    pos_x = random.uniform(-0.1, 0.1)
-    # pos_x = random.uniform(-0.2 0.2)
-    # pos_y = random.uniform(0.35, 0.55)
-    # pos_z = random.uniform(0.15, 0.4)
-    pos_y = random.uniform(-0.4, -0.2)
-    pos_z = random.uniform(0.25, 0.35)
+    pos_x = 0.05
+    pos_y = 0.3
+    pos_z = 0.3
     roll = 0.0
-    pitch = np.pi  # End-effector pointing down
-    # yaw = random.uniform(-np.pi, np.pi)
-    yaw = random.uniform(-np.pi/2, np.pi/2) # 90 degrees
-    
-    r = R.from_euler('xyz', [roll, pitch, yaw], degrees=False)  # RPY to rotation vector
-    rx, ry, rz = r.as_rotvec()
+    pitch = np.pi
+    yaw = np.pi
 
-    return [pos_x, pos_y, pos_z, rx, ry, rz]
+    # Convert Roll-Pitch-Yaw to Quaternion [w, x, y, z] format
+    r = R.from_euler("xyz", [roll, pitch, yaw], degrees=False)
+    quat = r.as_quat()  # Default format is [x, y, z, w]
+
+    # Reorder quaternion to [w, x, y, z] and normalize
+    quat_wxyz = np.array([quat[3], quat[0], quat[1], quat[2]])
+    quat_wxyz /= np.linalg.norm(quat_wxyz)
+
+    return np.array([pos_x, pos_y, pos_z, *quat_wxyz])
 
 
-# Function to get the robot's current state with quaternion in [w, x, y, z] format
-def get_robot_state(target_pose, previous_actions):
+# Returns the actual TCP received from the robot in [X, Y, Z] + Quaternion in [w, x, y, z]
+def get_actual_TCP_Pose():
     tcp_pose = rtde_r.getActualTCPPose()  # Returns [X, Y, Z, RX, RY, RZ]
 
     # Extract position (X, Y, Z) and orientation (RX, RY, RZ)
@@ -58,20 +91,22 @@ def get_robot_state(target_pose, previous_actions):
     rot = R.from_rotvec(axis_angle)  # Convert to rotation object
     quat = rot.as_quat()  # Default output: [x, y, z, w]
 
-    # Reorder quaternion to [w, x, y, z]
+    # Reorder quaternion to [w, x, y, z] and normalize
     quat_wxyz = np.array([quat[3], quat[0], quat[1], quat[2]])
+    quat_wxyz /= np.linalg.norm(quat_wxyz)
 
-    # Concatenate TCP pose (with quaternion), target pose, and last action
-    return np.concatenate((pos, quat_wxyz, target_pose, previous_actions[-1]), axis=0)
+    return np.concatenate((pos, quat_wxyz), axis=0)
+
+
+# Function to get the robot's current state with quaternion in [w, x, y, z] format
+def get_robot_state(target_pose, previous_action):
+    tcp_pose = get_actual_TCP_Pose()
+    return np.concatenate((tcp_pose, target_pose, previous_action), axis=0)
 
 
 # Function to send actions to the robot
-def send_robot_action(action):
-    """
-    Send a TCP displacement action to the robot.
-    :param action: 6D displacement (dx, dy, dz, d_axis_angle_x, d_axis_angle_y, d_axis_angle_z).
-    """
-    # Get the current TCP pose (position + orientation in axis-angle)
+def execute_action_on_real_robot(action):
+    """Send a TCP displacement action to the robot."""
     current_tcp = np.array(rtde_r.getActualTCPPose())  # [x, y, z, rx, ry, rz]
     
     # Apply positional displacements (dx, dy, dz)
@@ -82,7 +117,7 @@ def send_robot_action(action):
     current_rotation = R.from_rotvec(current_tcp[3:])  # Axis-angle to rotation matrix
     
     # Compute the orientation displacement as a rotation matrix
-    displacement_rotation = R.from_rotvec(action[3:])  # Axis-angle to rotation matrix
+    displacement_rotation = R.from_rotvec(np.array(action[3:]))  
     
     # Combine rotations: new_rotation = current_rotation * displacement_rotation
     new_rotation = current_rotation * displacement_rotation
@@ -91,34 +126,42 @@ def send_robot_action(action):
     new_tcp[3:] = new_rotation.as_rotvec()
     
     # Command the robot to move to the new TCP pose
-    rtde_c.moveL(new_tcp.tolist(), speed=0.1, acceleration=0.5)
+    rtde_c.moveL(new_tcp.tolist(), speed=0.2, acceleration=0.5)
 
 
 # Main control loop
 def run_on_real_robot():
     move_robot_to_home()
-    previous_actions = np.zeros(6)
-    target_pose = sample_random_pose()  # Generate a random target pose
+    previous_action = np.zeros(6)
+    target_pose = sample_random_pose()
     print(f"Target Pose: {target_pose}")
 
+    timestep = 0  # Initialize timestep counter
+
     while True:
-        obs = get_robot_state(target_pose, previous_actions)  # Initial observation
+        tcp_pose = get_actual_TCP_Pose()
+        obs = get_robot_state(target_pose, previous_action)
 
         with torch.inference_mode():
-            # Get the action from the agent
             action, _ = agent.predict(obs, deterministic=True)
+            action *= 0.01
 
-        previous_actions = action  # Save the action
-        send_robot_action(action)  # Send the action to the robot
+        if save:
+            # Save the TCP pose, target pose, and last action to CSV
+            save_observations_to_csv(csv_path, timestep, tcp_pose, target_pose, previous_action)
 
-        # Check if target pose is reached (simple distance threshold for now)
-        current_tcp = rtde_r.getActualTCPPose()
-        distance = np.linalg.norm(np.array(target_pose[:3]) - np.array(current_tcp[:3]))
-        if distance < 0.02:  # Target reached within a 2 cm threshold
-            move_robot_to_home()
-            print("Target pose reached. Sampling new pose.")
-            target_pose = sample_random_pose()  # Sample a new pose
-            print(f"New Target Pose: {target_pose}")
+        previous_action = action  # Save the action
+        execute_action_on_real_robot(action)  # Send the action to the robot
+
+        # Check if target pose is reached
+        current_tcp = get_actual_TCP_Pose()
+        distance = np.linalg.norm(target_pose[:3] - current_tcp[:3])
+
+        if distance < 0.005:  # Target reached
+            print("Done")
+            return
+
+        timestep += 1  # Increment timestep counter
 
 
 # Run the main function
