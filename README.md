@@ -135,6 +135,7 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v2 config_sb3_ppo.yaml
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v3 config_sb3_ppo.yaml
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v4 config_sb3_ppo.yaml
+    wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v5 config_sb3_ppo.yaml
 
 
 

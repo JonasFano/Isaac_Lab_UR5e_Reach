@@ -22,9 +22,9 @@
 
 
 10.02.2025
-2. Analyse force/torque issue (visualize frames and try different movement while recording forces and add a mass to the gripper)
+2. Analyse force/torque issue (add a mass to the gripper)
 3. Write section force/torque validation
-4. Write section short explanation of observation plots and the illustrated issue
+4. Write section short explanation of observation plots and the illustrated issue (action scaling section?)
 5. What friction/restitution coefficients to choose - General rules/values?
 6. Describe what to write in each section
 7. How to randomize starting pose of the robot? Sample Pose and then use IK to get joint positions?

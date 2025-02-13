@@ -29,19 +29,40 @@ def move_robot_to_home():
 # Random Pose Sampling Function
 def sample_random_pose():
     """Randomly sample a target pose within specified bounds."""
-    pos_x = random.uniform(-0.2, 0.2)
-    pos_y = random.uniform(0.35, 0.55)
-    pos_z = random.uniform(0.15, 0.4)
+    pos_x = random.uniform(-0.1, 0.1)
+    # pos_x = random.uniform(-0.2 0.2)
+    # pos_y = random.uniform(0.35, 0.55)
+    # pos_z = random.uniform(0.15, 0.4)
+    pos_y = random.uniform(-0.4, -0.2)
+    pos_z = random.uniform(0.25, 0.35)
     roll = 0.0
     pitch = np.pi  # End-effector pointing down
-    yaw = random.uniform(-np.pi, np.pi)
-    return [pos_x, pos_y, pos_z, roll, pitch, yaw]
+    # yaw = random.uniform(-np.pi, np.pi)
+    yaw = random.uniform(-np.pi/2, np.pi/2) # 90 degrees
+    
+    r = R.from_euler('xyz', [roll, pitch, yaw], degrees=False)  # RPY to rotation vector
+    rx, ry, rz = r.as_rotvec()
+
+    return [pos_x, pos_y, pos_z, rx, ry, rz]
 
 
-# Function to get the robot's current state
+# Function to get the robot's current state with quaternion in [w, x, y, z] format
 def get_robot_state(target_pose, previous_actions):
-    tcp_pose = rtde_r.getActualTCPPose()
-    return np.concatenate((tcp_pose, target_pose, previous_actions[-1]), axis=0)
+    tcp_pose = rtde_r.getActualTCPPose()  # Returns [X, Y, Z, RX, RY, RZ]
+
+    # Extract position (X, Y, Z) and orientation (RX, RY, RZ)
+    pos = np.array(tcp_pose[:3])  # [X, Y, Z]
+    axis_angle = np.array(tcp_pose[3:])  # [RX, RY, RZ]
+
+    # Convert Axis-Angle to Quaternion
+    rot = R.from_rotvec(axis_angle)  # Convert to rotation object
+    quat = rot.as_quat()  # Default output: [x, y, z, w]
+
+    # Reorder quaternion to [w, x, y, z]
+    quat_wxyz = np.array([quat[3], quat[0], quat[1], quat[2]])
+
+    # Concatenate TCP pose (with quaternion), target pose, and last action
+    return np.concatenate((pos, quat_wxyz, target_pose, previous_actions[-1]), axis=0)
 
 
 # Function to send actions to the robot

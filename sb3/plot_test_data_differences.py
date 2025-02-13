@@ -6,11 +6,23 @@ from scipy.spatial.transform import Rotation as R
 
 # Path to the CSV file
 # csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_ur5e_with_unoise.csv"
-csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_1.csv"
+# csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_1.csv"
+
+filename = "observations_ur5e_without_unoise"
+# filename = "observations_ur5e_decimation_4"
+# filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_01"
+# filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_001"
+# filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_005"
+# filename = "observations_ur5e_scale_0_1_penalized_joint_vel"
+
+
+
+csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/" + filename + ".csv"
 
 
 # Output directory for saving the plots
-output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots"
+# output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots"
+output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/comparison"
 os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
 
 # Load the data
@@ -41,7 +53,7 @@ actions_cols = [col for col in data.columns if "actions" in col]
 
 tcp_pose = data[tcp_pose_cols]
 pose_command = data[pose_command_cols]
-actions = data[actions_cols] * 0.01 # Given in robot base frame
+actions = data[actions_cols] * 0.05 # Given in robot base frame
 
 
 # Compute TCP displacement
@@ -60,7 +72,7 @@ tcp_pose_error = pose_command.values - tcp_pose.values
 tcp_pose_error = pd.DataFrame(tcp_pose_error, columns=[col.replace("tcp_pose", "tcp_pose_error") for col in tcp_pose.columns], index=data.index)
 
 amount = min(3, len(tcp_pose.columns))  # Ensure we only use available columns
-save = False # False True
+save = True # False True
 
 # Function to create and save individual plots
 def create_and_save_plot(y_data, amount, title, filename):
@@ -72,10 +84,7 @@ def create_and_save_plot(y_data, amount, title, filename):
 
     if save:
         # Save the figure as PDF and PNG
-        pdf_path = os.path.join(output_dir, filename + ".pdf")
         png_path = os.path.join(output_dir, filename + ".png")
-
-        fig.write_image(pdf_path, width=1100, height=600)  # Save as PDF
         fig.write_image(png_path, width=1100, height=600)  # Save as PNG
 
     fig.show()
@@ -93,10 +102,7 @@ def create_and_save_comparison_plot(y_data1, y_data2, amount, title, filename):
 
     if save:
         # Save the figure as PDF and PNG
-        pdf_path = os.path.join(output_dir, filename + ".pdf")
         png_path = os.path.join(output_dir, filename + ".png")
-
-        fig.write_image(pdf_path, width=1000, height=600)  # Save as PDF
         fig.write_image(png_path, width=1000, height=600)  # Save as PNG
 
     fig.show()
@@ -115,31 +121,30 @@ def create_and_save_tripple_comparison_plot(y_data1, y_data2, y_data3, amount, t
 
     if save:
         # Save the figure as PDF and PNG
-        pdf_path = os.path.join(output_dir, filename + ".pdf")
         png_path = os.path.join(output_dir, filename + ".png")
-
-        fig.write_image(pdf_path, width=1000, height=600)  # Save as PDF
         fig.write_image(png_path, width=1000, height=600)  # Save as PNG
 
     fig.show()
 
 
 
-# Generate and save plots
+# With noise
 # create_and_save_plot(tcp_displacement, amount, "TCP Displacement", "tcp_displacement_with_noise")
 # create_and_save_plot(actions, amount, "Actions", "actions_with_noise")
 # create_and_save_plot(tcp_pose_error, amount, "TCP Position Error (TCP - Pose Command)", "tcp_position_error_with_noise")
-
 # create_and_save_comparison_plot(tcp_pose_error, actions, 1, "Comparison between TCP Position Error and Actions", "comparison_tcp_position_error_and_action_with_noise")
 # create_and_save_comparison_plot(tcp_displacement, actions, 1, "Comparison between TCP Displacements and Actions", "comparison_tcp_displacement_and_action_with_noise")
 
 
-create_and_save_plot(tcp_displacement, amount, "TCP Displacement", "tcp_displacement")
-create_and_save_plot(actions, amount, "Actions", "actions")
-create_and_save_plot(tcp_pose_error, amount, "TCP Position Error (TCP - Pose Command)", "tcp_position_error")
+# Without noise
+# create_and_save_plot(tcp_displacement, amount, "TCP Displacement", "tcp_displacement")
+# create_and_save_plot(actions, amount, "Actions", "actions")
+# create_and_save_plot(tcp_pose_error, amount, "TCP Position Error (TCP - Pose Command)", "tcp_position_error")
+# create_and_save_comparison_plot(tcp_pose_error, actions, 1, "Comparison between TCP Position Error and Actions", "comparison_tcp_position_error_and_action")
+# create_and_save_comparison_plot(tcp_displacement, actions, 1, "Comparison between TCP Displacements and Actions", "comparison_tcp_displacement_and_action")
+# create_and_save_tripple_comparison_plot(tcp_displacement, tcp_pose_error, actions, 1, "Comparison between TCP Displacements, TCP Position Error and Actions", "comparison_tcp_displacement_tcp_position_error_and_actions")
 
-create_and_save_comparison_plot(tcp_pose_error, actions, 1, "Comparison between TCP Position Error and Actions", "comparison_tcp_position_error_and_action")
-create_and_save_comparison_plot(tcp_displacement, actions, 1, "Comparison between TCP Displacements and Actions", "comparison_tcp_displacement_and_action")
 
-create_and_save_tripple_comparison_plot(tcp_displacement, tcp_pose_error, actions, 1, "Comparison between TCP Displacements, TCP Position Error and Actions", "comparison_tcp_displacement_tcp_position_error_and_actions")
+# Only visualize TCP Displacement vs Actions
+create_and_save_comparison_plot(tcp_displacement, actions, 1, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
 
