@@ -36,6 +36,7 @@ import gymnasium as gym
 import numpy as np
 import os
 import torch
+import time
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import VecNormalize
@@ -121,6 +122,8 @@ def main():
             # env stepping
             obs, _, _, _ = env.step(actions)
             print(obs)
+            time.sleep(10)
+
         if args_cli.video:
             timestep += 1
             # Exit the play loop after recording one video

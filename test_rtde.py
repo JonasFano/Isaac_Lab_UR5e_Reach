@@ -64,7 +64,7 @@ def sample_random_pose():
 def get_actual_TCP_Pose():
     tcp_pose = rtde_r.getActualTCPPose()  # Returns [X, Y, Z, RX, RY, RZ]
 
-    print("Original TCP Pose (Axis-Angle):", tcp_pose)
+    print("Current TCP Pose (Axis-Angle):", tcp_pose)
 
     # Extract position (X, Y, Z) and orientation (RX, RY, RZ)
     pos = np.array(tcp_pose[:3])  # [X, Y, Z]
@@ -72,10 +72,7 @@ def get_actual_TCP_Pose():
 
     # Convert Axis-Angle to Quaternion
     rot = R.from_rotvec(axis_angle)  # Convert to rotation object
-    quat = rot.as_quat()  # Default output: [x, y, z, w]
-
-    # Reorder quaternion to [w, x, y, z]
-    quat_wxyz = np.array([quat[3], quat[0], quat[1], quat[2]])
+    quat_wxyz = rot.as_quat(scalar_first=True)
 
     # Normalize the quaternion
     quat_wxyz /= np.linalg.norm(quat_wxyz)
@@ -85,7 +82,7 @@ def get_actual_TCP_Pose():
     reconverted_axis_angle = reconverted_rot.as_rotvec()
 
     # Print the transformed data
-    print("Converted TCP Pose (Position + Quaternion):", np.concatenate((pos, quat_wxyz), axis=0))
+    print("Current TCP Pose (Quaternion):", np.concatenate((pos, quat_wxyz), axis=0))
     print("Reconverted Axis-Angle (rx, ry, rz):", reconverted_axis_angle)
 
     return np.concatenate((pos, quat_wxyz), axis=0)
@@ -97,20 +94,18 @@ def main():
 
     print("Home Pose: ", get_actual_TCP_Pose())
 
-    while True:
-        target_pose = sample_random_pose()  # Generate a random target pose
+    # while True:
+    #     target_pose = sample_random_pose()  # Generate a random target pose
 
-        print("Target Pose: ", target_pose)
+    #     print("Target Pose: ", target_pose)
 
-        speed = 0.7
-        acceleration = 0.5
-        rtde_c.moveL(target_pose, speed=speed, acceleration=acceleration)
-
-        print("End Pose: ", get_actual_TCP_Pose())
-
-        # move_robot_to_home()
-
-        # print("Home Pose: ", get_actual_TCP_Pose())
+    #     speed = 0.7
+    #     acceleration = 0.5
+    #     if rtde_c.moveL(target_pose, speed=speed, acceleration=acceleration):
+    #         print("End Pose: ", get_actual_TCP_Pose())
+    #         return
+    #         move_robot_to_home()
+    #         print("Home Pose: ", get_actual_TCP_Pose())
 
 
 # Run the main function

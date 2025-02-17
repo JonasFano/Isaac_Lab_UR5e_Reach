@@ -61,7 +61,7 @@ class UR3e_ReachSceneCfg(InteractiveSceneCfg):
         init_state=ArticulationCfg.InitialStateCfg(
             pos=(0.175, -0.175, 0.0), 
             joint_pos={
-                "shoulder_pan_joint": 1.3, 
+                "shoulder_pan_joint": 2.0, #1.3, 
                 "shoulder_lift_joint": -2.0, 
                 "elbow_joint": 2.0, 
                 "wrist_1_joint": -1.5, 
@@ -162,16 +162,30 @@ class CommandsCfg:
         resampling_time_range=(5.0, 5.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(-0.1, 0.1),
-            # pos_y=(0.2, 0.4),
-            pos_y=(0.2, 0.4),
-            pos_z=(0.25, 0.4),
+            pos_x=(0.05, 0.05),
+            pos_y=(0.3, 0.3),
+            pos_z=(0.3, 0.3),
             roll=(0.0, 0.0),
-            pitch=(math.pi, math.pi),  # depends on end-effector axis
-            # yaw=(-math.pi, math.pi), # (0.0, 0.0), # y
-            yaw=(-math.pi/2, math.pi/2), # +/- 90 degrees
+            pitch=(math.pi, math.pi),  # given the base frame, this does a rotation of 180 deg around y
+            yaw=(math.pi,math.pi), #(math.pi, math.pi), # Given the now rotated frame, it rotates with deg around z
         ),
     )
+    # ee_pose = mdp.UniformPoseCommandCfg(
+    #     asset_name="robot",
+    #     body_name="wrist_3_link",
+    #     resampling_time_range=(5.0, 5.0),
+    #     debug_vis=True,
+    #     ranges=mdp.UniformPoseCommandCfg.Ranges(
+    #         pos_x=(-0.1, 0.1),
+    #         # pos_y=(0.2, 0.4),
+    #         pos_y=(0.2, 0.4),
+    #         pos_z=(0.25, 0.4),
+    #         roll=(0.0, 0.0),
+    #         pitch=(math.pi, math.pi),  # depends on end-effector axis
+    #         # yaw=(-math.pi, math.pi), # (0.0, 0.0), # y
+    #         yaw=(-math.pi/2, math.pi/2), # +/- 90 degrees
+    #     ),
+    # )
     # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
     # ee_pose = mdp.UniformPoseCommandCfg(
     #     asset_name="robot",

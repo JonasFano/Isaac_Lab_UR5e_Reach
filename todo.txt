@@ -20,14 +20,15 @@
         - 
 
 
-
-10.02.2025
-2. Analyse force/torque issue (add a mass to the gripper)
-3. Write section force/torque validation
+14.02.2025
+1. Analyse force/torque issue (add a mass to the gripper)
+2. Write section force/torque validation
+3. Analyse why reach pose task does not work on real robot
 4. Write section short explanation of observation plots and the illustrated issue (action scaling section?)
 5. What friction/restitution coefficients to choose - General rules/values?
-6. Describe what to write in each section
-7. How to randomize starting pose of the robot? Sample Pose and then use IK to get joint positions?
+6. How to randomize starting pose of the robot? Sample Pose and then use IK to get joint positions?
 
-1. Get connection to real robot
-2. Apply trained agent on real robot
+
+17.02.2025
+1. Describe what to write in each section
+2. Start writing
