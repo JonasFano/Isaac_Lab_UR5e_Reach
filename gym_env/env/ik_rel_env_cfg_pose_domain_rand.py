@@ -31,6 +31,9 @@ class RelIK_UR5e_Domain_Rand_ReachEnvCfg(reach_env_cfg_pose_domain_rand.UR5e_Dom
             ],
         )
 
+        # print(self.commands.ee_pose) # Do not show current end-effector frame
+        self.commands.ee_pose.current_pose_visualizer_cfg.markers['frame'].visible = False
+
         self.actions.arm_action = DifferentialInverseKinematicsActionCfg(
             asset_name="robot",
             joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
