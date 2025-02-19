@@ -204,7 +204,7 @@ def run_on_real_robot():
             # action = np.array([0.01, 0, 0, 0, 0, 0])
             # action = np.array([0, 0.01, 0, 0, 0, 0])
             # action = np.array([0, 0, 0.01, 0, 0, 0])
-            # action = np.array([0, 0, 0, 0.1, 0, 0])
+            # action = np.array([0, 0, 0, 0.01, 0, 0])
             action = np.array([0, 0, 0, 0, 0.01, 0])
             # action = np.array([0, 0, 0, 0, 0, 0.01])
 
