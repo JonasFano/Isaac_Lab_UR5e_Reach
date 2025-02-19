@@ -122,7 +122,7 @@ def main():
             # env stepping
             obs, _, _, _ = env.step(actions)
             print(obs)
-            time.sleep(10)
+            # time.sleep(10)
 
         if args_cli.video:
             timestep += 1

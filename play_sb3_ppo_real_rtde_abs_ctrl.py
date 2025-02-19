@@ -20,14 +20,13 @@ rtde_r = rtde_receive.RTDEReceiveInterface(ROBOT_IP)
 print("Connected to Receive Interface")
 
 # Load the pre-trained model
-# checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v2/j90cbcg2/model.zip"
 checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-Abs-IK/2024-12-07_21-18-23/model.zip"
 print(f"Loading checkpoint from: {checkpoint_path}")
 agent = PPO.load(checkpoint_path)
 
 # Set CSV save directory
 save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
-csv_path = os.path.join(save_dir, "real_observations_rotate.csv")
+csv_path = os.path.join(save_dir, "real_observations_abs_ctrl.csv")
 
 save = False # True # False
 
@@ -73,13 +72,13 @@ def sample_random_pose():
     # pitch = np.pi
     # yaw = np.pi
 
-    # pos_x = -0.25
-    # pos_y = -0.3
-    # pos_z = 0.2
-    pos_x = random.uniform(-0.2, 0.2)
-    # pos_y = random.uniform(-0.4, -0.3)
-    pos_y = random.uniform(0.3, 0.4)
-    pos_z = random.uniform(0.2, 0.5)
+    pos_x = -0.1
+    pos_y = 0.3
+    pos_z = 0.4
+    # pos_x = random.uniform(-0.2, 0.2)
+    # # pos_y = random.uniform(-0.4, -0.3)
+    # pos_y = random.uniform(0.3, 0.4)
+    # pos_z = random.uniform(0.2, 0.5)
     roll = 0.0
     pitch = np.pi
     yaw = np.pi
@@ -123,7 +122,7 @@ def normalize_axis_angle(axis_angle):
 # Returns the actual TCP received from the robot in [X, Y, Z] + Quaternion in [w, x, y, z]  and apply a 180-degree Z-axis rotation
 def get_actual_TCP_Pose():
     tcp_pose = np.array(rtde_r.getActualTCPPose())  # [x, y, z, rx, ry, rz]
-    tcp_pose[3:] = normalize_axis_angle(tcp_pose[3:])  # Ensure stable axis-angle representation
+    # tcp_pose[3:] = normalize_axis_angle(tcp_pose[3:])  # Ensure stable axis-angle representation
 
     pos = np.array(tcp_pose[:3])  # [X, Y, Z]
     axis_angle = np.array(tcp_pose[3:])  # [RX, RY, RZ]
@@ -153,35 +152,28 @@ def get_robot_state(target_pose, previous_action):
 
 # Function to send actions to the robot
 def execute_action_on_real_robot(action):
-    """Send a TCP displacement action to the robot with 180-degree Z-axis rotation correction."""
-    current_tcp = np.array(rtde_r.getActualTCPPose())  # Get TCP pose in axis-angle format
-    current_tcp[3:] = normalize_axis_angle(current_tcp[3:])
-
-    # Convert rotation to quaternion
-    current_rotation = R.from_rotvec(current_tcp[3:])
-    corrected_rotation = ROT_180_Z * current_rotation  # Apply 180-degree rotation
-
-    corrected_tcp = current_tcp.copy()
-    corrected_tcp[3:] = corrected_rotation.as_rotvec()
-
-    # Compute new pose based on action
-    new_tcp = corrected_tcp.copy()
-    new_tcp[:3] += action[:3]  # Apply displacement in the rotated frame
-
-    displacement_rotation = R.from_rotvec(action[3:])
-    new_rotation = corrected_rotation * displacement_rotation
-
-    final_rotation = ROT_180_Z.inv() * new_rotation  # Undo 180-degree rotation
-    new_tcp[3:] = final_rotation.as_rotvec()
-
-    rtde_c.moveL(new_tcp.tolist(), speed=0.2, acceleration=0.5)
+    """Send an absolute TCP pose (position + quaternion) to the robot, applying a 180-degree Z-axis rotation to both position and orientation."""
+    
+    # Extract desired absolute position and quaternion from action
+    target_position = action[:3]
+    target_rotation = R.from_quat(action[3:])
+    
+    # Apply 180-degree Z-axis correction to position and rotation
+    rotated_position = ROT_180_Z.apply(target_position)
+    rotated_rotation = ROT_180_Z * target_rotation
+    
+    # Convert corrected rotation back to axis-angle representation
+    corrected_tcp = np.hstack((rotated_position, rotated_rotation.as_rotvec()))
+    
+    # Move robot to the new absolute pose
+    rtde_c.moveL(corrected_tcp.tolist(), speed=0.2, acceleration=0.5)
 
 
 
 # Main control loop
 def run_on_real_robot():
     move_robot_to_home()
-    previous_action = np.zeros(6)
+    previous_action = np.zeros(7)
     target_pose = sample_random_pose()
     print(f"Target Pose: {target_pose}")
 
@@ -198,16 +190,8 @@ def run_on_real_robot():
         # print("Joint Position: ", joint_position)
 
         with torch.inference_mode():
-            # action, _ = agent.predict(obs, deterministic=True)
-            # action *= 0.02
-
-            # action = np.array([0.01, 0, 0, 0, 0, 0])
-            # action = np.array([0, 0.01, 0, 0, 0, 0])
-            # action = np.array([0, 0, 0.01, 0, 0, 0])
-            # action = np.array([0, 0, 0, 0.01, 0, 0])
-            action = np.array([0, 0, 0, 0, 0.01, 0])
-            # action = np.array([0, 0, 0, 0, 0, 0.01])
-
+            action, _ = agent.predict(obs, deterministic=True)
+            print(action)
         if save:
             # Save the TCP pose, target pose, and last action to CSV
             save_observations_to_csv(csv_path, timestep, tcp_pose, target_pose, previous_action)
