@@ -7,7 +7,7 @@ from . import agents, ik_rel_env_cfg, joint_pos_env_cfg, ik_rel_env_cfg_pose, ik
 # UR5e Reach Position Rel IK
 gym.register(
     id="UR5e-Reach-IK",
-    entry_point="omni.isaac.lab.envs:ManagerBasedRLEnv",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
     disable_env_checker=True,
     kwargs={
         "env_cfg_entry_point": ik_rel_env_cfg.RelIK_UR5e_ReachEnvCfg,
@@ -20,7 +20,7 @@ gym.register(
 # UR5e Reach Pose Rel IK
 gym.register(
     id="UR5e-Reach-Pose-IK",
-    entry_point="omni.isaac.lab.envs:ManagerBasedRLEnv",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
     disable_env_checker=True,
     kwargs={
         "env_cfg_entry_point": ik_rel_env_cfg_pose.RelIK_UR5e_ReachEnvCfg,
@@ -33,7 +33,7 @@ gym.register(
 # UR3e Reach Pose Rel IK
 gym.register(
     id="UR3e-Reach-Pose-IK",
-    entry_point="omni.isaac.lab.envs:ManagerBasedRLEnv",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
     disable_env_checker=True,
     kwargs={
         "env_cfg_entry_point": ik_rel_env_cfg_pose_ur3e.RelIK_UR3e_ReachEnvCfg,
@@ -46,7 +46,7 @@ gym.register(
 # Rel IK UR5e with domain randomization
 gym.register(
     id="UR5e-Domain-Rand-Reach-Pose-IK",
-    entry_point="omni.isaac.lab.envs:ManagerBasedRLEnv",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
     disable_env_checker=True,
     kwargs={
         "env_cfg_entry_point": ik_rel_env_cfg_pose_domain_rand.RelIK_UR5e_Domain_Rand_ReachEnvCfg,
@@ -59,7 +59,7 @@ gym.register(
 # UR5e Reach Pose Abs IK
 gym.register(
     id="UR5e-Reach-Pose-Abs-IK",
-    entry_point="omni.isaac.lab.envs:ManagerBasedRLEnv",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
     disable_env_checker=True,
     kwargs={
         "env_cfg_entry_point": ik_abs_env_cfg_pose.AbsIK_UR5e_ReachEnvCfg,
@@ -72,7 +72,7 @@ gym.register(
 # UR5e Reach Position Joint Position Control
 gym.register(
     id="UR5e-Reach",
-    entry_point="omni.isaac.lab.envs:ManagerBasedRLEnv",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
     disable_env_checker=True,
     kwargs={
         "env_cfg_entry_point": joint_pos_env_cfg.JointPos_UR5e_ReachEnvCfg,
