@@ -124,7 +124,7 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
 # Stable-baselines3 - UR5e
     source isaaclab/bin/activate
     cd isaaclab/IsaacLab
-    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/train_sb3_ppo.py --num_envs 8192 --task UR5e-Reach-Pose-Abs-IK --headless
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/train_sb3_ppo.py --num_envs 2048 --task UR5e-Reach-Pose-Abs-IK --headless
 
 
 # Play
@@ -146,7 +146,13 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach/2024-11-26_07-31-34/model_204800000_steps.zip
 
 
-# UR5e Wandb PPO
+
+
+######################
+# Weights and Biases #
+######################
+
+# REL IK UR5e Wandb PPO
     source isaaclab/bin/activate
     cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose config_sb3_ppo.yaml
@@ -165,13 +171,20 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
 
     
 
-# UR5e Wandb PPO with domain randomization
+# REL IK UR5e Wandb PPO with domain randomization
     source isaaclab/bin/activate
     cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3
 
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand config_sb3_ppo_domain_rand.yaml
 
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand_v2 config_sb3_ppo_domain_rand.yaml
+
+
+# Abs IK UR5e Wandb PPO
+    source isaaclab/bin/activate
+    cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3
+
+    wandb sweep --project abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e config_sb3_ppo.yaml
 
 
 
