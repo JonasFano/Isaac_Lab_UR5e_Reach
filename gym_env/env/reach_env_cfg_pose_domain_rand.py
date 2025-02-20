@@ -235,7 +235,7 @@ class ObservationsCfg:
         # TCP pose in base frame
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
-            params={"gripper_offset": [0.0, 0.0, 0.15], "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
+            params={"gripper_offset": [0.0, 0.0, 0.15], "robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
             noise=Unoise(n_min=-0.0001, n_max=0.0001),
         )
 
@@ -378,7 +378,7 @@ class UR5e_Domain_Rand_ReachEnvCfg(ManagerBasedRLEnvCfg):
         self.decimation = 2
         self.episode_length_s = 12.0
         # simulation settings
-        self.sim.dt = 1.0/60.0
+        self.sim.dt = 0.01
         self.sim.render_interval = self.decimation
 
         self.sim.physx.bounce_threshold_velocity = 0.2
