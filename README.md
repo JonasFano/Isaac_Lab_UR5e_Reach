@@ -102,19 +102,26 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
 
 
 ### abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v4: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01 - Penalty for action rate and action magnitude - Penalty weight action rate: -0.005 - Penalty weight action magnitude: -0.05 - num_steps: 15000
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-Abs-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v4/hdy38pyl/model.zip
+
+
+### abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v5: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01 - Penalty for action rate and action magnitude - Penalty weight action rate: -0.1 - Penalty weight action magnitude: -0.1 - num_steps: 40000 
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-Abs-IK --num_envs 4 --checkpoint
 
 
-### abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v5: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01 - Penalty for action rate and action magnitude - Penalty weight action rate: -0.05 - Penalty weight action magnitude: -0.05 - num_steps: 40000 
+### abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v6: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01 - Penalty for action rate and action magnitude - Penalty weight action rate: -0.05 - Penalty weight action magnitude: -0.05 - num_steps: 25000 
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-Abs-IK --num_envs 4 --checkpoint
 
+
+# New gripper Robotiq Hand E UR5e
+./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Hand-E-Reach-Pose-Abs-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v3/9gkgww2n/model.zip
 
 
 # UR5e Record data Rel IK
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_save_observations.py --task UR5e-Reach-Pose-IK --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v4/iepxkc9t/model.zip
 
 # UR5e Record data Abs IK
-    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_save_observations.py --task UR5e-Reach-Pose-Abs-IK --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v3/9gkgww2n/model.zip
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_save_observations.py --task UR5e-Reach-Pose-Abs-IK --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v4/hdy38pyl/model.zip
 
 
 ## UR3e
