@@ -121,7 +121,7 @@ def main():
             actions, _ = agent.predict(obs, deterministic=True)
             # env stepping
             obs, _, _, _ = env.step(actions)
-            print(obs)
+            # print(obs)
             # time.sleep(10)
 
         if args_cli.video:

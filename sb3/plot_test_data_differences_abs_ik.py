@@ -4,18 +4,9 @@ import os
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 
-# Path to the CSV file
-# csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_ur5e_with_unoise.csv"
-# csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_1.csv"
 
-# filename = "observations_ur5e_without_unoise"
-# filename = "observations_ur5e_decimation_4"
-# filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_01"
-# filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_001"
-# filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_005"
-# filename = "observations_ur5e_scale_0_1_penalized_joint_vel_0_001"
-# filename = "observations_ur5e_scale_0_1_penalized_joint_vel_and_ee_acc_0_001"
-filename = "observations_ur3e_scale_0_04_penalized_ee_acc_0_01"
+# filename = "observations_abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v2"
+filename = "observations_abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v3"
 
 
 csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/" + filename + ".csv"
@@ -73,7 +64,7 @@ tcp_pose_error = pose_command.values - tcp_pose.values
 tcp_pose_error = pd.DataFrame(tcp_pose_error, columns=[col.replace("tcp_pose", "tcp_pose_error") for col in tcp_pose.columns], index=data.index)
 
 amount = min(3, len(tcp_pose.columns))  # Ensure we only use available columns
-save = True # False True
+save = False # False True
 
 # Function to create and save individual plots
 def create_and_save_plot(y_data, amount, title, filename):
@@ -147,5 +138,8 @@ def create_and_save_tripple_comparison_plot(y_data1, y_data2, y_data3, amount, t
 
 
 # Only visualize TCP Displacement vs Actions
-create_and_save_comparison_plot(tcp_displacement, actions, 1, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
+create_and_save_comparison_plot(tcp_pose, actions, 1, "Comparison between TCP Position and Actions - " + filename, "comparison_tcp_position_and_action_" + filename)
 
+create_and_save_comparison_plot(tcp_pose, pose_command, 1, "Comparison between TCP Position and Target Position - " + filename, "comparison_tcp_and_target_position_" + filename)
+
+create_and_save_comparison_plot(pose_command, actions, 1, "Comparison between Target Position and Actions - " + filename, "comparison_target_position_and_action_" + filename)

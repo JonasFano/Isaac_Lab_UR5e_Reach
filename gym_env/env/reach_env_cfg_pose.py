@@ -391,11 +391,11 @@ class RewardsCfg:
     #     params={"asset_cfg": SceneEntityCfg("robot")},
     # )
 
-    ee_acc = RewTerm(
-        func=mdp.body_lin_acc_l2,
-        weight=-1e-4,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]),}
-    )
+    # ee_acc = RewTerm(
+    #     func=mdp.body_lin_acc_l2,
+    #     weight=-1e-4,
+    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]),}
+    # )
 
 
 @configclass
@@ -411,11 +411,11 @@ class CurriculumCfg:
     """Curriculum terms for the MDP."""
 
     action_rate = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.005, "num_steps": 15000} #4500
+        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.1, "num_steps": 40000} #15000 #4500
     )
 
     action_magnitude = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.05, "num_steps": 15000} #4500
+        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.1, "num_steps": 40000} #15000 #4500
     )
 
     # joint_vel = CurrTerm(
