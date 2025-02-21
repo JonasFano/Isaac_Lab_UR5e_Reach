@@ -7,7 +7,9 @@ from scipy.spatial.transform import Rotation as R
 
 # filename = "observations_abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v2"
 # filename = "observations_abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v3"
-filename = "observations_abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v4"
+# filename = "observations_abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v4"
+# filename = "observations_abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v5"
+filename = "observations_abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v6"
 
 
 csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/" + filename + ".csv"
