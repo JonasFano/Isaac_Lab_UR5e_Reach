@@ -44,11 +44,128 @@ MODEL_PATH = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__)
 class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     """Configuration for the lift scene with a robot and a object."""
     # articulation
+    # robot = ArticulationCfg(
+    #     prim_path="{ENV_REGEX_NS}/robot", 
+    #     spawn=sim_utils.UsdFileCfg(
+    #         # usd_path=os.path.join(MODEL_PATH, "ur5e_robotiq_new.usd"), # SDU gripper
+    #         usd_path=os.path.join(MODEL_PATH, "ur5e_with_gripper.usd"), # Robotiq Hand E
+    #         rigid_props=sim_utils.RigidBodyPropertiesCfg(
+    #             disable_gravity=False,
+    #             max_depenetration_velocity=5.0,
+    #         ),
+    #         # articulation_props=sim_utils.ArticulationRootPropertiesCfg(
+    #         #     enabled_self_collisions=True, 
+    #         #     solver_position_iteration_count=8, 
+    #         #     solver_velocity_iteration_count=0
+    #         # ),
+    #         activate_contact_sensors=True,), 
+    #     init_state=ArticulationCfg.InitialStateCfg(
+    #         pos=(0.175, -0.175, 0.0), 
+    #         joint_pos={
+    #             "shoulder_pan_joint": 1.3, 
+    #             "shoulder_lift_joint": -2.0, 
+    #             "elbow_joint": 2.0, 
+    #             "wrist_1_joint": -1.5, 
+    #             "wrist_2_joint": -1.5, 
+    #             "wrist_3_joint": 3.14, 
+    #             "robotiq_hande_left_finger_joint": 0.0, 
+    #             "robotiq_hande_right_finger_joint": 0.0,
+    #         }
+    #     ),
+    #     actuators={
+    #         "all_joints": ImplicitActuatorCfg(
+    #             joint_names_expr=[".*"],  # Match all joints
+    #             velocity_limit={
+    #                 "shoulder_pan_joint": 180.0,
+    #                 "shoulder_lift_joint": 180.0,
+    #                 "elbow_joint": 180.0,
+    #                 "wrist_1_joint": 180.0,
+    #                 "wrist_2_joint": 180.0,
+    #                 "wrist_3_joint": 180.0,
+    #                 "robotiq_hande_left_finger_joint": 0.15,
+    #                 "robotiq_hande_right_finger_joint": 0.15,
+    #             },
+    #             effort_limit={
+    #                 "shoulder_pan_joint": 150.0,
+    #                 "shoulder_lift_joint": 150.0,
+    #                 "elbow_joint": 150.0,
+    #                 "wrist_1_joint": 28.0,
+    #                 "wrist_2_joint": 28.0,
+    #                 "wrist_3_joint": 28.0,
+    #                 "robotiq_hande_left_finger_joint": 130.0,
+    #                 "robotiq_hande_right_finger_joint": 130.0,
+    #             },
+    #             # stiffness={
+    #             #     "shoulder_pan_joint": 261.79941,
+    #             #     "shoulder_lift_joint": 261.79941,
+    #             #     "elbow_joint": 261.79941,
+    #             #     "wrist_1_joint": 261.79941,
+    #             #     "wrist_2_joint": 261.79941,
+    #             #     "wrist_3_joint": 261.79941,
+    #             #     "robotiq_hande_left_finger_joint": 3000.0,
+    #             #     "robotiq_hande_right_finger_joint": 3000.0,
+    #             # },
+    #             # damping={
+    #             #     "shoulder_pan_joint": 26.17994,
+    #             #     "shoulder_lift_joint": 26.17994,
+    #             #     "elbow_joint": 26.17994,
+    #             #     "wrist_1_joint": 26.17994,
+    #             #     "wrist_2_joint": 26.17994,
+    #             #     "wrist_3_joint": 26.17994,
+    #             #     "robotiq_hande_left_finger_joint": 800.0,
+    #             #     "robotiq_hande_right_finger_joint": 800.0,
+    #             # }
+    #             # stiffness={
+    #             #     "shoulder_pan_joint": 1000.0,
+    #             #     "shoulder_lift_joint": 1000.0,
+    #             #     "elbow_joint": 1000.0,
+    #             #     "wrist_1_joint": 1000.0,
+    #             #     "wrist_2_joint": 1000.0,
+    #             #     "wrist_3_joint": 1000.0,
+    #             #     "robotiq_hande_left_finger_joint": 3000.0,
+    #             #     "robotiq_hande_right_finger_joint": 3000.0,
+    #             # },
+    #             # damping={
+    #             #     "shoulder_pan_joint": 121.66,
+    #             #     "shoulder_lift_joint": 183.23,
+    #             #     "elbow_joint": 96.54,
+    #             #     "wrist_1_joint": 69.83,
+    #             #     "wrist_2_joint": 69.83,
+    #             #     "wrist_3_joint": 27.42,
+    #             #     "robotiq_hande_left_finger_joint": 500.0,
+    #             #     "robotiq_hande_right_finger_joint": 500.0,
+    #             # }
+    #             ############### Stiffness 800 ###############
+    #             stiffness={
+    #                 "shoulder_pan_joint": 800.0,
+    #                 "shoulder_lift_joint": 800.0,
+    #                 "elbow_joint": 800.0,
+    #                 "wrist_1_joint": 800.0,
+    #                 "wrist_2_joint": 800.0,
+    #                 "wrist_3_joint": 800.0,
+    #                 "robotiq_hande_left_finger_joint": 3000.0,
+    #                 "robotiq_hande_right_finger_joint": 3000.0,
+    #             },
+    #             damping={
+    #                 "shoulder_pan_joint": 108.82,
+    #                 "shoulder_lift_joint": 163.89,
+    #                 "elbow_joint": 86.35,
+    #                 "wrist_1_joint": 62.46,
+    #                 "wrist_2_joint": 62.46,
+    #                 "wrist_3_joint": 24.53,
+    #                 "robotiq_hande_left_finger_joint": 500.0,
+    #                 "robotiq_hande_right_finger_joint": 500.0,
+    #             }
+    #         )
+    #     }
+    # )
+
     robot = ArticulationCfg(
         prim_path="{ENV_REGEX_NS}/robot", 
         spawn=sim_utils.UsdFileCfg(
             # usd_path=os.path.join(MODEL_PATH, "ur5e_robotiq_new.usd"), # SDU gripper
-            usd_path=os.path.join(MODEL_PATH, "ur5e_with_gripper.usd"), # Robotiq Hand E
+            # usd_path=os.path.join(MODEL_PATH, "ur5e_with_gripper.usd"), # Robotiq Hand E
+            usd_path=os.path.join(MODEL_PATH, "ur5e.usd"), # UR5e
             rigid_props=sim_utils.RigidBodyPropertiesCfg(
                 disable_gravity=False,
                 max_depenetration_velocity=5.0,
@@ -68,8 +185,6 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                 "wrist_1_joint": -1.5, 
                 "wrist_2_joint": -1.5, 
                 "wrist_3_joint": 3.14, 
-                "robotiq_hande_left_finger_joint": 0.0, 
-                "robotiq_hande_right_finger_joint": 0.0,
             }
         ),
         actuators={
@@ -82,8 +197,6 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                     "wrist_1_joint": 180.0,
                     "wrist_2_joint": 180.0,
                     "wrist_3_joint": 180.0,
-                    "robotiq_hande_left_finger_joint": 0.15,
-                    "robotiq_hande_right_finger_joint": 0.15,
                 },
                 effort_limit={
                     "shoulder_pan_joint": 150.0,
@@ -92,49 +205,7 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                     "wrist_1_joint": 28.0,
                     "wrist_2_joint": 28.0,
                     "wrist_3_joint": 28.0,
-                    "robotiq_hande_left_finger_joint": 130.0,
-                    "robotiq_hande_right_finger_joint": 130.0,
                 },
-                # stiffness={
-                #     "shoulder_pan_joint": 261.79941,
-                #     "shoulder_lift_joint": 261.79941,
-                #     "elbow_joint": 261.79941,
-                #     "wrist_1_joint": 261.79941,
-                #     "wrist_2_joint": 261.79941,
-                #     "wrist_3_joint": 261.79941,
-                #     "robotiq_hande_left_finger_joint": 3000.0,
-                #     "robotiq_hande_right_finger_joint": 3000.0,
-                # },
-                # damping={
-                #     "shoulder_pan_joint": 26.17994,
-                #     "shoulder_lift_joint": 26.17994,
-                #     "elbow_joint": 26.17994,
-                #     "wrist_1_joint": 26.17994,
-                #     "wrist_2_joint": 26.17994,
-                #     "wrist_3_joint": 26.17994,
-                #     "robotiq_hande_left_finger_joint": 800.0,
-                #     "robotiq_hande_right_finger_joint": 800.0,
-                # }
-                # stiffness={
-                #     "shoulder_pan_joint": 1000.0,
-                #     "shoulder_lift_joint": 1000.0,
-                #     "elbow_joint": 1000.0,
-                #     "wrist_1_joint": 1000.0,
-                #     "wrist_2_joint": 1000.0,
-                #     "wrist_3_joint": 1000.0,
-                #     "robotiq_hande_left_finger_joint": 3000.0,
-                #     "robotiq_hande_right_finger_joint": 3000.0,
-                # },
-                # damping={
-                #     "shoulder_pan_joint": 121.66,
-                #     "shoulder_lift_joint": 183.23,
-                #     "elbow_joint": 96.54,
-                #     "wrist_1_joint": 69.83,
-                #     "wrist_2_joint": 69.83,
-                #     "wrist_3_joint": 27.42,
-                #     "robotiq_hande_left_finger_joint": 500.0,
-                #     "robotiq_hande_right_finger_joint": 500.0,
-                # }
                 ############### Stiffness 800 ###############
                 stiffness={
                     "shoulder_pan_joint": 800.0,
@@ -143,8 +214,6 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                     "wrist_1_joint": 800.0,
                     "wrist_2_joint": 800.0,
                     "wrist_3_joint": 800.0,
-                    "robotiq_hande_left_finger_joint": 3000.0,
-                    "robotiq_hande_right_finger_joint": 3000.0,
                 },
                 damping={
                     "shoulder_pan_joint": 108.82,
@@ -153,8 +222,6 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                     "wrist_1_joint": 62.46,
                     "wrist_2_joint": 62.46,
                     "wrist_3_joint": 24.53,
-                    "robotiq_hande_left_finger_joint": 500.0,
-                    "robotiq_hande_right_finger_joint": 500.0,
                 }
             )
         }
