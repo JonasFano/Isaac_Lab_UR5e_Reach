@@ -26,31 +26,31 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
 
 
 
-### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e: Unoise: 0.0 - Robot Reset: "position_range" (1.0, 1.0) - Pose Generation: pos_x=(-0.05, 0.05), pos_y=(0.35, 0.45), pos_z=(0.25, 0.35)
+### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e: Unoise: 0.0 - Robot Reset: "position_range" (1.0, 1.0) - Pose Generation: pos_x=(-0.05, 0.05), pos_y=(0.35, 0.45), pos_z=(0.25, 0.35) - Decimation 2 - Dt 0.01
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e/cccnto37/model.zip
 
 
-### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final: Unoise: 0.001 - Robot Reset: "position_range" (0.5, 1.5) - Pose Generation: pos_x=(-0.2, 0.2), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4)
+### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final: Unoise: 0.001 - Robot Reset: "position_range" (0.5, 1.5) - Pose Generation: pos_x=(-0.2, 0.2), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final/yrvkdbup/model.zip
 
 
-### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2: Unoise: 0.0001 - Robot Reset: "position_range" (0.5, 1.5) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4)
+### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2: Unoise: 0.0001 - Robot Reset: "position_range" (0.5, 1.5) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2/tzb7dro2/model.zip
 
 
-### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4)
+### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3/m3itgft1/model.zip
 
 
-### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4: Unoise: 0.0001 - Robot Reset: "position_range" (0.7, 1.3) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4)
+### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4: Unoise: 0.0001 - Robot Reset: "position_range" (0.7, 1.3) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4/lyrdk1rh/model.zip
 
 
-### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Actuator randomization: "stiffness_distribution_params": (0.8, 1.2), "damping_distribution_params": (0.8, 1.2)
+### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Actuator randomization: "stiffness_distribution_params": (0.8, 1.2), "damping_distribution_params": (0.8, 1.2) - Decimation 2 - Dt 0.01
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Domain-Rand-Reach-Pose-IK --num_envs 4 --checkpoint 
 
 
-### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand_v2: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Actuator randomization: "stiffness_distribution_params": (0.7, 1.3), "damping_distribution_params": (0.7, 1.3)
+### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand_v2: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Actuator randomization: "stiffness_distribution_params": (0.7, 1.3), "damping_distribution_params": (0.7, 1.3) - Decimation 2 - Dt 0.01
 
 
 ### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_decimation_4: Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 4 - Dt 0.01
