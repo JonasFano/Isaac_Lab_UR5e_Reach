@@ -419,11 +419,11 @@ class CurriculumCfg:
     )
 
     action_rate_v2 = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.1, "num_steps": 40000} #15000 #4500
+        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.05, "num_steps": 40000} #15000 #4500
     )
 
     action_magnitude_v2 = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.1, "num_steps": 40000} #15000 #4500
+        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.05, "num_steps": 40000} #15000 #4500
     )
 
     # joint_vel = CurrTerm(
@@ -459,7 +459,7 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
     def __post_init__(self):
         """Post initialization."""
         # general settings
-        self.decimation = 2
+        self.decimation = 4
         self.episode_length_s = 15.0
         # simulation settings
         self.sim.dt = 0.01 #1/60
