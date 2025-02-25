@@ -20,15 +20,42 @@
         - 
 
 
-14.02.2025
-1. Analyse force/torque issue (add a mass to the gripper)
-2. Write section force/torque validation
-3. Analyse why reach pose task does not work on real robot
-4. Write section short explanation of observation plots and the illustrated issue (action scaling section?)
-5. What friction/restitution coefficients to choose - General rules/values?
-6. How to randomize starting pose of the robot? Sample Pose and then use IK to get joint positions?
+
+25.02.2025
+1. Compare contact sensor measurements and body_incoming_wrench with and without gripper with different stiffness values
+2. Change gripper mass to 1 kg and analyse measured forces
+3. Write force/torque validation section
 
 
-17.02.2025
-1. Describe what to write in each section
-2. Start writing
+
+26.02.2025
+1. Write about transfering trained agent for Reach Target Pose Task to real robot and observed issues
+2. Write about changing friction coefficients for Lift Cube Task and the results in simulation
+3. How to randomize starting pose of the robot? Sample Pose and then use IK to get joint positions?
+
+
+Structure Thesis:
+1. What's the problem, research objective/question, limitations?
+2. How are things done in research and industry? Traditional methods and RL in insertion tasks
+3. How the simulation is built, RL algorithms, components of RL framework?
+4. Domain randomization and force/torque required specific attention - validation of their functionality and correctness
+
+Option 1:
+5. Training results in simulation
+6. Real-World performance
+7. Sim-to-real transfer with domain randomization
+8. Discussion
+9. Conclusion
+
+Option 2:
+5. Task-Specific Evaluation and Real-World Performance - For each environment: Simulation results, (Algorithm comparison), Real-World Performance, Impact of Domain Randomization, Discussion
+6. Discussion
+7. Conclusion
+
+Option 3:
+5. Reach Target Pose Task - Simulation and Real-World Performance
+6. Lift Cube Task - Simulation and Real-World Performance
+7. Peg-in-Hole Task - Simulation and Real-World Performance
+8. Impact of Domain Randomization for Sim-to-Real Transfer
+9. Discussion
+10. Conclusion
