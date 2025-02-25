@@ -418,13 +418,13 @@ class CurriculumCfg:
         func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.005, "num_steps": 20000} #15000 #4500
     )
 
-    action_rate_v2 = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.05, "num_steps": 40000} #15000 #4500
-    )
+    # action_rate_v2 = CurrTerm(
+    #     func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.05, "num_steps": 40000} #15000 #4500
+    # )
 
-    action_magnitude_v2 = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.05, "num_steps": 40000} #15000 #4500
-    )
+    # action_magnitude_v2 = CurrTerm(
+    #     func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.05, "num_steps": 40000} #15000 #4500
+    # )
 
     # joint_vel = CurrTerm(
     #     func=mdp.modify_reward_weight, params={"term_name": "joint_vel", "weight": -0.01, "num_steps": 4500}
