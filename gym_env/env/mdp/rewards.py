@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import torch
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 
 from isaaclab.assets import RigidObject
 from isaaclab.managers import SceneEntityCfg
@@ -37,7 +37,7 @@ def quat_rotate_vector(quat: torch.Tensor, vec: torch.Tensor) -> torch.Tensor:
     return rotated_vec
 
 
-def get_current_tcp_pose_w(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg) -> torch.Tensor:
+def get_current_tcp_pose_w(env: ManagerBasedRLEnv, gripper_offset: List[float], robot_cfg: SceneEntityCfg) -> torch.Tensor:
     """
     Compute the current TCP pose in both the base frame and world frame.
     
@@ -58,7 +58,7 @@ def get_current_tcp_pose_w(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg) ->
     ee_pose_w = body_state_w_list[:, robot_cfg.body_ids[0], :7]
 
     # Define the offset from the end-effector frame to the TCP in the end-effector frame
-    offset_ee = torch.tensor([0.0, 0.0, 0.15], device="cuda").unsqueeze(0).repeat(env.scene.num_envs, 1)
+    offset_ee = torch.tensor(gripper_offset, dtype=torch.float32, device="cuda").unsqueeze(0).repeat(env.scene.num_envs, 1)
 
     # Rotate the offset from the end-effector frame to the world frame
     offset_w = quat_rotate_vector(ee_pose_w[:, 3:7], offset_ee)
@@ -69,7 +69,7 @@ def get_current_tcp_pose_w(env: ManagerBasedRLEnv, robot_cfg: SceneEntityCfg) ->
     return tcp_pose_w
 
 
-def position_command_error(env: ManagerBasedRLEnv, command_name: str, asset_cfg: SceneEntityCfg) -> torch.Tensor:
+def position_command_error(env: ManagerBasedRLEnv, gripper_offset: List[float], command_name: str, asset_cfg: SceneEntityCfg) -> torch.Tensor:
     """Penalize tracking of the position error using L2-norm.
 
     The function computes the position error between the desired position (from the command) and the
@@ -85,13 +85,13 @@ def position_command_error(env: ManagerBasedRLEnv, command_name: str, asset_cfg:
 
     # Current TCP position in world frame -> Function accounts for end-effector to TCP offset
     # curr_pos_w = asset.data.body_state_w[:, asset_cfg.body_ids[0], :3]  # type: ignore
-    curr_pos_w = get_current_tcp_pose_w(env, asset_cfg)[:, :3]
+    curr_pos_w = get_current_tcp_pose_w(env, gripper_offset, asset_cfg)[:, :3]
 
     return torch.norm(curr_pos_w - des_pos_w, dim=1)
 
 
 def position_command_error_tanh(
-    env: ManagerBasedRLEnv, std: float, command_name: str, asset_cfg: SceneEntityCfg
+    env: ManagerBasedRLEnv, gripper_offset: List[float], std: float, command_name: str, asset_cfg: SceneEntityCfg
 ) -> torch.Tensor:
     """Reward tracking of the position using the tanh kernel.
 
@@ -108,7 +108,7 @@ def position_command_error_tanh(
 
     # Current TCP position in world frame -> Function accounts for end-effector to TCP offset
     # curr_pos_w = asset.data.body_state_w[:, asset_cfg.body_ids[0], :3]  # type: ignore
-    curr_pos_w = get_current_tcp_pose_w(env, asset_cfg)[:, :3]
+    curr_pos_w = get_current_tcp_pose_w(env, gripper_offset, asset_cfg)[:, :3]
 
     distance = torch.norm(curr_pos_w - des_pos_w, dim=1)
     return 1 - torch.tanh(distance / std)
