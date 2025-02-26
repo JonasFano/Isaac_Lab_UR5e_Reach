@@ -14,7 +14,8 @@ from scipy.spatial.transform import Rotation as R
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc"
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v2"
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v3"
-filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v4"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v4"
+filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000"
 
 
 
@@ -73,7 +74,7 @@ tcp_pose_error = pose_command.values - tcp_pose.values
 tcp_pose_error = pd.DataFrame(tcp_pose_error, columns=[col.replace("tcp_pose", "tcp_pose_error") for col in tcp_pose.columns], index=data.index)
 
 amount = min(3, len(tcp_pose.columns))  # Ensure we only use available columns
-save = True # False True
+save = False # False True
 
 # Function to create and save individual plots
 def create_and_save_plot(y_data, amount, title, filename):

@@ -13,7 +13,7 @@ parameters:
     value: 2048
 
   n_timesteps: # iteration * n_steps * nenvs: 400 * 64 * 8192 = 209715200
-    value: 262144000 # 131072000 # 65536000 # 91750400 # 98304000
+    value: 131072000 # 262144000 # 131072000 # 65536000 # 91750400 # 98304000
 
   policy:
     value: 'MlpPolicy'

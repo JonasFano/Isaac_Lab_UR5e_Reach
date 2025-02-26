@@ -21,6 +21,8 @@ print("Connected to Receive Interface")
 
 # Load the pre-trained model
 checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v2/j90cbcg2/model.zip"
+# checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000/apyblhie/model.zip"
+
 print(f"Loading checkpoint from: {checkpoint_path}")
 agent = PPO.load(checkpoint_path)
 

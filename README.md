@@ -3,9 +3,9 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
 
 
 
-###########################
-# Rel IK Relative Control #
-###########################
+#######################
+# Relative IK Control #
+#######################
 
 # Stable-baselines3 - UR5e
     source isaaclab/bin/activate
@@ -102,14 +102,16 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_save_observations.py --task UR5e-Reach-Pose-IK --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000/apyblhie/model.zip
 
 
-### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000_v2: Actuator stiffness: 800000 - Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01 - Penalty for action rate and action magnitude - Penalty weight action rate: -0.01 - Penalty weight action magnitude: -0.01 - num_steps: 20000 - Without second penalty weight adjustment
-    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000/apyblhie/model.zip
-    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_save_observations.py --task UR5e-Reach-Pose-IK --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000/apyblhie/model.zip
+### rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000_v2: Actuator stiffness: 10000000 - Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01 - Penalty for action rate and action magnitude - Penalty weight action rate: -0.01 - Penalty weight action magnitude: -0.01 - num_steps: 20000 - Without second penalty weight adjustment
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint 
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_save_observations.py --task UR5e-Reach-Pose-IK --num_envs 1 --checkpoint /
 
 
 
 
-
+#######################
+# Absolute IK Control #
+#######################
 
 ### abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e: Actuator stiffness: 800 - Unoise: 0.0001 - Robot Reset: "position_range" (0.8, 1.2) - Pose Generation: pos_x=(-0.15, 0.15), pos_y=(0.25, 0.5), pos_z=(0.1, 0.4) - Decimation 2 - Dt 0.01 - Penalty for action rate, action magnitude and end-effector acceleration - All penalty weights: -0.005 - num_steps: 20000
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Domain-Rand-Reach-Pose-Abs-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e/36wodo0p/model.zip
@@ -252,6 +254,7 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
 
 
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000 config_sb3_ppo.yaml
+    wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000_v2 config_sb3_ppo.yaml
     
 
 # REL IK UR5e Wandb PPO with domain randomization
