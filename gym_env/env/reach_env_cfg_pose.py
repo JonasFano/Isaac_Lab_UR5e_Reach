@@ -156,7 +156,7 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                 #     "joint_left": 500.0,
                 #     "joint_right": 500.0,
                 # }
-                ################ Stiffness 800000 ##############
+                ############### Stiffness 800000 ###############
                 stiffness={
                     "shoulder_pan_joint": 800000.0,
                     "shoulder_lift_joint": 800000.0,
@@ -432,11 +432,11 @@ class CurriculumCfg:
     """Curriculum terms for the MDP."""
 
     action_rate = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.005, "num_steps": 20000} #15000 #4500
+        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.01, "num_steps": 20000} #15000 #4500
     )
 
     action_magnitude = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.005, "num_steps": 20000} #15000 #4500
+        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.01, "num_steps": 20000} #15000 #4500
     )
 
     # action_rate_v2 = CurrTerm(
@@ -480,7 +480,7 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
     def __post_init__(self):
         """Post initialization."""
         # general settings
-        self.decimation = 2 # 50 # 2
+        self.decimation = 2 # 4 # 50 # 2
         self.episode_length_s = 15.0
         # simulation settings
         self.sim.dt = 0.01 #1/60

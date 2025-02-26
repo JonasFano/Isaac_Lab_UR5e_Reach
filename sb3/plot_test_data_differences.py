@@ -8,14 +8,14 @@ from scipy.spatial.transform import Rotation as R
 # csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_ur5e_with_unoise.csv"
 # csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_1.csv"
 
-# filename = "observations_ur5e_without_unoise"
-# filename = "observations_ur5e_decimation_4"
-# filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_01"
-# filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_001"
-# filename = "observations_ur5e_scale_0_1_penalized_ee_acc_0_005"
-# filename = "observations_ur5e_scale_0_1_penalized_joint_vel_0_001"
-# filename = "observations_ur5e_scale_0_1_penalized_joint_vel_and_ee_acc_0_001"
-filename = "observations_ur3e_scale_0_04_penalized_ee_acc_0_01"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_decimation_4"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_penalize_joint_vel"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_joint_vel"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v2"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v3"
+filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v4"
+
 
 
 csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/" + filename + ".csv"

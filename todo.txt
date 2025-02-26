@@ -34,6 +34,13 @@
 3. How to randomize starting pose of the robot? Sample Pose and then use IK to get joint positions?
 
 
+
+1. Transfer model to robot 
+2. Check which stiffness has the best result when turning around world frame x axis
+3. Check force for high stiffness
+
+
+
 Structure Thesis:
 1. What's the problem, research objective/question, limitations?
 2. How are things done in research and industry? Traditional methods and RL in insertion tasks

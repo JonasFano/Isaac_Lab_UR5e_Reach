@@ -20,8 +20,7 @@ rtde_r = rtde_receive.RTDEReceiveInterface(ROBOT_IP)
 print("Connected to Receive Interface")
 
 # Load the pre-trained model
-# checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v2/j90cbcg2/model.zip"
-checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-Abs-IK/2024-12-07_21-18-23/model.zip"
+checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v2/j90cbcg2/model.zip"
 print(f"Loading checkpoint from: {checkpoint_path}")
 agent = PPO.load(checkpoint_path)
 
@@ -33,6 +32,7 @@ save = False # True # False
 
 # 180-degree rotation around Z-axis
 ROT_180_Z = R.from_euler('z', 180, degrees=True)
+prev_axis_angle = None  # Store the previous axis-angle value globally
 
 def save_observations_to_csv(file_path, timestep, tcp_pose, target_pose, last_action):
     """Save TCP pose, target pose, and last action to a CSV file."""
@@ -86,60 +86,80 @@ def sample_random_pose():
 
     # Convert Roll-Pitch-Yaw to Quaternion [w, x, y, z] format
     r = R.from_euler("xyz", [roll, pitch, yaw], degrees=False)
-    quat = r.as_quat()  # Default format is [x, y, z, w]
+    quat_wxyz = r.as_quat(scalar_first=True)  # Default format is [x, y, z, w]
 
-    # Reorder quaternion to [w, x, y, z] and normalize
-    quat_wxyz = np.array([quat[3], quat[0], quat[1], quat[2]])
+    # # Ensure quaternion sign consistency
+    # if quat_wxyz[0] < 0:
+    #     quat_wxyz *= -1  # Flip quaternion if w-component is negative
+
+    # Normalize
     quat_wxyz /= np.linalg.norm(quat_wxyz)
 
     return np.array([pos_x, pos_y, pos_z, *quat_wxyz])
 
 
-prev_axis_angle = None  # Store the previous axis-angle value globally
-
 def normalize_axis_angle(axis_angle):
     """Ensure a stable axis-angle representation by enforcing a consistent sign convention."""
-    global prev_axis_angle  # Keep track of the previous axis-angle
-    
+    global prev_axis_angle  # Track the previous axis-angle
+
     norm = np.linalg.norm(axis_angle)
 
     # If rotation is near 180 degrees, ensure sign consistency
     if norm > np.pi:
         axis_angle *= -1  # Flip to maintain consistency
 
-    # Enforce continuity with previous frame to prevent flipping
-    if prev_axis_angle is None:
-        axis_angle *= -1
-    elif prev_axis_angle is not None and np.dot(prev_axis_angle, axis_angle) < 0:
+    # Ensure continuity with previous frames to prevent flipping
+    if prev_axis_angle is not None and np.dot(prev_axis_angle, axis_angle) < 0:
         axis_angle *= -1  # Flip to maintain smooth transitions
 
     prev_axis_angle = axis_angle.copy()  # Store for next iteration
-
     return axis_angle
 
 
+def axis_angle_to_quaternion(axis_angle):
+    """
+    Convert a single axis-angle representation to a quaternion (w, x, y, z),
+    ensuring a consistent sign convention to prevent flipping.
+    """
+    global prev_quaternion  # Track the previous quaternion for continuity
+
+    # Convert axis-angle to quaternion
+    quat_wxyz = R.from_rotvec(axis_angle).as_quat(scalar_first=True)  # Output format: [w, x, y, z]
+
+    # Ensure quaternion continuity (prevent sign flips)
+    if prev_quaternion is not None and np.dot(quat_wxyz, prev_quaternion) < 0:
+        quat_wxyz *= -1  # Flip quaternion to maintain consistency
+
+    prev_quaternion = quat_wxyz.copy()  # Store for next iteration
+
+    return quat_wxyz
 
 
-# Returns the actual TCP received from the robot in [X, Y, Z] + Quaternion in [w, x, y, z]  and apply a 180-degree Z-axis rotation
+# Returns the actual TCP received from the robot in [X, Y, Z] + Quaternion in [w, x, y, z]
+# and applies a 180-degree Z-axis rotation
 def get_actual_TCP_Pose():
     tcp_pose = np.array(rtde_r.getActualTCPPose())  # [x, y, z, rx, ry, rz]
-    tcp_pose[3:] = normalize_axis_angle(tcp_pose[3:])  # Ensure stable axis-angle representation
+    
+    # Ensure axis-angle formatting before converting to quaternion
+    tcp_pose[3:] = normalize_axis_angle(tcp_pose[3:])  
 
-    pos = np.array(tcp_pose[:3])  # [X, Y, Z]
-    axis_angle = np.array(tcp_pose[3:])  # [RX, RY, RZ]
+    pos = tcp_pose[:3]  # [X, Y, Z]
+    axis_angle = [tcp_pose[3:]]  # Convert single axis-angle to list for processing
 
-    # Convert Axis-Angle to Quaternion
-    rot = R.from_rotvec(axis_angle)
-    quat_wxyz = rot.as_quat()
+    # Convert Axis-Angle to Quaternion with proper formatting
+    quat_wxyz = axis_angle_to_quaternion(axis_angle)[0]  # Extract single quaternion
 
-    # print("Euler Angles: ", rot.as_euler("xyz"))
-
-    # Apply 180-degree rotation around Z-axis (for orientation)
+    # Apply 180-degree rotation around Z-axis
     rotated_quat = ROT_180_Z * R.from_quat(quat_wxyz)
     rotated_quat_wxyz = rotated_quat.as_quat()
 
+    # # Ensure consistency after rotation
+    # if rotated_quat_wxyz[0] < 0:
+    #     rotated_quat_wxyz *= -1
+
     # Apply 180-degree rotation to the position
-    rotated_pos = ROT_180_Z.apply(pos)  # Rotate the position using the same transform
+    rotated_pos = ROT_180_Z.apply(pos)
+
     return np.concatenate((rotated_pos, rotated_quat_wxyz), axis=0)
 
 
