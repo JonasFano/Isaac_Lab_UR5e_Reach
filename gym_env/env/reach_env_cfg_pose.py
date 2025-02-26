@@ -135,24 +135,45 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                 #     "joint_left": 500.0,
                 #     "joint_right": 500.0,
                 # }
-                ############### Stiffness 800 ###############
+                # ############### Stiffness 800 ###############
+                # stiffness={
+                #     "shoulder_pan_joint": 800.0,
+                #     "shoulder_lift_joint": 800.0,
+                #     "elbow_joint": 800.0,
+                #     "wrist_1_joint": 800.0,
+                #     "wrist_2_joint": 800.0,
+                #     "wrist_3_joint": 800.0,
+                #     "joint_left": 3000.0,
+                #     "joint_right": 3000.0,
+                # },
+                # damping={
+                #     "shoulder_pan_joint": 108.82,
+                #     "shoulder_lift_joint": 163.89,
+                #     "elbow_joint": 86.35,
+                #     "wrist_1_joint": 62.46,
+                #     "wrist_2_joint": 62.46,
+                #     "wrist_3_joint": 24.53,
+                #     "joint_left": 500.0,
+                #     "joint_right": 500.0,
+                # }
+                ################ Stiffness 800000 ##############
                 stiffness={
-                    "shoulder_pan_joint": 800.0,
-                    "shoulder_lift_joint": 800.0,
-                    "elbow_joint": 800.0,
-                    "wrist_1_joint": 800.0,
-                    "wrist_2_joint": 800.0,
-                    "wrist_3_joint": 800.0,
+                    "shoulder_pan_joint": 800000.0,
+                    "shoulder_lift_joint": 800000.0,
+                    "elbow_joint": 800000.0,
+                    "wrist_1_joint": 800000.0,
+                    "wrist_2_joint": 800000.0,
+                    "wrist_3_joint": 800000.0,
                     "joint_left": 3000.0,
                     "joint_right": 3000.0,
                 },
                 damping={
-                    "shoulder_pan_joint": 108.82,
-                    "shoulder_lift_joint": 163.89,
-                    "elbow_joint": 86.35,
-                    "wrist_1_joint": 62.46,
-                    "wrist_2_joint": 62.46,
-                    "wrist_3_joint": 24.53,
+                    "shoulder_pan_joint": 3441,
+                    "shoulder_lift_joint": 5185,
+                    "elbow_joint": 2732,
+                    "wrist_1_joint": 1977,
+                    "wrist_2_joint": 1977,
+                    "wrist_3_joint": 776,
                     "joint_left": 500.0,
                     "joint_right": 500.0,
                 }
@@ -459,7 +480,7 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
     def __post_init__(self):
         """Post initialization."""
         # general settings
-        self.decimation = 50
+        self.decimation = 2 # 50 # 2
         self.episode_length_s = 15.0
         # simulation settings
         self.sim.dt = 0.01 #1/60
