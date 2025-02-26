@@ -179,24 +179,24 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                 # }
                 ############### Stiffness 100000000 ###############
                 stiffness = {
-                    "shoulder_pan_joint": 100000000.0,
-                    "shoulder_lift_joint": 100000000.0,
-                    "elbow_joint": 100000000.0,
-                    "wrist_1_joint": 100000000.0,
-                    "wrist_2_joint": 100000000.0,
-                    "wrist_3_joint": 100000000.0,
-                    "joint_left": 3000.0,
-                    "joint_right": 3000.0,
+                    "shoulder_pan_joint": 10000000.0,
+                    "shoulder_lift_joint": 10000000.0,
+                    "elbow_joint": 10000000.0,
+                    "wrist_1_joint": 10000000.0,
+                    "wrist_2_joint": 10000000.0,
+                    "wrist_3_joint": 10000000.0,
+                    "joint_left": 10000000.0,
+                    "joint_right": 10000000.0,
                 },
                 damping = {
-                    "shoulder_pan_joint": 38475.00,
-                    "shoulder_lift_joint": 57975.00,
-                    "elbow_joint": 30522.00,
-                    "wrist_1_joint": 22108.00,
-                    "wrist_2_joint": 22108.00,
-                    "wrist_3_joint": 8681.00,
-                    "joint_left": 500.0,
-                    "joint_right": 500.0,
+                    "shoulder_pan_joint": 12166.86,
+                    "shoulder_lift_joint": 18333.30,
+                    "elbow_joint": 9651.90,
+                    "wrist_1_joint": 6991.16,
+                    "wrist_2_joint": 6991.16,
+                    "wrist_3_joint": 2752.97,
+                    "joint_left": 50000.0,
+                    "joint_right": 50000.0,
                 }
             )
         }
@@ -423,9 +423,9 @@ class RewardsCfg:
 
 
     # action penalty
-    action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-4)
+    action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=-1e-4)
 
-    action_magnitude = RewTerm(func=mdp.action_l2, weight=-1e-4)
+    action_magnitude = RewTerm(func=mdp.action_l2_position, weight=-1e-4)
 
     # joint_vel = RewTerm(
     #     func=mdp.joint_vel_l2,

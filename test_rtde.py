@@ -34,25 +34,22 @@ def sample_random_pose():
     # pitch = np.pi  # End-effector pointing down
     # yaw = random.uniform(-np.pi/2, np.pi/2) # 90 degrees
 
-    pos_x = 0.05
-    pos_y = -0.3
-    pos_z = 0.3
+    pos_x = random.uniform(-0.2, 0.2)
+    pos_y = random.uniform(-0.4, -0.3)
+    # pos_y = random.uniform(0.3, 0.4)
+    pos_z = random.uniform(0.2, 0.5)
     roll = 0.0
     pitch = np.pi
-    yaw = np.pi #np.pi/4
+    yaw = np.pi
+
+    # Convert Roll-Pitch-Yaw to Quaternion [w, x, y, z] format
+    r = R.from_euler("xyz", [roll, pitch, yaw], degrees=False)
+    quat_wxyz = r.as_quat(scalar_first=True)  # Default format is [x, y, z, w]
+    # Normalize
+    quat_wxyz /= np.linalg.norm(quat_wxyz)
 
     r = R.from_euler('xyz', [roll, pitch, yaw], degrees=False)  # RPY to rotation vector
     rx, ry, rz = r.as_rotvec()
-
-    # Convert Roll-Pitch-Yaw to Quaternion [w, x, y, z] format
-    r = R.from_euler('xyz', [roll, pitch, yaw], degrees=False)
-    quat = r.as_quat()  # Default format is [x, y, z, w]
-
-    # Reorder quaternion to [w, x, y, z]
-    quat_wxyz = np.array([quat[3], quat[0], quat[1], quat[2]])
-
-    # Normalize the quaternion
-    quat_wxyz /= np.linalg.norm(quat_wxyz)
 
     print(quat_wxyz)
 
@@ -94,18 +91,18 @@ def main():
 
     print("Home Pose: ", get_actual_TCP_Pose())
 
-    # while True:
-    #     target_pose = sample_random_pose()  # Generate a random target pose
+    while True:
+        target_pose = sample_random_pose()  # Generate a random target pose
 
-    #     print("Target Pose: ", target_pose)
+        print("Target Pose: ", target_pose)
 
-    #     speed = 0.7
-    #     acceleration = 0.5
-    #     if rtde_c.moveL(target_pose, speed=speed, acceleration=acceleration):
-    #         print("End Pose: ", get_actual_TCP_Pose())
-    #         return
-    #         move_robot_to_home()
-    #         print("Home Pose: ", get_actual_TCP_Pose())
+        speed = 0.7
+        acceleration = 0.5
+        if rtde_c.moveL(target_pose, speed=speed, acceleration=acceleration):
+            print("End Pose: ", get_actual_TCP_Pose())
+            
+            move_robot_to_home()
+            print("Home Pose: ", get_actual_TCP_Pose())
 
 
 # Run the main function

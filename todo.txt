@@ -21,23 +21,18 @@
 
 
 
-25.02.2025
-1. Compare contact sensor measurements and body_incoming_wrench with and without gripper with different stiffness values
-2. Change gripper mass to 1 kg and analyse measured forces
-3. Write force/torque validation section
+27.02.2025
+1. Transfer model to robot
+2. Change friction and check existing model performance
+
+2. Write force/torque validation section
+3. Write about transfering trained agent for Reach Target Pose Task to real robot and observed issues
+4. Write about changing friction coefficients for Lift Cube Task and the results in simulation
+5. How to randomize starting pose of the robot? Sample Pose and then use IK to get joint positions?
 
 
 
-26.02.2025
-1. Write about transfering trained agent for Reach Target Pose Task to real robot and observed issues
-2. Write about changing friction coefficients for Lift Cube Task and the results in simulation
-3. How to randomize starting pose of the robot? Sample Pose and then use IK to get joint positions?
 
-
-
-1. Transfer model to robot 
-2. Check which stiffness has the best result when turning around world frame x axis
-3. Check force for high stiffness
 
 
 
