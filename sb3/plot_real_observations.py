@@ -17,10 +17,18 @@ import os
 # filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_26_02_v2.csv'
 # filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_26_02_v3.csv'
 # filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_26_02_v4.csv'
-filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose.csv'
+# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose.csv'
+# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_v2.csv'
 
+# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3_scale_0_005_predefined_poses.csv'
+# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_scale_0_005_predefined_poses.csv'
 
-
+# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_scale_0_005_predefined_poses_v3.csv'
+# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_scale_0_005_predefined_poses_v4.csv'
+# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_scale_0_005_predefined_poses_v5.csv'
+filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_scale_0_002_random_poses.csv'
+# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_decaying_scale_random_poses.csv'
+# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_decaying_scale_random_poses_v2.csv'
 
 # Read data from a CSV file
 df = pd.read_csv(filepath)

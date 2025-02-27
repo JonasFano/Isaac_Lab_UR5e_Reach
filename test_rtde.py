@@ -52,6 +52,15 @@ def sample_random_pose():
     rx, ry, rz = r.as_rotvec()
 
     print(quat_wxyz)
+    
+    # pose = [0.19222614, -0.41300917, 0.30177329, -0.07325869, -0.11206413,  0.9897288, 0.05011681]
+    # pose = [0.2, -0.4, 0.3, 0.0, 0.0, 1.0, 0.0]
+    pose = [0.2, -0.4, 0.3, 0.0, 1.0, 0.0, 0.0]
+    rot = R.from_quat(pose[3:], scalar_first=True)
+    rx, ry, rz = rot.as_rotvec()
+    pos_x = pose[0]
+    pos_y = pose[1]
+    pos_z = pose[2]
 
     return [pos_x, pos_y, pos_z, rx, ry, rz]
 
@@ -75,7 +84,7 @@ def get_actual_TCP_Pose():
     quat_wxyz /= np.linalg.norm(quat_wxyz)
 
     # Convert back from quaternion to axis-angle
-    reconverted_rot = R.from_quat([quat_wxyz[1], quat_wxyz[2], quat_wxyz[3], quat_wxyz[0]])
+    reconverted_rot = R.from_quat(quat_wxyz, scalar_first=True)
     reconverted_axis_angle = reconverted_rot.as_rotvec()
 
     # Print the transformed data
@@ -96,13 +105,13 @@ def main():
 
         print("Target Pose: ", target_pose)
 
-        speed = 0.7
+        speed = 0.5
         acceleration = 0.5
         if rtde_c.moveL(target_pose, speed=speed, acceleration=acceleration):
             print("End Pose: ", get_actual_TCP_Pose())
             
-            move_robot_to_home()
-            print("Home Pose: ", get_actual_TCP_Pose())
+            # move_robot_to_home()
+            # print("Home Pose: ", get_actual_TCP_Pose())
 
 
 # Run the main function
