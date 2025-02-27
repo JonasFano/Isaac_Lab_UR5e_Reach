@@ -21,7 +21,8 @@ print("Connected to Receive Interface")
 
 # Load the pre-trained model
 # checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v2/j90cbcg2/model.zip"
-checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000/apyblhie/model.zip"
+# checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000/apyblhie/model.zip"
+checkpoint_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2/su6rb80q/model.zip"
 
 print(f"Loading checkpoint from: {checkpoint_path}")
 agent = PPO.load(checkpoint_path)
@@ -101,6 +102,7 @@ def sample_random_pose():
 
 def sample_predefined_pose(current_index):
     predefined_poses = np.array([
+        [-0.2, 0.4, 0.3, 0.0, 1.0, 0.0, 0.0],
         [-0.15, 0.25, 0.1, 0.0, 1.0, 0.0, 0.0],  # Pose 1
         [0.1,  0.5,  0.4, 0.0, 1.0, 0.0, 0.0],  # Pose 2
         [-0.1, 0.35, 0.2, 0.0, 1.0, 0.0, 0.0],  # Pose 3
@@ -133,9 +135,9 @@ def axis_angle_to_quaternion(axis_angle, prev_quaternion):
     # Convert axis-angle to quaternion
     quat_wxyz = R.from_rotvec(axis_angle).as_quat(scalar_first=True)[0]  # Output format: [w, x, y, z]
 
-    # Ensure quaternion continuity (prevent sign flips)
+    # Ensure quaternion continuity (prevent sign flips based on vector part)
     if prev_quaternion is not None:
-        if np.dot(quat_wxyz, prev_quaternion) < 0:
+        if np.dot(quat_wxyz[1:], prev_quaternion[1:]) < 0:  # Use only vector part [x, y, z]
             quat_wxyz *= -1  # Flip quaternion to maintain consistency
     # else:
     #     quat_wxyz *= -1

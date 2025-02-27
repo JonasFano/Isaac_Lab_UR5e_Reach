@@ -119,10 +119,11 @@ def main():
         with torch.inference_mode():
             # agent stepping
             actions, _ = agent.predict(obs, deterministic=True)
+
+            save_observations_to_csv(csv_path, timestep, obs)
             # env stepping
             obs, _, _, _ = env.step(actions)
             # print(timestep)
-            save_observations_to_csv(csv_path, timestep, obs)
             timestep += 1
 
             if timestep > 748: # 373: # 748:

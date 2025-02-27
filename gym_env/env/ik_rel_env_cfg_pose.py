@@ -25,7 +25,7 @@ class RelIK_UR5e_ReachEnvCfg(reach_env_cfg_pose.UR5e_ReachEnvCfg):
                     prim_path="{ENV_REGEX_NS}/robot/wrist_3_link",
                     name="end_effector",
                     offset=OffsetCfg(
-                        pos=[0.0, 0.0, 0.15],
+                        pos=[0.0, 0.0, 0.0],
                     ),
                 ),
             ],
@@ -39,7 +39,7 @@ class RelIK_UR5e_ReachEnvCfg(reach_env_cfg_pose.UR5e_ReachEnvCfg):
             joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
             body_name="wrist_3_link",
             controller=DifferentialIKControllerCfg(command_type="pose", use_relative_mode=True, ik_method="dls"), # DifferentialIKControllerCfg(command_type="pose", use_relative_mode=True, ik_method="dls"),
-            body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.0, 0.0, 0.15]),
+            body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.0, 0.0, 0.15]), #0.15
             scale=0.05,
             debug_vis=False  # Enable debug visualization, set to False for production
         )
