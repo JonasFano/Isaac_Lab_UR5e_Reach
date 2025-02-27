@@ -796,7 +796,7 @@ class RewardsCfg:
     # action penalty
     action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=-1e-4)
 
-    action_magnitude = RewTerm(func=mdp.action_l2_position, weight=-1e-4)
+    # action_magnitude = RewTerm(func=mdp.action_l2_position, weight=-1e-4)
 
     # joint_vel = RewTerm(
     #     func=mdp.joint_vel_l2,
@@ -827,9 +827,9 @@ class CurriculumCfg:
         func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.05, "num_steps": 20000} #15000 #4500
     )
 
-    action_magnitude = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.05, "num_steps": 20000} #15000 #4500
-    )
+    # action_magnitude = CurrTerm(
+    #     func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.05, "num_steps": 20000} #15000 #4500
+    # )
 
     # action_rate_v2 = CurrTerm(
     #     func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.05, "num_steps": 40000} #15000 #4500
@@ -844,7 +844,7 @@ class CurriculumCfg:
     # )
 
     ee_acc = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": -0.05, "num_steps": 20000} #4500
+        func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": -0.01, "num_steps": 20000} #4500
     )
 
 
