@@ -804,6 +804,8 @@ class RewardsCfg:
     #     params={"asset_cfg": SceneEntityCfg("robot")},
     # )
 
+    # action_clip = RewTerm(func=mdp.action_clip, weight=-1e-4)
+
     ee_acc = RewTerm(
         func=mdp.body_lin_acc_l2,
         weight=-1e-4,
@@ -844,7 +846,7 @@ class CurriculumCfg:
     # )
 
     ee_acc = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": -0.005, "num_steps": 20000} #4500
+        func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": -0.001, "num_steps": 20000} #4500
     )
 
 
