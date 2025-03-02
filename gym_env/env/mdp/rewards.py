@@ -158,6 +158,6 @@ def action_clip(env: ManagerBasedRLEnv, pos_threshold: float,  quat_threshold: f
     # Return 1 if any condition is met, otherwise return 0
     reward = torch.where(pos_exceeds | quat_exceeds, torch.tensor(1.0, device=env.action_manager.action.device), torch.tensor(0.0, device=env.action_manager.action.device))
 
-    print(reward)
+    # print(reward)
 
     return reward
