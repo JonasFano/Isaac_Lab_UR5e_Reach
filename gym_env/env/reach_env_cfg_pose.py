@@ -806,7 +806,7 @@ class RewardsCfg:
 
     action_clip = RewTerm(
         func=mdp.action_clip, 
-        weight=-0.1,
+        weight=-0.05,
         params={"pos_threshold": 0.05, "quat_threshold": 0.08})
 
     # ee_acc = RewTerm(
