@@ -19,8 +19,8 @@ from scipy.spatial.transform import Rotation as R
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000"
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2"
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3"
-filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v4"
-
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v4"
+filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3_without_gripper_different_first_pose"
 
 csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/" + filename + ".csv"
 
@@ -151,5 +151,5 @@ def create_and_save_tripple_comparison_plot(y_data1, y_data2, y_data3, amount, t
 
 
 # Only visualize TCP Displacement vs Actions
-create_and_save_comparison_plot(tcp_displacement, actions, 1, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
+create_and_save_comparison_plot(tcp_displacement, actions, 7, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
 
