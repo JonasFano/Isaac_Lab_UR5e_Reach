@@ -30,7 +30,7 @@ agent = PPO.load(checkpoint_path)
 
 # Set CSV save directory
 save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
-csv_path = os.path.join(save_dir, "real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_decaying_scale_random_poses_v2.csv")
+csv_path = os.path.join(save_dir, "real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_random_poses.csv")
 
 save = False # True # False
 
@@ -84,8 +84,9 @@ def sample_random_pose():
     # pos_y = random.uniform(0.3, 0.4)
     pos_z = random.uniform(0.2, 0.5)
     roll = 0.0
-    pitch = np.pi  # End-effector pointing down
-    yaw = random.uniform(-np.pi/2, np.pi/2) # 90 degrees
+    pitch = np.pi  # End-effector z-axis pointing down
+    yaw = random.uniform(-4/3*np.pi, -2/3*np.pi)
+    # yaw = random.uniform(-np.pi, -np.pi/2) # 90 degrees
     
     # pos_x = -0.2
     # pos_y = 0.4
@@ -114,14 +115,18 @@ def sample_random_pose():
 def sample_predefined_pose(current_index):
     predefined_poses = np.array([
         [0.2, -0.4, 0.3, 0.0, 1.0, 0.0, 0.0],
-        [0.15, -0.25, 0.1, 0.0, 1.0, 0.0, 0.0],  # Pose 1
+        [0.15, -0.3, 0.15, 0.0, 1.0, 0.0, 0.0],  # Pose 1
         [-0.1,  -0.5,  0.4, 0.0, 1.0, 0.0, 0.0],  # Pose 2
-        [-0.1, 0.35, 0.2, 0.0, 1.0, 0.0, 0.0],  # Pose 3
     ])
     target_pose = predefined_poses[current_index]
 
     pos = target_pose[:3]  # [X, Y, Z]
     quat_wxyz = target_pose[3:]  # Quat in [W X Y Z]
+
+    # Print axis-angle orientation of predefined poses
+    # r = R.from_quat(quat_wxyz, scalar_first=True)
+    # axis_angle = r.as_rotvec()
+    # print(axis_angle)
 
     rotated_quat = R.from_quat(quat_wxyz, scalar_first=True) * ROT_180_Z
     rotated_quat_wxyz = rotated_quat.as_quat(scalar_first=True)
@@ -191,6 +196,10 @@ def get_actual_TCP_Pose(prev_axis_angle, prev_quaternion):
     # Apply 180-degree rotation to the position
     rotated_pos = ROT_180_Z.apply(pos)
 
+    # rotated_quat_wxyz = np.array([0.0, 0.0, -1.0, 0.0]) # For pos only control
+
+    # print(np.concatenate((rotated_pos, rotated_quat_wxyz), axis=0))
+
     return np.concatenate((rotated_pos, rotated_quat_wxyz), axis=0), prev_axis_angle, prev_quaternion
 
 
@@ -202,34 +211,74 @@ def get_robot_state(tcp_pose, target_pose, previous_action):
     return np.concatenate((tcp_pose, target_pose, previous_action), axis=0)
 
 
-# Function to send actions to the robot
-def execute_action_on_real_robot(action, tcp_pose):
+def enforce_axis_angle_continuity(new_rotvec, prev_rotvec):
+    """Ensure smooth transitions in axis-angle representation by preventing sudden sign flips."""
+    if prev_rotvec is None:
+        return new_rotvec  # No previous value, nothing to compare against
+
+    # Check overall flip using dot product
+    if np.dot(new_rotvec, prev_rotvec) < 0:  
+        new_rotvec *= -1  # Flip the entire vector
+
+    # # Component-wise check to prevent mismatches (new method)
+    # for i in range(3):
+    #     if abs(new_rotvec[i] - prev_rotvec[i]) > np.pi:  # Detect sudden sign flip
+    #         new_rotvec[i] *= -1  # Flip only the affected component
+
+    return new_rotvec
+
+def execute_action_on_real_robot(action, tcp_pose, prev_rotvec, prev_rotvec_2):
     """Send a TCP displacement action to the robot, ensuring it is rotated back 180 degrees before execution."""
     
-    # print(tcp_pose)
-    # Convert input tcp_pose (3D pos + 4D quaternion) to axis-angle format
-    current_tcp = np.array(tcp_pose[:3])  # Extract position
-    current_rotation = R.from_quat(tcp_pose[3:], scalar_first=True)  # Convert quaternion to rotation object
-    
-    corrected_tcp = np.zeros(6)
-    corrected_tcp[:3] = current_tcp  # Keep position the same
-    corrected_tcp[3:] = current_rotation.as_rotvec()  # Convert to axis-angle
-    
-    # Compute new pose based on action
-    new_tcp = corrected_tcp.copy()
-    new_tcp[:3] += action[:3]  # Apply displacement in the rotated frame
-    
-    displacement_rotation = R.from_rotvec(action[3:])
-    new_rotation = current_rotation * displacement_rotation
-    
-    new_tcp[3:] = new_rotation.as_rotvec()
-    
-    # Rotate back 180 degrees around Z-axis for both position and orientation before sending to the robot
-    final_rotation = ROT_180_Z.inv() * R.from_rotvec(new_tcp[3:])
-    new_tcp[3:] = final_rotation.as_rotvec()
+    # Extract current position and rotation
+    current_tcp = np.array(tcp_pose[:3])  # Position [x, y, z]
+    current_rotation = R.from_quat(tcp_pose[3:], scalar_first=True)  # Quaternion rotation
+
+    # Compute new position
+    new_tcp = np.zeros(6)  # 3 for position, 3 for axis-angle
+    new_tcp[:3] = current_tcp + action[:3]  # Apply position displacement
+
+    # Compute new rotation in **quaternion space**
+    displacement_rotation = R.from_rotvec(action[3:])  # Convert action rotation to quaternion
+    new_rotation = current_rotation * displacement_rotation  # Apply rotation
+
+
+    new_rotation_rotvec = new_rotation.as_rotvec()
+
+    # **Ensure axis-angle continuity (new robust method)**
+    new_rotation_rotvec = enforce_axis_angle_continuity(new_rotation_rotvec, prev_rotvec_2)
+    prev_rotvec_2 = new_rotation_rotvec.copy()
+
+    new_rotation = R.from_rotvec(new_rotation_rotvec)
+
+    # Apply 180-degree rotation **before converting to axis-angle**
+    final_rotation = ROT_180_Z.inv() * new_rotation  # Rotate quaternion back
+
+    # Convert to axis-angle **only at the last step**
+    new_rotvec = final_rotation.as_rotvec()
+    # new_rotvec = new_rotation.as_rotvec()
+
+    # **Ensure axis-angle continuity (new robust method)**
+    new_rotvec = enforce_axis_angle_continuity(new_rotvec, prev_rotvec)
+
+    # Store updated axis-angle for next iteration
+    prev_rotvec = new_rotvec.copy()
+
+    new_tcp[3:] = new_rotvec  # Store final axis-angle rotation
     new_tcp[:3] = ROT_180_Z.inv().apply(new_tcp[:3])  # Rotate position back
-    
-    rtde_c.moveL(new_tcp.tolist(), speed=0.2, acceleration=0.5)
+
+    # print("Final TCP Pose Sent to Robot:", new_tcp)
+
+    # print(new_tcp)
+
+    # Send movement command to robot
+    # rtde_c.moveL(new_tcp.tolist(), speed=0.2, acceleration=0.2)
+    rtde_c.moveL(new_tcp.tolist(), speed=1.0, acceleration=1.0)
+
+
+    return prev_rotvec, prev_rotvec_2  # Return updated axis-angle for the next iteration
+
+
 
 
 # Function to compute quaternion distance
@@ -245,15 +294,15 @@ def run_on_real_robot():
     previous_action = np.zeros(6)
     prev_axis_angle = None  # Store the previous axis-angle value
     prev_quaternion = None
+    prev_rotvec = None
+    prev_rotvec_2 = None
     current_index = 0
 
     target_pose = sample_random_pose()
     # target_pose = sample_predefined_pose(current_index)
-    # current_index += 1
     print(f"Target Pose: {target_pose}")
 
     timestep = 0  # Initialize timestep counter
-    decay_timestep = 0
 
     while True:
         tcp_pose, prev_axis_angle, prev_quaternion = get_actual_TCP_Pose(prev_axis_angle, prev_quaternion)
@@ -264,12 +313,8 @@ def run_on_real_robot():
 
         with torch.inference_mode():
             action, _ = agent.predict(obs, deterministic=True)
-            # action *= 0.002
-
-            tunable_decay_steps = 10
-            action_scaling = max(0.00001, 0.025 * max(0, (tunable_decay_steps - decay_timestep)) / tunable_decay_steps)
-            action *= action_scaling
-            print(action)
+            action *= 0.01 # 0.05 0.01 0.001
+            # print(action)
 
 
         if save:
@@ -277,7 +322,7 @@ def run_on_real_robot():
             save_observations_to_csv(csv_path, timestep, tcp_pose, target_pose, previous_action)
 
         previous_action = action  # Save the action
-        execute_action_on_real_robot(action, tcp_pose)  # Send the action to the robot
+        prev_rotvec, prev_rotvec_2 = execute_action_on_real_robot(action, tcp_pose, prev_rotvec, prev_rotvec_2)  # Send the action to the robot
 
         # Check if target position is reached
         position_distance = np.linalg.norm(target_pose[:3] - tcp_pose[:3])
@@ -289,16 +334,19 @@ def run_on_real_robot():
 
         print(f"Position Error: {position_distance}, Orientation Error: {orientation_distance}")
 
-        if position_distance < 0.04 and orientation_distance < 1.0:  # Adjust threshold if needed
+        if position_distance < 0.05 and orientation_distance < 0.04:  # Adjust threshold if needed
+        # if position_distance < 0.054: # For position only control
             print("Target reached!")
             print("Final TCP Pose: ", tcp_pose)
 
-            target_pose = sample_random_pose()
-            decay_timestep = -1
-            # target_pose = sample_predefined_pose(current_index)
-            # current_index += 1
 
-        decay_timestep += 1
+            target_pose = sample_random_pose()
+            # current_index += 1
+            # if current_index == 3:
+            #     return
+            # target_pose = sample_predefined_pose(current_index)
+            print(f"Target Pose: {target_pose}")
+
         timestep += 1  # Increment timestep counter
 
 

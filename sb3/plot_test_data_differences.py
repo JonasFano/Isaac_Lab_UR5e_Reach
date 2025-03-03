@@ -17,10 +17,11 @@ from scipy.spatial.transform import Rotation as R
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v4"
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000"
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2"
+filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2"
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3"
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v4"
-filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3_without_gripper_different_first_pose"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v5"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3_without_gripper_different_first_pose"
 
 csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/" + filename + ".csv"
 
@@ -58,11 +59,36 @@ actions_cols = [col for col in data.columns if "actions" in col]
 
 tcp_pose = data[tcp_pose_cols]
 pose_command = data[pose_command_cols]
-actions = data[actions_cols] * 1.0 # 0.1 # Given in robot base frame
+actions = data[actions_cols] * 0.05 # 0.1 # Given in robot base frame
 
 
-# Compute TCP displacement
-tcp_displacement = tcp_pose.diff().fillna(0)  # Difference between consecutive timesteps
+
+# Convert Quaternion to Axis-Angle before computing displacement
+def quaternion_to_axis_angle(quat):
+    """ Convert a quaternion (x, y, z, w) to an axis-angle representation """
+    r = R.from_quat(quat)
+    axis_angle = r.as_rotvec()  # Returns axis-angle representation
+    return axis_angle
+
+# Extract position (first 3) and quaternion (last 4) separately
+tcp_position = tcp_pose.iloc[:, :3]  # First three columns (XYZ)
+tcp_quaternion = tcp_pose.iloc[:, 3:7]  # Last four columns (Quaternion XYZW)
+
+# Apply the conversion function row-wise to the quaternion columns
+tcp_axis_angle = np.vstack(tcp_quaternion.apply(lambda q: quaternion_to_axis_angle(q.values), axis=1))
+
+# Convert to DataFrame and rename columns
+tcp_axis_angle_df = pd.DataFrame(tcp_axis_angle, columns=["tcp_pose_3", "tcp_pose_4", "tcp_pose_5"], index=tcp_pose.index)
+
+# Reassemble TCP Pose with position + axis-angle
+tcp_pose_transformed = pd.concat([tcp_position, tcp_axis_angle_df], axis=1)
+
+# Compute TCP displacement in transformed space
+tcp_displacement = tcp_pose_transformed.diff().fillna(0)
+
+
+# # Compute TCP displacement
+# tcp_displacement = tcp_pose.diff().fillna(0)  # Difference between consecutive timesteps
 
 # Rename columns to tcp_displacement
 tcp_displacement.columns = [col.replace("tcp_pose", "tcp_displacement") for col in tcp_displacement.columns]
@@ -151,5 +177,6 @@ def create_and_save_tripple_comparison_plot(y_data1, y_data2, y_data3, amount, t
 
 
 # Only visualize TCP Displacement vs Actions
-create_and_save_comparison_plot(tcp_displacement, actions, 7, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
+create_and_save_comparison_plot(tcp_displacement, actions, 3, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
+create_and_save_comparison_plot(tcp_displacement, actions, 6, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
 
