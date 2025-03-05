@@ -794,7 +794,7 @@ class RewardsCfg:
 
 
     # action penalty
-    # action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=-1e-4)
+    action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=-1e-4)
 
     # action_magnitude = RewTerm(func=mdp.action_l2_position, weight=-1e-4)
 
@@ -804,16 +804,16 @@ class RewardsCfg:
     #     params={"asset_cfg": SceneEntityCfg("robot")},
     # )
 
-    action_clip = RewTerm(
-        func=mdp.action_clip, 
-        weight=-0.05,
-        params={"pos_threshold": 1.0, "axis_angle_threshold": 2.0}) # "pos_threshold": 0.05, "axis_angle_threshold": 0.08})
+    # action_clip = RewTerm(
+    #     func=mdp.action_clip, 
+    #     weight=-0.05,
+    #     params={"pos_threshold": 1.0, "axis_angle_threshold": 2.0}) # "pos_threshold": 0.05, "axis_angle_threshold": 0.08})
 
-    # ee_acc = RewTerm(
-    #     func=mdp.body_lin_acc_l2,
-    #     weight=-1e-4,
-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]),}
-    # )
+    ee_acc = RewTerm(
+        func=mdp.body_lin_acc_l2,
+        weight=-1e-4,
+        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]),}
+    )
 
 
 @configclass
@@ -829,7 +829,7 @@ class CurriculumCfg:
     """Curriculum terms for the MDP."""
 
     action_rate = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.05, "num_steps": 20000} #15000 #4500
+        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.01, "num_steps": 20000} #15000 #4500
     )
 
     # action_magnitude = CurrTerm(
@@ -848,9 +848,9 @@ class CurriculumCfg:
     #     func=mdp.modify_reward_weight, params={"term_name": "joint_vel", "weight": -0.01, "num_steps": 4500}
     # )
 
-    # ee_acc = CurrTerm(
-    #     func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": -0.001, "num_steps": 20000} #4500
-    # )
+    ee_acc = CurrTerm(
+        func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": -0.001, "num_steps": 20000} #4500
+    )
 
 
 ##
