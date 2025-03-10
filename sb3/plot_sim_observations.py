@@ -1,11 +1,15 @@
 import plotly.graph_objects as go
 import pandas as pd
+from scipy.spatial.transform import Rotation as R
 import os
+import numpy as np
 
 # filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3_without_gripper.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_different_first_pose.csv"
-filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3_without_gripper_different_first_pose.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_01.csv"
+filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_0025.csv"
+
 
 
 # filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_1.csv"
@@ -14,10 +18,9 @@ filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observat
 # Read data from a CSV file
 df = pd.read_csv(filepath)
 
-max_timesteps = 248
+max_timesteps = 500
 
 if max_timesteps is not None:
-    # Slice to only the first 150 timesteps
     df = df.iloc[:max_timesteps]
 
 # Define colors for X, Y, Z
@@ -46,7 +49,7 @@ fig.update_layout(
 
 output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/real_robot"
 os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
-filename = "tcp_and_target_pose_over_time_real_obs_rotate_rx"
+filename = "tcp_and_target_pose_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper"
 save = False  # False # True
 
 if save:
@@ -88,3 +91,113 @@ if save:
 
 # Show the quaternion figure
 fig_quaternion.show()
+
+
+
+
+
+# Convert quaternion to axis-angle
+def quaternion_to_axis_angle(quat_df):
+    """ Convert quaternion columns to axis-angle representation """
+    quaternions = quat_df.to_numpy()  # Convert to numpy array
+    rotations = R.from_quat(quaternions, scalar_first=True)  # Convert to rotation object
+    return rotations.as_rotvec()  # Convert to axis-angle (rotational vector)
+
+def enforce_axis_angle_continuity(rotvecs):
+    """Ensure smooth transitions in axis-angle representation across timesteps."""
+    smoothed_rotvecs = np.copy(rotvecs)
+    
+    for i in range(1, len(rotvecs)):
+        if np.dot(smoothed_rotvecs[i], smoothed_rotvecs[i - 1]) < 0:
+            smoothed_rotvecs[i] *= -1  # Flip direction to maintain continuity
+    
+    return smoothed_rotvecs
+
+# Extract quaternion columns for TCP and Target
+tcp_quat = df[['tcp_pose_3', 'tcp_pose_4', 'tcp_pose_5', 'tcp_pose_6']]
+target_quat = df[['pose_command_3', 'pose_command_4', 'pose_command_5', 'pose_command_6']]
+
+# Convert to axis-angle
+tcp_axis_angle = quaternion_to_axis_angle(tcp_quat)
+target_axis_angle = quaternion_to_axis_angle(target_quat)
+
+tcp_axis_angle = enforce_axis_angle_continuity(tcp_axis_angle)
+target_axis_angle = enforce_axis_angle_continuity(target_axis_angle)
+
+# Convert to DataFrame
+tcp_axis_angle_df = pd.DataFrame(tcp_axis_angle, columns=['tcp_axis_x', 'tcp_axis_y', 'tcp_axis_z'])
+target_axis_angle_df = pd.DataFrame(target_axis_angle, columns=['target_axis_x', 'target_axis_y', 'target_axis_z'])
+
+# Merge with original dataframe for plotting
+df = pd.concat([df, tcp_axis_angle_df, target_axis_angle_df], axis=1)
+
+# Define colors for X, Y, Z
+axis_angle_colors = {'x': 'red', 'y': 'green', 'z': 'blue'}
+
+# Create a Plotly figure for Axis-Angle representation
+fig_axis_angle = go.Figure()
+
+# Add traces for TCP axis-angle components
+fig_axis_angle.add_trace(go.Scatter(x=df['timestep'], y=df['tcp_axis_x'], mode='lines', name='TCP RX', line=dict(color=axis_angle_colors['x'])))
+fig_axis_angle.add_trace(go.Scatter(x=df['timestep'], y=df['tcp_axis_y'], mode='lines', name='TCP RY', line=dict(color=axis_angle_colors['y'])))
+fig_axis_angle.add_trace(go.Scatter(x=df['timestep'], y=df['tcp_axis_z'], mode='lines', name='TCP RZ', line=dict(color=axis_angle_colors['z'])))
+
+# Add traces for Target axis-angle components with dashed lines
+fig_axis_angle.add_trace(go.Scatter(x=df['timestep'], y=df['target_axis_x'], mode='lines', name='Target RX', line=dict(color=axis_angle_colors['x'], dash='dash')))
+fig_axis_angle.add_trace(go.Scatter(x=df['timestep'], y=df['target_axis_y'], mode='lines', name='Target RY', line=dict(color=axis_angle_colors['y'], dash='dash')))
+fig_axis_angle.add_trace(go.Scatter(x=df['timestep'], y=df['target_axis_z'], mode='lines', name='Target RZ', line=dict(color=axis_angle_colors['z'], dash='dash')))
+
+# Customize layout
+fig_axis_angle.update_layout(
+    xaxis_title='Timestep',
+    yaxis_title='Rotation (rad)',
+    legend_title='Legend',
+    hovermode="x unified",
+)
+
+filename = "tcp_and_target_pose_axis_angle_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper"
+
+if save:
+    png_axis_angle_path = os.path.join(output_dir, filename + ".png")
+    fig_axis_angle.write_image(png_axis_angle_path, width=1000, height=600)
+
+# Show the figure
+fig_axis_angle.show()
+
+
+
+
+
+# Create a Plotly figure for Actions
+fig_actions = go.Figure()
+
+# Define colors for action components
+action_colors = {'x': 'red', 'y': 'green', 'z': 'blue', 'rx': 'purple', 'ry': 'orange', 'rz': 'cyan'}
+
+# Scale factor
+scale_factor = 0.0025
+
+# Add traces for action components with scaling
+fig_actions.add_trace(go.Scatter(x=df['timestep'], y=df['actions_0'] * scale_factor, mode='lines', name='Action X', line=dict(color=action_colors['x'])))
+fig_actions.add_trace(go.Scatter(x=df['timestep'], y=df['actions_1'] * scale_factor, mode='lines', name='Action Y', line=dict(color=action_colors['y'])))
+fig_actions.add_trace(go.Scatter(x=df['timestep'], y=df['actions_2'] * scale_factor, mode='lines', name='Action Z', line=dict(color=action_colors['z'])))
+fig_actions.add_trace(go.Scatter(x=df['timestep'], y=df['actions_3'] * scale_factor, mode='lines', name='Action RX', line=dict(color=action_colors['rx'])))
+fig_actions.add_trace(go.Scatter(x=df['timestep'], y=df['actions_4'] * scale_factor, mode='lines', name='Action RY', line=dict(color=action_colors['ry'])))
+fig_actions.add_trace(go.Scatter(x=df['timestep'], y=df['actions_5'] * scale_factor, mode='lines', name='Action RZ', line=dict(color=action_colors['rz'])))
+
+# Customize layout
+fig_actions.update_layout(
+    xaxis_title='Timestep',
+    yaxis_title='Action (m and rad)',
+    legend_title='Legend',
+    hovermode="x unified",
+)
+
+# Save the plot if needed
+filename_actions = "actions_" + "real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_random_poses"
+if save:
+    png_actions_path = os.path.join(output_dir, filename_actions + ".png")
+    fig_actions.write_image(png_actions_path, width=1000, height=600)
+
+# Show the figure
+fig_actions.show()

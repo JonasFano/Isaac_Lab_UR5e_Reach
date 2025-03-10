@@ -2,6 +2,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import os
 from scipy.spatial.transform import Rotation as R
+import numpy as np
 
 
 # filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_pos_only.csv'
@@ -29,17 +30,37 @@ from scipy.spatial.transform import Rotation as R
 # filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_predefined_poses_pos_only.csv"
 # filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_05_predefined_poses_pos_only.csv"
 
+
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_predefined_poses_pos_only.csv"
+
 # filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_predefined_poses.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_005_predefined_poses_enforce_axis_angle_continuity.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_005_predefined_poses_v2.csv"
-filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_random_poses.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_04_predefined_poses.csv"
+
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_random_poses.csv"
+
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_005_predefined_poses_v3.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_005_predefined_poses_v4.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_decaying_scale_random_poses_v2.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_decaying_scale_random_poses.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_scale_0_002_random_poses_sign_flipping.csv"
 
 
-save = True  # True False
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_predefined_poses_v3.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_0001_predefined_poses_v4.csv"
+filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_0025_predefined_poses_v5.csv"
+
+
+
+save = False  # True False
 
 
 # Read data from a CSV file
 df = pd.read_csv(filepath)
+
+max_timesteps = None
+
+if max_timesteps is not None:
+    df = df.iloc[:max_timesteps]
 
 # Define colors for X, Y, Z
 colors = {'x': 'red', 'y': 'green', 'z': 'blue'}
@@ -115,8 +136,18 @@ fig_quaternion.show()
 def quaternion_to_axis_angle(quat_df):
     """ Convert quaternion columns to axis-angle representation """
     quaternions = quat_df.to_numpy()  # Convert to numpy array
-    rotations = R.from_quat(quaternions)  # Convert to rotation object
+    rotations = R.from_quat(quaternions, scalar_first=True)  # Convert to rotation object
     return rotations.as_rotvec()  # Convert to axis-angle (rotational vector)
+
+def enforce_axis_angle_continuity(rotvecs):
+    """Ensure smooth transitions in axis-angle representation across timesteps."""
+    smoothed_rotvecs = np.copy(rotvecs)
+    
+    for i in range(1, len(rotvecs)):
+        if np.dot(smoothed_rotvecs[i], smoothed_rotvecs[i - 1]) < 0:
+            smoothed_rotvecs[i] *= -1  # Flip direction to maintain continuity
+    
+    return smoothed_rotvecs
 
 # Extract quaternion columns for TCP and Target
 tcp_quat = df[['tcp_pose_3', 'tcp_pose_4', 'tcp_pose_5', 'tcp_pose_6']]
@@ -125,6 +156,9 @@ target_quat = df[['target_pose_3', 'target_pose_4', 'target_pose_5', 'target_pos
 # Convert to axis-angle
 tcp_axis_angle = quaternion_to_axis_angle(tcp_quat)
 target_axis_angle = quaternion_to_axis_angle(target_quat)
+
+tcp_axis_angle = enforce_axis_angle_continuity(tcp_axis_angle)
+target_axis_angle = enforce_axis_angle_continuity(target_axis_angle)
 
 # Convert to DataFrame
 tcp_axis_angle_df = pd.DataFrame(tcp_axis_angle, columns=['tcp_axis_x', 'tcp_axis_y', 'tcp_axis_z'])

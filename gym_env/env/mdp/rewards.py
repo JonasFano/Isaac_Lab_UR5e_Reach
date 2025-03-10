@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, List
 
 from isaaclab.assets import RigidObject
 from isaaclab.managers import SceneEntityCfg
-from isaaclab.utils.math import combine_frame_transforms, quat_error_magnitude, quat_mul, quat_apply
+from isaaclab.utils.math import combine_frame_transforms, quat_error_magnitude, quat_mul, quat_apply, quat_log_error, quaternion_geodesic_distance
 
 if TYPE_CHECKING:
     from isaaclab.envs import ManagerBasedRLEnv
@@ -87,6 +87,8 @@ def position_command_error(env: ManagerBasedRLEnv, gripper_offset: List[float], 
     # curr_pos_w = asset.data.body_state_w[:, asset_cfg.body_ids[0], :3]  # type: ignore
     curr_pos_w = get_current_tcp_pose_w(env, gripper_offset, asset_cfg)[:, :3]
 
+    print("Position l2 norm: ", torch.norm(curr_pos_w - des_pos_w, dim=1))
+
     return torch.norm(curr_pos_w - des_pos_w, dim=1)
 
 
@@ -131,7 +133,14 @@ def orientation_command_error(env: ManagerBasedRLEnv, command_name: str, asset_c
     # Not necessary to account for end-effector to TCP offset, as there is no change in orientation 
     curr_quat_w = asset.data.body_state_w[:, asset_cfg.body_ids[0], 3:7]  # type: ignore
 
-    return quat_error_magnitude(curr_quat_w, des_quat_w)
+    quat_error = quat_error_magnitude(curr_quat_w, des_quat_w)
+
+    print("Error magnitude: ", quat_error)
+    # print("Geodesic magnitude: ", quaternion_geodesic_distance(curr_quat_w, des_quat_w))
+    # print("Log Error: ", quat_log_error(curr_quat_w, des_quat_w))
+
+    # return quat_error_magnitude(curr_quat_w, des_quat_w)
+    return quat_error
 
 
 def action_rate_l2_position(env: ManagerBasedRLEnv) -> torch.Tensor:

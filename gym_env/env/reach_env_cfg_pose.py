@@ -44,167 +44,11 @@ MODEL_PATH = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__)
 class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     """Configuration for the lift scene with a robot and a object."""
     # articulation
-    robot = ArticulationCfg(
-        prim_path="{ENV_REGEX_NS}/robot", 
-        spawn=sim_utils.UsdFileCfg(
-            # usd_path=os.path.join(MODEL_PATH, "ur5e_robotiq_new.usd"), # SDU gripper
-            usd_path=os.path.join(MODEL_PATH, "ur5e_robotiq_hand_e.usd"), # Robotiq Hand E
-            rigid_props=sim_utils.RigidBodyPropertiesCfg(
-                disable_gravity=False,
-                max_depenetration_velocity=5.0,
-            ),
-            # articulation_props=sim_utils.ArticulationRootPropertiesCfg(
-            #     enabled_self_collisions=True, 
-            #     solver_position_iteration_count=8, 
-            #     solver_velocity_iteration_count=0
-            # ),
-            activate_contact_sensors=True,), 
-        init_state=ArticulationCfg.InitialStateCfg(
-            pos=(0.175, -0.175, 0.0), 
-            joint_pos={
-                "shoulder_pan_joint": 1.3, 
-                "shoulder_lift_joint": -2.0, 
-                "elbow_joint": 2.0, 
-                "wrist_1_joint": -1.5, 
-                "wrist_2_joint": -1.5, 
-                "wrist_3_joint": 3.14, 
-                "joint_left": 0.0, 
-                "joint_right": 0.0,
-            }
-        ),
-        actuators={
-            "all_joints": ImplicitActuatorCfg(
-                joint_names_expr=[".*"],  # Match all joints
-                velocity_limit={
-                    "shoulder_pan_joint": 180.0,
-                    "shoulder_lift_joint": 180.0,
-                    "elbow_joint": 180.0,
-                    "wrist_1_joint": 180.0,
-                    "wrist_2_joint": 180.0,
-                    "wrist_3_joint": 180.0,
-                    "joint_left": 1000000.0,
-                    "joint_right": 1000000.0,
-                },
-                effort_limit={
-                    "shoulder_pan_joint": 87.0,
-                    "shoulder_lift_joint": 87.0,
-                    "elbow_joint": 87.0,
-                    "wrist_1_joint": 87.0,
-                    "wrist_2_joint": 87.0,
-                    "wrist_3_joint": 87.0,
-                    "joint_left": 200.0,
-                    "joint_right": 200.0,
-                },
-                # stiffness={
-                #     "shoulder_pan_joint": 261.79941,
-                #     "shoulder_lift_joint": 261.79941,
-                #     "elbow_joint": 261.79941,
-                #     "wrist_1_joint": 261.79941,
-                #     "wrist_2_joint": 261.79941,
-                #     "wrist_3_joint": 261.79941,
-                #     "joint_left": 3000.0,
-                #     "joint_right": 3000.0,
-                # },
-                # damping={
-                #     "shoulder_pan_joint": 26.17994,
-                #     "shoulder_lift_joint": 26.17994,
-                #     "elbow_joint": 26.17994,
-                #     "wrist_1_joint": 26.17994,
-                #     "wrist_2_joint": 26.17994,
-                #     "wrist_3_joint": 26.17994,
-                #     "joint_left": 800.0,
-                #     "joint_right": 800.0,
-                # }
-                # stiffness={
-                #     "shoulder_pan_joint": 1000.0,
-                #     "shoulder_lift_joint": 1000.0,
-                #     "elbow_joint": 1000.0,
-                #     "wrist_1_joint": 1000.0,
-                #     "wrist_2_joint": 1000.0,
-                #     "wrist_3_joint": 1000.0,
-                #     "joint_left": 3000.0,
-                #     "joint_right": 3000.0,
-                # },
-                # damping={
-                #     "shoulder_pan_joint": 121.66,
-                #     "shoulder_lift_joint": 183.23,
-                #     "elbow_joint": 96.54,
-                #     "wrist_1_joint": 69.83,
-                #     "wrist_2_joint": 69.83,
-                #     "wrist_3_joint": 27.42,
-                #     "joint_left": 500.0,
-                #     "joint_right": 500.0,
-                # }
-                # ############### Stiffness 800 ###############
-                # stiffness={
-                #     "shoulder_pan_joint": 800.0,
-                #     "shoulder_lift_joint": 800.0,
-                #     "elbow_joint": 800.0,
-                #     "wrist_1_joint": 800.0,
-                #     "wrist_2_joint": 800.0,
-                #     "wrist_3_joint": 800.0,
-                #     "joint_left": 3000.0,
-                #     "joint_right": 3000.0,
-                # },
-                # damping={
-                #     "shoulder_pan_joint": 108.82,
-                #     "shoulder_lift_joint": 163.89,
-                #     "elbow_joint": 86.35,
-                #     "wrist_1_joint": 62.46,
-                #     "wrist_2_joint": 62.46,
-                #     "wrist_3_joint": 24.53,
-                #     "joint_left": 500.0,
-                #     "joint_right": 500.0,
-                # }
-                # ############### Stiffness 5000000 ###############
-                # stiffness = {
-                #     "shoulder_pan_joint": 5000000.0,
-                #     "shoulder_lift_joint": 5000000.0,
-                #     "elbow_joint": 5000000.0,
-                #     "wrist_1_joint": 5000000.0,
-                #     "wrist_2_joint": 5000000.0,
-                #     "wrist_3_joint": 5000000.0,
-                #     "joint_left": 3000.0,
-                #     "joint_right": 3000.0,
-                # },
-                # damping = {
-                #     "shoulder_pan_joint": 8591.93,
-                #     "shoulder_lift_joint": 12954.54,
-                #     "elbow_joint": 6815.50,
-                #     "wrist_1_joint": 4937.82,
-                #     "wrist_2_joint": 4937.82,
-                #     "wrist_3_joint": 1943.25,
-                #     "joint_left": 500.0,
-                #     "joint_right": 500.0,
-                # }
-                ############### Stiffness 100000000 ###############
-                stiffness = {
-                    "shoulder_pan_joint": 10000000.0,
-                    "shoulder_lift_joint": 10000000.0,
-                    "elbow_joint": 10000000.0,
-                    "wrist_1_joint": 10000000.0,
-                    "wrist_2_joint": 10000000.0,
-                    "wrist_3_joint": 10000000.0,
-                    "joint_left": 10000000.0,
-                    "joint_right": 10000000.0,
-                },
-                damping = {
-                    "shoulder_pan_joint": 12166.86,
-                    "shoulder_lift_joint": 18333.30,
-                    "elbow_joint": 9651.90,
-                    "wrist_1_joint": 6991.16,
-                    "wrist_2_joint": 6991.16,
-                    "wrist_3_joint": 2752.97,
-                    "joint_left": 50000.0,
-                    "joint_right": 50000.0,
-                }
-            )
-        }
-    )
     # robot = ArticulationCfg(
     #     prim_path="{ENV_REGEX_NS}/robot", 
     #     spawn=sim_utils.UsdFileCfg(
-    #         usd_path=os.path.join(MODEL_PATH, "ur5e_old.usd"),
+    #         # usd_path=os.path.join(MODEL_PATH, "ur5e_robotiq_new.usd"), # SDU gripper
+    #         usd_path=os.path.join(MODEL_PATH, "ur5e_robotiq_hand_e.usd"), # Robotiq Hand E
     #         rigid_props=sim_utils.RigidBodyPropertiesCfg(
     #             disable_gravity=False,
     #             max_depenetration_velocity=5.0,
@@ -224,6 +68,8 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     #             "wrist_1_joint": -1.5, 
     #             "wrist_2_joint": -1.5, 
     #             "wrist_3_joint": 3.14, 
+    #             "joint_left": 0.0, 
+    #             "joint_right": 0.0,
     #         }
     #     ),
     #     actuators={
@@ -236,6 +82,8 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     #                 "wrist_1_joint": 180.0,
     #                 "wrist_2_joint": 180.0,
     #                 "wrist_3_joint": 180.0,
+    #                 "joint_left": 1000000.0,
+    #                 "joint_right": 1000000.0,
     #             },
     #             effort_limit={
     #                 "shoulder_pan_joint": 87.0,
@@ -244,40 +92,48 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     #                 "wrist_1_joint": 87.0,
     #                 "wrist_2_joint": 87.0,
     #                 "wrist_3_joint": 87.0,
+    #                 "joint_left": 200.0,
+    #                 "joint_right": 200.0,
     #             },
-    #             # ############### Stiffness 100 ###############
     #             # stiffness={
-    #             #     "shoulder_pan_joint": 100.0,
-    #             #     "shoulder_lift_joint": 100.0,
-    #             #     "elbow_joint": 100.0,
-    #             #     "wrist_1_joint": 100.0,
-    #             #     "wrist_2_joint": 100.0,
-    #             #     "wrist_3_joint": 100.0,
+    #             #     "shoulder_pan_joint": 261.79941,
+    #             #     "shoulder_lift_joint": 261.79941,
+    #             #     "elbow_joint": 261.79941,
+    #             #     "wrist_1_joint": 261.79941,
+    #             #     "wrist_2_joint": 261.79941,
+    #             #     "wrist_3_joint": 261.79941,
+    #             #     "joint_left": 3000.0,
+    #             #     "joint_right": 3000.0,
     #             # },
     #             # damping={
-    #             #     "shoulder_pan_joint": 38.47,
-    #             #     "shoulder_lift_joint": 57.94,
-    #             #     "elbow_joint": 30.53,
-    #             #     "wrist_1_joint": 22.08,
-    #             #     "wrist_2_joint": 22.08,
-    #             #     "wrist_3_joint": 8.67,
+    #             #     "shoulder_pan_joint": 26.17994,
+    #             #     "shoulder_lift_joint": 26.17994,
+    #             #     "elbow_joint": 26.17994,
+    #             #     "wrist_1_joint": 26.17994,
+    #             #     "wrist_2_joint": 26.17994,
+    #             #     "wrist_3_joint": 26.17994,
+    #             #     "joint_left": 800.0,
+    #             #     "joint_right": 800.0,
     #             # }
-    #             # ############### Stiffness 500 ###############
     #             # stiffness={
-    #             #     "shoulder_pan_joint": 500.0,
-    #             #     "shoulder_lift_joint": 500.0,
-    #             #     "elbow_joint": 500.0,
-    #             #     "wrist_1_joint": 500.0,
-    #             #     "wrist_2_joint": 500.0,
-    #             #     "wrist_3_joint": 500.0,
+    #             #     "shoulder_pan_joint": 1000.0,
+    #             #     "shoulder_lift_joint": 1000.0,
+    #             #     "elbow_joint": 1000.0,
+    #             #     "wrist_1_joint": 1000.0,
+    #             #     "wrist_2_joint": 1000.0,
+    #             #     "wrist_3_joint": 1000.0,
+    #             #     "joint_left": 3000.0,
+    #             #     "joint_right": 3000.0,
     #             # },
     #             # damping={
-    #             #     "shoulder_pan_joint": 86.03,
-    #             #     "shoulder_lift_joint": 129.56,
-    #             #     "elbow_joint": 68.26,
-    #             #     "wrist_1_joint": 49.38,
-    #             #     "wrist_2_joint": 49.38,
-    #             #     "wrist_3_joint": 19.39,
+    #             #     "shoulder_pan_joint": 121.66,
+    #             #     "shoulder_lift_joint": 183.23,
+    #             #     "elbow_joint": 96.54,
+    #             #     "wrist_1_joint": 69.83,
+    #             #     "wrist_2_joint": 69.83,
+    #             #     "wrist_3_joint": 27.42,
+    #             #     "joint_left": 500.0,
+    #             #     "joint_right": 500.0,
     #             # }
     #             # ############### Stiffness 800 ###############
     #             # stiffness={
@@ -287,6 +143,8 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     #             #     "wrist_1_joint": 800.0,
     #             #     "wrist_2_joint": 800.0,
     #             #     "wrist_3_joint": 800.0,
+    #             #     "joint_left": 3000.0,
+    #             #     "joint_right": 3000.0,
     #             # },
     #             # damping={
     #             #     "shoulder_pan_joint": 108.82,
@@ -295,211 +153,8 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     #             #     "wrist_1_joint": 62.46,
     #             #     "wrist_2_joint": 62.46,
     #             #     "wrist_3_joint": 24.53,
-    #             # }
-    #             # ############### Stiffness 1000 ###############
-    #             # stiffness={
-    #             #     "shoulder_pan_joint": 1000.0,
-    #             #     "shoulder_lift_joint": 1000.0,
-    #             #     "elbow_joint": 1000.0,
-    #             #     "wrist_1_joint": 1000.0,
-    #             #     "wrist_2_joint": 1000.0,
-    #             #     "wrist_3_joint": 1000.0,
-    #             # },
-    #             # damping={
-    #             #     "shoulder_pan_joint": 121.66,
-    #             #     "shoulder_lift_joint": 183.23,
-    #             #     "elbow_joint": 96.54,
-    #             #     "wrist_1_joint": 69.83,
-    #             #     "wrist_2_joint": 69.83,
-    #             #     "wrist_3_joint": 27.42,
-    #             # }
-    #             # ############### Stiffness 1200 ###############
-    #             # stiffness={
-    #             #     "shoulder_pan_joint": 1200.0,
-    #             #     "shoulder_lift_joint": 1200.0,
-    #             #     "elbow_joint": 1200.0,
-    #             #     "wrist_1_joint": 1200.0,
-    #             #     "wrist_2_joint": 1200.0,
-    #             #     "wrist_3_joint": 1200.0,
-    #             # },
-    #             # damping={
-    #             #     "shoulder_pan_joint": 133.27,
-    #             #     "shoulder_lift_joint": 200.72,
-    #             #     "elbow_joint": 105.75,
-    #             #     "wrist_1_joint": 76.49,
-    #             #     "wrist_2_joint": 76.49,
-    #             #     "wrist_3_joint": 30.04,
-    #             # }
-    #             # ############### Stiffness 1500 ###############
-    #             # stiffness={
-    #             #     "shoulder_pan_joint": 1500.0,
-    #             #     "shoulder_lift_joint": 1500.0,
-    #             #     "elbow_joint": 1500.0,
-    #             #     "wrist_1_joint": 1500.0,
-    #             #     "wrist_2_joint": 1500.0,
-    #             #     "wrist_3_joint": 1500.0,
-    #             # },
-    #             # damping={
-    #             #     "shoulder_pan_joint": 149.00,
-    #             #     "shoulder_lift_joint": 224.41,
-    #             #     "elbow_joint": 118.24,
-    #             #     "wrist_1_joint": 85.52,
-    #             #     "wrist_2_joint": 85.52,
-    #             #     "wrist_3_joint": 33.58,
-    #             # }
-    #             # ############### Stiffness 2000 ###############
-    #             # stiffness={
-    #             #     "shoulder_pan_joint": 2000.0,
-    #             #     "shoulder_lift_joint": 2000.0,
-    #             #     "elbow_joint": 2000.0,
-    #             #     "wrist_1_joint": 2000.0,
-    #             #     "wrist_2_joint": 2000.0,
-    #             #     "wrist_3_joint": 2000.0,
-    #             # },
-    #             # damping={
-    #             #     "shoulder_pan_joint": 172.03,
-    #             #     "shoulder_lift_joint": 259.27,
-    #             #     "elbow_joint": 136.59,
-    #             #     "wrist_1_joint": 98.84,
-    #             #     "wrist_2_joint": 98.84,
-    #             #     "wrist_3_joint": 38.83,
-    #             # }
-
-    #             # ############### Stiffness 50000 ###############
-    #             # stiffness = {
-    #             #     "shoulder_pan_joint": 50000.0,
-    #             #     "shoulder_lift_joint": 50000.0,
-    #             #     "elbow_joint": 50000.0,
-    #             #     "wrist_1_joint": 50000.0,
-    #             #     "wrist_2_joint": 50000.0,
-    #             #     "wrist_3_joint": 50000.0,
-    #             # },
-    #             # damping = {
-    #             #     "shoulder_pan_joint": 860.33,
-    #             #     "shoulder_lift_joint": 1296.36,
-    #             #     "elbow_joint": 682.49,
-    #             #     "wrist_1_joint": 494.35,
-    #             #     "wrist_2_joint": 494.35,
-    #             #     "wrist_3_joint": 194.00,
-    #             # }
-    #             # ############### Stiffness 200000 ###############
-    #             # stiffness = {
-    #             #     "shoulder_pan_joint": 200000.0,
-    #             #     "shoulder_lift_joint": 200000.0,
-    #             #     "elbow_joint": 200000.0,
-    #             #     "wrist_1_joint": 200000.0,
-    #             #     "wrist_2_joint": 200000.0,
-    #             #     "wrist_3_joint": 200000.0,
-    #             # },
-    #             # damping = {
-    #             #     "shoulder_pan_joint": 1720.65,
-    #             #     "shoulder_lift_joint": 2592.72,
-    #             #     "elbow_joint": 1364.99,
-    #             #     "wrist_1_joint": 988.70,
-    #             #     "wrist_2_joint": 988.70,
-    #             #     "wrist_3_joint": 388.00,
-    #             # }
-    #             # ############### Stiffness 400000 ###############
-    #             # stiffness = {
-    #             #     "shoulder_pan_joint": 400000.0,
-    #             #     "shoulder_lift_joint": 400000.0,
-    #             #     "elbow_joint": 400000.0,
-    #             #     "wrist_1_joint": 400000.0,
-    #             #     "wrist_2_joint": 400000.0,
-    #             #     "wrist_3_joint": 400000.0,
-    #             # },
-    #             # damping = {
-    #             #     "shoulder_pan_joint": 2433.37,
-    #             #     "shoulder_lift_joint": 3666.66,
-    #             #     "elbow_joint": 1930.38,
-    #             #     "wrist_1_joint": 1398.23,
-    #             #     "wrist_2_joint": 1398.23,
-    #             #     "wrist_3_joint": 549.01,
-    #             # }
-    #             # ############### Stiffness 800000 ###############
-    #             # stiffness={
-    #             #     "shoulder_pan_joint": 800000.0,
-    #             #     "shoulder_lift_joint": 800000.0,
-    #             #     "elbow_joint": 800000.0,
-    #             #     "wrist_1_joint": 800000.0,
-    #             #     "wrist_2_joint": 800000.0,
-    #             #     "wrist_3_joint": 800000.0,
-    #             # },
-    #             # damping={
-    #             #     "shoulder_pan_joint": 3441,
-    #             #     "shoulder_lift_joint": 5185,
-    #             #     "elbow_joint": 2732,
-    #             #     "wrist_1_joint": 1977,
-    #             #     "wrist_2_joint": 1977,
-    #             #     "wrist_3_joint": 776,
-    #             # }
-    #             # ############### Stiffness 1000000 ###############
-    #             # stiffness={
-    #             #     "shoulder_pan_joint": 1000000.0,
-    #             #     "shoulder_lift_joint": 1000000.0,
-    #             #     "elbow_joint": 1000000.0,
-    #             #     "wrist_1_joint": 1000000.0,
-    #             #     "wrist_2_joint": 1000000.0,
-    #             #     "wrist_3_joint": 1000000.0,
-    #             # },
-    #             # damping={
-    #             #     "shoulder_pan_joint": 3847.5,
-    #             #     "shoulder_lift_joint": 5797.5,
-    #             #     "elbow_joint": 3052.2,
-    #             #     "wrist_1_joint": 2210.8,
-    #             #     "wrist_2_joint": 2210.8,
-    #             #     "wrist_3_joint": 868.1,
-    #             # }
-    #             # ############### Stiffness 1200000 ###############
-    #             # stiffness = {
-    #             #     "shoulder_pan_joint": 1200000.0,
-    #             #     "shoulder_lift_joint": 1200000.0,
-    #             #     "elbow_joint": 1200000.0,
-    #             #     "wrist_1_joint": 1200000.0,
-    #             #     "wrist_2_joint": 1200000.0,
-    #             #     "wrist_3_joint": 1200000.0,
-    #             # },
-    #             # damping = {
-    #             #     "shoulder_pan_joint": 4214.73,
-    #             #     "shoulder_lift_joint": 6350.84,
-    #             #     "elbow_joint": 3343.52,
-    #             #     "wrist_1_joint": 2421.81,
-    #             #     "wrist_2_joint": 2421.81,
-    #             #     "wrist_3_joint": 950.99,
-    #             # }
-    #             # ############### Stiffness 1500000 ###############
-    #             # stiffness = {
-    #             #     "shoulder_pan_joint": 1500000.0,
-    #             #     "shoulder_lift_joint": 1500000.0,
-    #             #     "elbow_joint": 1500000.0,
-    #             #     "wrist_1_joint": 1500000.0,
-    #             #     "wrist_2_joint": 1500000.0,
-    #             #     "wrist_3_joint": 1500000.0,
-    #             # },
-    #             # damping = {
-    #             #     "shoulder_pan_joint": 4722.86,
-    #             #     "shoulder_lift_joint": 7116.67,
-    #             #     "elbow_joint": 3743.94,
-    #             #     "wrist_1_joint": 2713.60,
-    #             #     "wrist_2_joint": 2713.60,
-    #             #     "wrist_3_joint": 1065.79,
-    #             # }
-    #             # ############### Stiffness 2000000 ###############
-    #             # stiffness = {
-    #             #     "shoulder_pan_joint": 2000000.0,
-    #             #     "shoulder_lift_joint": 2000000.0,
-    #             #     "elbow_joint": 2000000.0,
-    #             #     "wrist_1_joint": 2000000.0,
-    #             #     "wrist_2_joint": 2000000.0,
-    #             #     "wrist_3_joint": 2000000.0,
-    #             # },
-    #             # damping = {
-    #             #     "shoulder_pan_joint": 5443.58,
-    #             #     "shoulder_lift_joint": 8205.78,
-    #             #     "elbow_joint": 4314.83,
-    #             #     "wrist_1_joint": 3127.89,
-    #             #     "wrist_2_joint": 3127.89,
-    #             #     "wrist_3_joint": 1229.97,
+    #             #     "joint_left": 500.0,
+    #             #     "joint_right": 500.0,
     #             # }
     #             # ############### Stiffness 5000000 ###############
     #             # stiffness = {
@@ -509,6 +164,8 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     #             #     "wrist_1_joint": 5000000.0,
     #             #     "wrist_2_joint": 5000000.0,
     #             #     "wrist_3_joint": 5000000.0,
+    #             #     "joint_left": 3000.0,
+    #             #     "joint_right": 3000.0,
     #             # },
     #             # damping = {
     #             #     "shoulder_pan_joint": 8591.93,
@@ -517,8 +174,10 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     #             #     "wrist_1_joint": 4937.82,
     #             #     "wrist_2_joint": 4937.82,
     #             #     "wrist_3_joint": 1943.25,
+    #             #     "joint_left": 500.0,
+    #             #     "joint_right": 500.0,
     #             # }
-    #             ############### Stiffness 10000000 ###############
+    #             ############### Stiffness 100000000 ###############
     #             stiffness = {
     #                 "shoulder_pan_joint": 10000000.0,
     #                 "shoulder_lift_joint": 10000000.0,
@@ -526,6 +185,8 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     #                 "wrist_1_joint": 10000000.0,
     #                 "wrist_2_joint": 10000000.0,
     #                 "wrist_3_joint": 10000000.0,
+    #                 "joint_left": 10000000.0,
+    #                 "joint_right": 10000000.0,
     #             },
     #             damping = {
     #                 "shoulder_pan_joint": 12166.86,
@@ -534,44 +195,383 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     #                 "wrist_1_joint": 6991.16,
     #                 "wrist_2_joint": 6991.16,
     #                 "wrist_3_joint": 2752.97,
+    #                 "joint_left": 50000.0,
+    #                 "joint_right": 50000.0,
     #             }
-    #             # ############### Stiffness 50000000 ###############
-    #             # stiffness = {
-    #             #     "shoulder_pan_joint": 50000000.0,
-    #             #     "shoulder_lift_joint": 50000000.0,
-    #             #     "elbow_joint": 50000000.0,
-    #             #     "wrist_1_joint": 50000000.0,
-    #             #     "wrist_2_joint": 50000000.0,
-    #             #     "wrist_3_joint": 50000000.0,
-    #             # },
-    #             # damping = {
-    #             #     "shoulder_pan_joint": 27210.91,
-    #             #     "shoulder_lift_joint": 41031.83,
-    #             #     "elbow_joint": 21614.89,
-    #             #     "wrist_1_joint": 15651.96,
-    #             #     "wrist_2_joint": 15651.96,
-    #             #     "wrist_3_joint": 6146.74,
-    #             # }
-    #             # ############### Stiffness 100000000 ###############
-    #             # stiffness = {
-    #             #     "shoulder_pan_joint": 100000000.0,
-    #             #     "shoulder_lift_joint": 100000000.0,
-    #             #     "elbow_joint": 100000000.0,
-    #             #     "wrist_1_joint": 100000000.0,
-    #             #     "wrist_2_joint": 100000000.0,
-    #             #     "wrist_3_joint": 100000000.0,
-    #             # },
-    #             # damping = {
-    #             #     "shoulder_pan_joint": 38475.00,
-    #             #     "shoulder_lift_joint": 57975.00,
-    #             #     "elbow_joint": 30522.00,
-    #             #     "wrist_1_joint": 22108.00,
-    #             #     "wrist_2_joint": 22108.00,
-    #             #     "wrist_3_joint": 8681.00,
-    #             # }
     #         )
     #     }
     # )
+    robot = ArticulationCfg(
+        prim_path="{ENV_REGEX_NS}/robot", 
+        spawn=sim_utils.UsdFileCfg(
+            usd_path=os.path.join(MODEL_PATH, "ur5e_old.usd"),
+            rigid_props=sim_utils.RigidBodyPropertiesCfg(
+                disable_gravity=False,
+                max_depenetration_velocity=5.0,
+            ),
+            # articulation_props=sim_utils.ArticulationRootPropertiesCfg(
+            #     enabled_self_collisions=True, 
+            #     solver_position_iteration_count=8, 
+            #     solver_velocity_iteration_count=0
+            # ),
+            activate_contact_sensors=True,), 
+        init_state=ArticulationCfg.InitialStateCfg(
+            pos=(0.175, -0.175, 0.0), 
+            joint_pos={
+                "shoulder_pan_joint": 1.3, 
+                "shoulder_lift_joint": -2.0, 
+                "elbow_joint": 2.0, 
+                "wrist_1_joint": -1.5, 
+                "wrist_2_joint": -1.5, 
+                "wrist_3_joint": 3.14, 
+            }
+        ),
+        actuators={
+            "all_joints": ImplicitActuatorCfg(
+                joint_names_expr=[".*"],  # Match all joints
+                velocity_limit={
+                    "shoulder_pan_joint": 180.0,
+                    "shoulder_lift_joint": 180.0,
+                    "elbow_joint": 180.0,
+                    "wrist_1_joint": 180.0,
+                    "wrist_2_joint": 180.0,
+                    "wrist_3_joint": 180.0,
+                },
+                effort_limit={
+                    "shoulder_pan_joint": 87.0,
+                    "shoulder_lift_joint": 87.0,
+                    "elbow_joint": 87.0,
+                    "wrist_1_joint": 87.0,
+                    "wrist_2_joint": 87.0,
+                    "wrist_3_joint": 87.0,
+                },
+                # ############### Stiffness 100 ###############
+                # stiffness={
+                #     "shoulder_pan_joint": 100.0,
+                #     "shoulder_lift_joint": 100.0,
+                #     "elbow_joint": 100.0,
+                #     "wrist_1_joint": 100.0,
+                #     "wrist_2_joint": 100.0,
+                #     "wrist_3_joint": 100.0,
+                # },
+                # damping={
+                #     "shoulder_pan_joint": 38.47,
+                #     "shoulder_lift_joint": 57.94,
+                #     "elbow_joint": 30.53,
+                #     "wrist_1_joint": 22.08,
+                #     "wrist_2_joint": 22.08,
+                #     "wrist_3_joint": 8.67,
+                # }
+                # ############### Stiffness 500 ###############
+                # stiffness={
+                #     "shoulder_pan_joint": 500.0,
+                #     "shoulder_lift_joint": 500.0,
+                #     "elbow_joint": 500.0,
+                #     "wrist_1_joint": 500.0,
+                #     "wrist_2_joint": 500.0,
+                #     "wrist_3_joint": 500.0,
+                # },
+                # damping={
+                #     "shoulder_pan_joint": 86.03,
+                #     "shoulder_lift_joint": 129.56,
+                #     "elbow_joint": 68.26,
+                #     "wrist_1_joint": 49.38,
+                #     "wrist_2_joint": 49.38,
+                #     "wrist_3_joint": 19.39,
+                # }
+                # ############### Stiffness 800 ###############
+                # stiffness={
+                #     "shoulder_pan_joint": 800.0,
+                #     "shoulder_lift_joint": 800.0,
+                #     "elbow_joint": 800.0,
+                #     "wrist_1_joint": 800.0,
+                #     "wrist_2_joint": 800.0,
+                #     "wrist_3_joint": 800.0,
+                # },
+                # damping={
+                #     "shoulder_pan_joint": 108.82,
+                #     "shoulder_lift_joint": 163.89,
+                #     "elbow_joint": 86.35,
+                #     "wrist_1_joint": 62.46,
+                #     "wrist_2_joint": 62.46,
+                #     "wrist_3_joint": 24.53,
+                # }
+                # ############### Stiffness 1000 ###############
+                # stiffness={
+                #     "shoulder_pan_joint": 1000.0,
+                #     "shoulder_lift_joint": 1000.0,
+                #     "elbow_joint": 1000.0,
+                #     "wrist_1_joint": 1000.0,
+                #     "wrist_2_joint": 1000.0,
+                #     "wrist_3_joint": 1000.0,
+                # },
+                # damping={
+                #     "shoulder_pan_joint": 121.66,
+                #     "shoulder_lift_joint": 183.23,
+                #     "elbow_joint": 96.54,
+                #     "wrist_1_joint": 69.83,
+                #     "wrist_2_joint": 69.83,
+                #     "wrist_3_joint": 27.42,
+                # }
+                # ############### Stiffness 1200 ###############
+                # stiffness={
+                #     "shoulder_pan_joint": 1200.0,
+                #     "shoulder_lift_joint": 1200.0,
+                #     "elbow_joint": 1200.0,
+                #     "wrist_1_joint": 1200.0,
+                #     "wrist_2_joint": 1200.0,
+                #     "wrist_3_joint": 1200.0,
+                # },
+                # damping={
+                #     "shoulder_pan_joint": 133.27,
+                #     "shoulder_lift_joint": 200.72,
+                #     "elbow_joint": 105.75,
+                #     "wrist_1_joint": 76.49,
+                #     "wrist_2_joint": 76.49,
+                #     "wrist_3_joint": 30.04,
+                # }
+                # ############### Stiffness 1500 ###############
+                # stiffness={
+                #     "shoulder_pan_joint": 1500.0,
+                #     "shoulder_lift_joint": 1500.0,
+                #     "elbow_joint": 1500.0,
+                #     "wrist_1_joint": 1500.0,
+                #     "wrist_2_joint": 1500.0,
+                #     "wrist_3_joint": 1500.0,
+                # },
+                # damping={
+                #     "shoulder_pan_joint": 149.00,
+                #     "shoulder_lift_joint": 224.41,
+                #     "elbow_joint": 118.24,
+                #     "wrist_1_joint": 85.52,
+                #     "wrist_2_joint": 85.52,
+                #     "wrist_3_joint": 33.58,
+                # }
+                # ############### Stiffness 2000 ###############
+                # stiffness={
+                #     "shoulder_pan_joint": 2000.0,
+                #     "shoulder_lift_joint": 2000.0,
+                #     "elbow_joint": 2000.0,
+                #     "wrist_1_joint": 2000.0,
+                #     "wrist_2_joint": 2000.0,
+                #     "wrist_3_joint": 2000.0,
+                # },
+                # damping={
+                #     "shoulder_pan_joint": 172.03,
+                #     "shoulder_lift_joint": 259.27,
+                #     "elbow_joint": 136.59,
+                #     "wrist_1_joint": 98.84,
+                #     "wrist_2_joint": 98.84,
+                #     "wrist_3_joint": 38.83,
+                # }
+
+                # ############### Stiffness 50000 ###############
+                # stiffness = {
+                #     "shoulder_pan_joint": 50000.0,
+                #     "shoulder_lift_joint": 50000.0,
+                #     "elbow_joint": 50000.0,
+                #     "wrist_1_joint": 50000.0,
+                #     "wrist_2_joint": 50000.0,
+                #     "wrist_3_joint": 50000.0,
+                # },
+                # damping = {
+                #     "shoulder_pan_joint": 860.33,
+                #     "shoulder_lift_joint": 1296.36,
+                #     "elbow_joint": 682.49,
+                #     "wrist_1_joint": 494.35,
+                #     "wrist_2_joint": 494.35,
+                #     "wrist_3_joint": 194.00,
+                # }
+                # ############### Stiffness 200000 ###############
+                # stiffness = {
+                #     "shoulder_pan_joint": 200000.0,
+                #     "shoulder_lift_joint": 200000.0,
+                #     "elbow_joint": 200000.0,
+                #     "wrist_1_joint": 200000.0,
+                #     "wrist_2_joint": 200000.0,
+                #     "wrist_3_joint": 200000.0,
+                # },
+                # damping = {
+                #     "shoulder_pan_joint": 1720.65,
+                #     "shoulder_lift_joint": 2592.72,
+                #     "elbow_joint": 1364.99,
+                #     "wrist_1_joint": 988.70,
+                #     "wrist_2_joint": 988.70,
+                #     "wrist_3_joint": 388.00,
+                # }
+                # ############### Stiffness 400000 ###############
+                # stiffness = {
+                #     "shoulder_pan_joint": 400000.0,
+                #     "shoulder_lift_joint": 400000.0,
+                #     "elbow_joint": 400000.0,
+                #     "wrist_1_joint": 400000.0,
+                #     "wrist_2_joint": 400000.0,
+                #     "wrist_3_joint": 400000.0,
+                # },
+                # damping = {
+                #     "shoulder_pan_joint": 2433.37,
+                #     "shoulder_lift_joint": 3666.66,
+                #     "elbow_joint": 1930.38,
+                #     "wrist_1_joint": 1398.23,
+                #     "wrist_2_joint": 1398.23,
+                #     "wrist_3_joint": 549.01,
+                # }
+                # ############### Stiffness 800000 ###############
+                # stiffness={
+                #     "shoulder_pan_joint": 800000.0,
+                #     "shoulder_lift_joint": 800000.0,
+                #     "elbow_joint": 800000.0,
+                #     "wrist_1_joint": 800000.0,
+                #     "wrist_2_joint": 800000.0,
+                #     "wrist_3_joint": 800000.0,
+                # },
+                # damping={
+                #     "shoulder_pan_joint": 3441,
+                #     "shoulder_lift_joint": 5185,
+                #     "elbow_joint": 2732,
+                #     "wrist_1_joint": 1977,
+                #     "wrist_2_joint": 1977,
+                #     "wrist_3_joint": 776,
+                # }
+                # ############### Stiffness 1000000 ###############
+                # stiffness={
+                #     "shoulder_pan_joint": 1000000.0,
+                #     "shoulder_lift_joint": 1000000.0,
+                #     "elbow_joint": 1000000.0,
+                #     "wrist_1_joint": 1000000.0,
+                #     "wrist_2_joint": 1000000.0,
+                #     "wrist_3_joint": 1000000.0,
+                # },
+                # damping={
+                #     "shoulder_pan_joint": 3847.5,
+                #     "shoulder_lift_joint": 5797.5,
+                #     "elbow_joint": 3052.2,
+                #     "wrist_1_joint": 2210.8,
+                #     "wrist_2_joint": 2210.8,
+                #     "wrist_3_joint": 868.1,
+                # }
+                # ############### Stiffness 1200000 ###############
+                # stiffness = {
+                #     "shoulder_pan_joint": 1200000.0,
+                #     "shoulder_lift_joint": 1200000.0,
+                #     "elbow_joint": 1200000.0,
+                #     "wrist_1_joint": 1200000.0,
+                #     "wrist_2_joint": 1200000.0,
+                #     "wrist_3_joint": 1200000.0,
+                # },
+                # damping = {
+                #     "shoulder_pan_joint": 4214.73,
+                #     "shoulder_lift_joint": 6350.84,
+                #     "elbow_joint": 3343.52,
+                #     "wrist_1_joint": 2421.81,
+                #     "wrist_2_joint": 2421.81,
+                #     "wrist_3_joint": 950.99,
+                # }
+                # ############### Stiffness 1500000 ###############
+                # stiffness = {
+                #     "shoulder_pan_joint": 1500000.0,
+                #     "shoulder_lift_joint": 1500000.0,
+                #     "elbow_joint": 1500000.0,
+                #     "wrist_1_joint": 1500000.0,
+                #     "wrist_2_joint": 1500000.0,
+                #     "wrist_3_joint": 1500000.0,
+                # },
+                # damping = {
+                #     "shoulder_pan_joint": 4722.86,
+                #     "shoulder_lift_joint": 7116.67,
+                #     "elbow_joint": 3743.94,
+                #     "wrist_1_joint": 2713.60,
+                #     "wrist_2_joint": 2713.60,
+                #     "wrist_3_joint": 1065.79,
+                # }
+                # ############### Stiffness 2000000 ###############
+                # stiffness = {
+                #     "shoulder_pan_joint": 2000000.0,
+                #     "shoulder_lift_joint": 2000000.0,
+                #     "elbow_joint": 2000000.0,
+                #     "wrist_1_joint": 2000000.0,
+                #     "wrist_2_joint": 2000000.0,
+                #     "wrist_3_joint": 2000000.0,
+                # },
+                # damping = {
+                #     "shoulder_pan_joint": 5443.58,
+                #     "shoulder_lift_joint": 8205.78,
+                #     "elbow_joint": 4314.83,
+                #     "wrist_1_joint": 3127.89,
+                #     "wrist_2_joint": 3127.89,
+                #     "wrist_3_joint": 1229.97,
+                # }
+                # ############### Stiffness 5000000 ###############
+                # stiffness = {
+                #     "shoulder_pan_joint": 5000000.0,
+                #     "shoulder_lift_joint": 5000000.0,
+                #     "elbow_joint": 5000000.0,
+                #     "wrist_1_joint": 5000000.0,
+                #     "wrist_2_joint": 5000000.0,
+                #     "wrist_3_joint": 5000000.0,
+                # },
+                # damping = {
+                #     "shoulder_pan_joint": 8591.93,
+                #     "shoulder_lift_joint": 12954.54,
+                #     "elbow_joint": 6815.50,
+                #     "wrist_1_joint": 4937.82,
+                #     "wrist_2_joint": 4937.82,
+                #     "wrist_3_joint": 1943.25,
+                # }
+                ############### Stiffness 10000000 ###############
+                stiffness = {
+                    "shoulder_pan_joint": 10000000.0,
+                    "shoulder_lift_joint": 10000000.0,
+                    "elbow_joint": 10000000.0,
+                    "wrist_1_joint": 10000000.0,
+                    "wrist_2_joint": 10000000.0,
+                    "wrist_3_joint": 10000000.0,
+                },
+                damping = {
+                    "shoulder_pan_joint": 12166.86,
+                    "shoulder_lift_joint": 18333.30,
+                    "elbow_joint": 9651.90,
+                    "wrist_1_joint": 6991.16,
+                    "wrist_2_joint": 6991.16,
+                    "wrist_3_joint": 2752.97,
+                }
+                # ############### Stiffness 50000000 ###############
+                # stiffness = {
+                #     "shoulder_pan_joint": 50000000.0,
+                #     "shoulder_lift_joint": 50000000.0,
+                #     "elbow_joint": 50000000.0,
+                #     "wrist_1_joint": 50000000.0,
+                #     "wrist_2_joint": 50000000.0,
+                #     "wrist_3_joint": 50000000.0,
+                # },
+                # damping = {
+                #     "shoulder_pan_joint": 27210.91,
+                #     "shoulder_lift_joint": 41031.83,
+                #     "elbow_joint": 21614.89,
+                #     "wrist_1_joint": 15651.96,
+                #     "wrist_2_joint": 15651.96,
+                #     "wrist_3_joint": 6146.74,
+                # }
+                # ############### Stiffness 100000000 ###############
+                # stiffness = {
+                #     "shoulder_pan_joint": 100000000.0,
+                #     "shoulder_lift_joint": 100000000.0,
+                #     "elbow_joint": 100000000.0,
+                #     "wrist_1_joint": 100000000.0,
+                #     "wrist_2_joint": 100000000.0,
+                #     "wrist_3_joint": 100000000.0,
+                # },
+                # damping = {
+                #     "shoulder_pan_joint": 38475.00,
+                #     "shoulder_lift_joint": 57975.00,
+                #     "elbow_joint": 30522.00,
+                #     "wrist_1_joint": 22108.00,
+                #     "wrist_2_joint": 22108.00,
+                #     "wrist_3_joint": 8681.00,
+                # }
+            )
+        }
+    )
 
     # ground plane
     ground = AssetBaseCfg(
@@ -606,7 +606,7 @@ class CommandsCfg:
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
         body_name="wrist_3_link",
-        resampling_time_range=(5.0, 5.0),
+        resampling_time_range=(15.0, 15.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
             pos_x=(-0.15, 0.15),
@@ -683,7 +683,7 @@ class ObservationsCfg:
         # TCP pose in base frame
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
-            params={"gripper_offset": [0.0, 0.0, 0.15], "robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
+            params={"gripper_offset": [0.0, 0.0, 0.0], "robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
             noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
             # # No Unoise for rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
             # noise=Unoise(n_min=-0.001, n_max=0.001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
@@ -724,24 +724,24 @@ class EventCfg:
     """Configuration for events."""
     reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
 
-    # New training setting
-    reset_robot_joints = EventTerm(
-        func=mdp.reset_joints_by_scale,
-        mode="reset",
-        params={
-            "position_range": (0.8, 1.2),
-            "velocity_range": (0.0, 0.0),
-        },
-    )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+    # # New training setting
     # reset_robot_joints = EventTerm(
     #     func=mdp.reset_joints_by_scale,
     #     mode="reset",
     #     params={
-    #         "position_range": (1.0, 1.0),
+    #         "position_range": (0.8, 1.2),
     #         "velocity_range": (0.0, 0.0),
     #     },
     # )
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+    reset_robot_joints = EventTerm(
+        func=mdp.reset_joints_by_scale,
+        mode="reset",
+        params={
+            "position_range": (1.0, 1.0),
+            "velocity_range": (0.0, 0.0),
+        },
+    )
     # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
     # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
     # reset_robot_joints = EventTerm(
@@ -779,12 +779,12 @@ class RewardsCfg:
     end_effector_position_tracking = RewTerm(
         func=mdp.position_command_error,
         weight=-0.2,
-        params={"gripper_offset": [0.0, 0.0, 0.15], "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
+        params={"gripper_offset": [0.0, 0.0, 0.0], "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
     )
     end_effector_position_tracking_fine_grained = RewTerm(
         func=mdp.position_command_error_tanh,
         weight=0.1,
-        params={"gripper_offset": [0.0, 0.0, 0.15], "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": 0.1, "command_name": "ee_pose"},
+        params={"gripper_offset": [0.0, 0.0, 0.0], "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": 0.1, "command_name": "ee_pose"},
     )
     end_effector_orientation_tracking = RewTerm(
         func=mdp.orientation_command_error,

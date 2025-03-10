@@ -30,7 +30,7 @@ agent = PPO.load(checkpoint_path)
 
 # Set CSV save directory
 save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
-csv_path = os.path.join(save_dir, "real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_random_poses.csv")
+csv_path = os.path.join(save_dir, "real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_0025_predefined_poses_v5.csv")
 
 save = False # True # False
 
@@ -113,10 +113,15 @@ def sample_random_pose():
 
 
 def sample_predefined_pose(current_index):
+    # predefined_poses = np.array([
+    #     [0.2, -0.4, 0.3, 0.0, 1.0, 0.0, 0.0],
+    #     [0.15, -0.3, 0.15, 0.0, 1.0, 0.0, 0.0],  # Pose 1
+    #     [-0.1,  -0.5,  0.4, 0.0, 1.0, 0.0, 0.0],  # Pose 2
+    # ])
     predefined_poses = np.array([
-        [0.2, -0.4, 0.3, 0.0, 1.0, 0.0, 0.0],
-        [0.15, -0.3, 0.15, 0.0, 1.0, 0.0, 0.0],  # Pose 1
-        [-0.1,  -0.5,  0.4, 0.0, 1.0, 0.0, 0.0],  # Pose 2
+        [0.2, -0.4, 0.3, 0.0, 0.0, -1.0, 0.0],
+        [0.15, -0.3, 0.15, 0.0, 0.0, -1.0, 0.0],  # Pose 1
+        [-0.1,  -0.5,  0.4, 0.0, 0.0, -1.0, 0.0],  # Pose 2
     ])
     target_pose = predefined_poses[current_index]
 
@@ -128,31 +133,16 @@ def sample_predefined_pose(current_index):
     # axis_angle = r.as_rotvec()
     # print(axis_angle)
 
-    rotated_quat = R.from_quat(quat_wxyz, scalar_first=True) * ROT_180_Z
+    # rotated_quat = R.from_quat(quat_wxyz, scalar_first=True) * ROT_180_Z
+    # rotated_quat_wxyz = rotated_quat.as_quat(scalar_first=True)
+
+    rotated_quat = ROT_180_Z * R.from_quat(quat_wxyz, scalar_first=True)
     rotated_quat_wxyz = rotated_quat.as_quat(scalar_first=True)
 
     # Apply 180-degree rotation to the position
     rotated_pos = ROT_180_Z.apply(pos)
 
     return np.concatenate((rotated_pos, rotated_quat_wxyz), axis=0)
-
-
-
-def normalize_axis_angle(axis_angle, prev_axis_angle):
-    """Ensure a stable axis-angle representation by enforcing a consistent sign convention."""
-    norm = np.linalg.norm(axis_angle)
-
-    # If rotation is near 180 degrees, ensure sign consistency
-    if norm > np.pi:
-        axis_angle *= -1  # Flip to maintain consistency
-
-    # Ensure continuity with previous frames to prevent flipping
-    if prev_axis_angle is not None:
-        if np.dot(prev_axis_angle, axis_angle) < 0:
-            axis_angle *= -1  # Flip to maintain smooth transitions
-
-    prev_axis_angle = axis_angle.copy()  # Store for next iteration
-    return axis_angle, prev_axis_angle
 
 
 def axis_angle_to_quaternion(axis_angle, prev_quaternion):
@@ -167,8 +157,8 @@ def axis_angle_to_quaternion(axis_angle, prev_quaternion):
     if prev_quaternion is not None:
         if np.dot(quat_wxyz[1:], prev_quaternion[1:]) < 0:  # Use only vector part [x, y, z]
             quat_wxyz *= -1  # Flip quaternion to maintain consistency
-    # else:
-    #     quat_wxyz *= -1
+    else:
+        quat_wxyz *= -1
 
     prev_quaternion = quat_wxyz.copy()  # Store for next iteration
 
@@ -179,9 +169,6 @@ def axis_angle_to_quaternion(axis_angle, prev_quaternion):
 # and applies a 180-degree Z-axis rotation
 def get_actual_TCP_Pose(prev_axis_angle, prev_quaternion):
     tcp_pose = np.array(rtde_r.getActualTCPPose())  # [x, y, z, rx, ry, rz]
-    
-    # Ensure axis-angle formatting before converting to quaternion
-    # tcp_pose[3:], prev_axis_angle = normalize_axis_angle(tcp_pose[3:], prev_axis_angle)  
 
     pos = tcp_pose[:3]  # [X, Y, Z]
     axis_angle = [tcp_pose[3:]]  # Convert single axis-angle to list for processing
@@ -190,15 +177,16 @@ def get_actual_TCP_Pose(prev_axis_angle, prev_quaternion):
     quat_wxyz, prev_quaternion = axis_angle_to_quaternion(axis_angle, prev_quaternion)  # Extract single quaternion
 
     # Apply 180-degree rotation around Z-axis
-    rotated_quat = R.from_quat(quat_wxyz, scalar_first=True) * ROT_180_Z
+    # rotated_quat = R.from_quat(quat_wxyz, scalar_first=True) * ROT_180_Z
+    # rotated_quat_wxyz = rotated_quat.as_quat(scalar_first=True)
+
+    rotated_quat = ROT_180_Z * R.from_quat(quat_wxyz, scalar_first=True)
     rotated_quat_wxyz = rotated_quat.as_quat(scalar_first=True)
 
     # Apply 180-degree rotation to the position
     rotated_pos = ROT_180_Z.apply(pos)
 
     # rotated_quat_wxyz = np.array([0.0, 0.0, -1.0, 0.0]) # For pos only control
-
-    # print(np.concatenate((rotated_pos, rotated_quat_wxyz), axis=0))
 
     return np.concatenate((rotated_pos, rotated_quat_wxyz), axis=0), prev_axis_angle, prev_quaternion
 
@@ -220,16 +208,12 @@ def enforce_axis_angle_continuity(new_rotvec, prev_rotvec):
     if np.dot(new_rotvec, prev_rotvec) < 0:  
         new_rotvec *= -1  # Flip the entire vector
 
-    # # Component-wise check to prevent mismatches (new method)
-    # for i in range(3):
-    #     if abs(new_rotvec[i] - prev_rotvec[i]) > np.pi:  # Detect sudden sign flip
-    #         new_rotvec[i] *= -1  # Flip only the affected component
-
     return new_rotvec
 
 def execute_action_on_real_robot(action, tcp_pose, prev_rotvec, prev_rotvec_2):
     """Send a TCP displacement action to the robot, ensuring it is rotated back 180 degrees before execution."""
-    
+    # action[3:] = [0, 0, 0] # For pos only control
+
     # Extract current position and rotation
     current_tcp = np.array(tcp_pose[:3])  # Position [x, y, z]
     current_rotation = R.from_quat(tcp_pose[3:], scalar_first=True)  # Quaternion rotation
@@ -267,26 +251,23 @@ def execute_action_on_real_robot(action, tcp_pose, prev_rotvec, prev_rotvec_2):
     new_tcp[3:] = new_rotvec  # Store final axis-angle rotation
     new_tcp[:3] = ROT_180_Z.inv().apply(new_tcp[:3])  # Rotate position back
 
-    # print("Final TCP Pose Sent to Robot:", new_tcp)
-
-    # print(new_tcp)
+    print("Final TCP Pose Sent to Robot:", new_tcp)
 
     # Send movement command to robot
-    # rtde_c.moveL(new_tcp.tolist(), speed=0.2, acceleration=0.2)
-    rtde_c.moveL(new_tcp.tolist(), speed=1.0, acceleration=1.0)
-
+    rtde_c.moveL(new_tcp.tolist(), speed=0.2, acceleration=0.2)
+    # rtde_c.moveL(new_tcp.tolist(), speed=1.0, acceleration=1.0)
 
     return prev_rotvec, prev_rotvec_2  # Return updated axis-angle for the next iteration
-
-
-
 
 # Function to compute quaternion distance
 def quaternion_distance(q1, q2):
     """ Compute the quaternion similarity (distance metric) """
     return 1 - abs(np.dot(q1, q2))  # Ensure shortest path
 
-
+def quaternion_geodesic_distance(q1, q2):
+    """Compute geodesic distance between two quaternions."""
+    dot_product = np.clip(np.dot(q1, q2), -1.0, 1.0)  # Ensure valid range
+    return 2 * np.arccos(abs(dot_product))  # Compute angle difference
 
 # Main control loop
 def run_on_real_robot():
@@ -298,8 +279,8 @@ def run_on_real_robot():
     prev_rotvec_2 = None
     current_index = 0
 
-    target_pose = sample_random_pose()
-    # target_pose = sample_predefined_pose(current_index)
+    # target_pose = sample_random_pose()
+    target_pose = sample_predefined_pose(current_index)
     print(f"Target Pose: {target_pose}")
 
     timestep = 0  # Initialize timestep counter
@@ -308,13 +289,14 @@ def run_on_real_robot():
         tcp_pose, prev_axis_angle, prev_quaternion = get_actual_TCP_Pose(prev_axis_angle, prev_quaternion)
         obs = get_robot_state(tcp_pose, target_pose, previous_action)
 
-        # print("Current TCP Pose: ", tcp_pose)
-        # print("Target Pose: ", target_pose)
+        print("Current TCP Pose: ", tcp_pose)
+        print("Target Pose: ", target_pose)
 
         with torch.inference_mode():
+            # print(obs)
             action, _ = agent.predict(obs, deterministic=True)
-            action *= 0.01 # 0.05 0.01 0.001
-            # print(action)
+            action *= 0.0025 # 0.05 0.01 0.001
+            print(action)
 
 
         if save:
@@ -330,21 +312,25 @@ def run_on_real_robot():
         # Check if target orientation is reached
         current_quat = tcp_pose[3:]  # (w, x, y, z)
         target_quat = target_pose[3:]  # (w, x, y, z)
-        orientation_distance = quaternion_distance(current_quat, target_quat)
+        orientation_distance_simple = quaternion_distance(current_quat, target_quat)
+        orientation_distance_geodesic = quaternion_geodesic_distance(current_quat, target_quat)
 
-        print(f"Position Error: {position_distance}, Orientation Error: {orientation_distance}")
+        print("Simple quaternion distance: ", orientation_distance_simple)
+        print("Geodesic quaternion distance: ", orientation_distance_geodesic)
 
-        if position_distance < 0.05 and orientation_distance < 0.04:  # Adjust threshold if needed
+        print(f"Position Error: {position_distance}, Orientation Error: {orientation_distance_geodesic}")
+
+        if position_distance < 0.01 and orientation_distance_geodesic < 0.04:  # Adjust threshold if needed
         # if position_distance < 0.054: # For position only control
             print("Target reached!")
             print("Final TCP Pose: ", tcp_pose)
 
 
-            target_pose = sample_random_pose()
-            # current_index += 1
-            # if current_index == 3:
-            #     return
-            # target_pose = sample_predefined_pose(current_index)
+            # target_pose = sample_random_pose()
+            current_index += 1
+            if current_index == 3:
+                return
+            target_pose = sample_predefined_pose(current_index)
             print(f"Target Pose: {target_pose}")
 
         timestep += 1  # Increment timestep counter
