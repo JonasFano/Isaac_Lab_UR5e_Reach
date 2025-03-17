@@ -10,7 +10,8 @@ import time
 from scipy.spatial.transform import Rotation as R
 
 # Replace with the IP address of your robot
-ROBOT_IP = "192.168.1.100"
+# ROBOT_IP = "192.168.1.100"
+ROBOT_IP = "10.52.4.47"
 
 print("start")
 # Initialize RTDE Control and Receive Interfaces 
@@ -30,9 +31,9 @@ agent = PPO.load(checkpoint_path)
 
 # Set CSV save directory
 save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
-csv_path = os.path.join(save_dir, "real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_0025_predefined_poses_v5.csv")
+csv_path = os.path.join(save_dir, "ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_predefined_poses.csv")
 
-save = False # True # False
+save = True # True # False
 
 # 180-degree rotation around Z-axis
 ROT_180_Z = R.from_euler('z', 180, degrees=True)
@@ -61,8 +62,8 @@ def save_observations_to_csv(file_path, timestep, tcp_pose, target_pose, last_ac
 def move_robot_to_home():
     """Move robot to home pose specified with joint positions."""
     home_pose = np.array([1.3, -2.0, 2.0, -1.5, -1.5, 3.14]) # 0.0]) # 3.14])
-    speed = 0.5
-    acceleration = 0.5
+    speed = 1.5
+    acceleration = 1.5
     rtde_c.moveJ(home_pose, speed=speed, acceleration=acceleration)
 
 
@@ -191,10 +192,7 @@ def get_actual_TCP_Pose(prev_axis_angle, prev_quaternion):
     return np.concatenate((rotated_pos, rotated_quat_wxyz), axis=0), prev_axis_angle, prev_quaternion
 
 
-
-
 # Function to get the robot's current state with quaternion in [w, x, y, z] format
-
 def get_robot_state(tcp_pose, target_pose, previous_action):
     return np.concatenate((tcp_pose, target_pose, previous_action), axis=0)
 
@@ -295,7 +293,7 @@ def run_on_real_robot():
         with torch.inference_mode():
             # print(obs)
             action, _ = agent.predict(obs, deterministic=True)
-            action *= 0.0025 # 0.05 0.01 0.001
+            action *= 0.01 # 0.05 0.01 0.001
             print(action)
 
 

@@ -223,7 +223,7 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                 "elbow_joint": 2.0, 
                 "wrist_1_joint": -1.5, 
                 "wrist_2_joint": -1.5, 
-                "wrist_3_joint": 3.14, 
+                "wrist_3_joint": 0.0, #3.14, 
             }
         ),
         actuators={
@@ -606,12 +606,12 @@ class CommandsCfg:
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
         body_name="wrist_3_link",
-        resampling_time_range=(15.0, 15.0),
+        resampling_time_range=(15.0, 15.0), #(5.0, 5.0), # (15.0, 15.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
             pos_x=(-0.15, 0.15),
             pos_y=(0.25, 0.5),
-            pos_z=(0.1, 0.4),
+            pos_z=(0.2, 0.5),
             roll=(0.0, 0.0),
             pitch=(math.pi, math.pi),  # depends on end-effector axis
             yaw=(-3.14, 3.14), # (0.0, 0.0), # y
@@ -724,24 +724,24 @@ class EventCfg:
     """Configuration for events."""
     reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
 
-    # # New training setting
-    # reset_robot_joints = EventTerm(
-    #     func=mdp.reset_joints_by_scale,
-    #     mode="reset",
-    #     params={
-    #         "position_range": (0.8, 1.2),
-    #         "velocity_range": (0.0, 0.0),
-    #     },
-    # )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+    # New training setting
     reset_robot_joints = EventTerm(
         func=mdp.reset_joints_by_scale,
         mode="reset",
         params={
-            "position_range": (1.0, 1.0),
+            "position_range": (0.8, 1.2),
             "velocity_range": (0.0, 0.0),
         },
     )
+    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+    # reset_robot_joints = EventTerm(
+    #     func=mdp.reset_joints_by_scale,
+    #     mode="reset",
+    #     params={
+    #         "position_range": (1.0, 1.0),
+    #         "velocity_range": (0.0, 0.0),
+    #     },
+    # )
     # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
     # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
     # reset_robot_joints = EventTerm(
@@ -796,7 +796,7 @@ class RewardsCfg:
     # action penalty
     action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=-1e-4)
 
-    # action_magnitude = RewTerm(func=mdp.action_l2_position, weight=-1e-4)
+    action_magnitude = RewTerm(func=mdp.action_l2_position, weight=-1e-4)
 
     # joint_vel = RewTerm(
     #     func=mdp.joint_vel_l2,
@@ -809,11 +809,11 @@ class RewardsCfg:
     #     weight=-0.05,
     #     params={"pos_threshold": 1.0, "axis_angle_threshold": 2.0}) # "pos_threshold": 0.05, "axis_angle_threshold": 0.08})
 
-    ee_acc = RewTerm(
-        func=mdp.body_lin_acc_l2,
-        weight=-1e-4,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]),}
-    )
+    # ee_acc = RewTerm(
+    #     func=mdp.body_lin_acc_l2,
+    #     weight=-1e-4,
+    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]),}
+    # )
 
 
 @configclass
@@ -829,12 +829,12 @@ class CurriculumCfg:
     """Curriculum terms for the MDP."""
 
     action_rate = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.01, "num_steps": 20000} #15000 #4500
+        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.02, "num_steps": 20000} #15000 #4500
     )
 
-    # action_magnitude = CurrTerm(
-    #     func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.05, "num_steps": 20000} #15000 #4500
-    # )
+    action_magnitude = CurrTerm(
+        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.02, "num_steps": 20000} #15000 #4500
+    )
 
     # action_rate_v2 = CurrTerm(
     #     func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.05, "num_steps": 40000} #15000 #4500
@@ -848,9 +848,9 @@ class CurriculumCfg:
     #     func=mdp.modify_reward_weight, params={"term_name": "joint_vel", "weight": -0.01, "num_steps": 4500}
     # )
 
-    ee_acc = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": -0.001, "num_steps": 20000} #4500
-    )
+    # ee_acc = CurrTerm(
+    #     func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": -0.001, "num_steps": 20000} #4500
+    # )
 
 
 ##
@@ -878,7 +878,7 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
         """Post initialization."""
         # general settings
         self.decimation = 2 # 4 # 50 # 2
-        self.episode_length_s = 15.0
+        self.episode_length_s = 150.0
         # simulation settings
         self.sim.dt = 0.01 #1/60
         self.sim.render_interval = self.decimation

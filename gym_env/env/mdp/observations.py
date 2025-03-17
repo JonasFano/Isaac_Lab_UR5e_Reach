@@ -79,6 +79,9 @@ def get_current_tcp_pose(env: ManagerBasedRLEnv, gripper_offset: List[float], ro
     # # Concatenate the position and axis-angle into a single tensor
     # tcp_pose_b = torch.cat((tcp_pos_b, tcp_axis_angle_b), dim=-1)
 
+    # print(robot.data.joint_pos)
+    # print(robot.data.joint_limits)
+
     # Or quaternion representation:
     tcp_pose_b = torch.cat((tcp_pos_b, tcp_quat_b), dim=-1)
     return tcp_pose_b

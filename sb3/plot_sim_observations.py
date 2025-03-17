@@ -8,8 +8,9 @@ import numpy as np
 # filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper.csv"
 # filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2.csv"
 # filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_01.csv"
-filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_0025.csv"
-
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_0025.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_0025_v2.csv"
+filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025.csv"
 
 
 # filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_1.csv"
@@ -18,7 +19,7 @@ filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observat
 # Read data from a CSV file
 df = pd.read_csv(filepath)
 
-max_timesteps = 500
+max_timesteps = None #500
 
 if max_timesteps is not None:
     df = df.iloc[:max_timesteps]
@@ -49,8 +50,8 @@ fig.update_layout(
 
 output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/real_robot"
 os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
-filename = "tcp_and_target_pose_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper"
-save = False  # False # True
+filename = "tcp_and_target_pose_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025"
+save = True  # False # True
 
 if save:
     png_path = os.path.join(output_dir, filename + ".png")
@@ -155,7 +156,7 @@ fig_axis_angle.update_layout(
     hovermode="x unified",
 )
 
-filename = "tcp_and_target_pose_axis_angle_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper"
+filename = "tcp_and_target_pose_axis_angle_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025"
 
 if save:
     png_axis_angle_path = os.path.join(output_dir, filename + ".png")
@@ -172,7 +173,7 @@ fig_axis_angle.show()
 fig_actions = go.Figure()
 
 # Define colors for action components
-action_colors = {'x': 'red', 'y': 'green', 'z': 'blue', 'rx': 'purple', 'ry': 'orange', 'rz': 'cyan'}
+action_colors = {'x': 'red', 'y': 'green', 'z': 'blue', 'rx': 'purple', 'ry': 'orange', 'rz': 'brown'}
 
 # Scale factor
 scale_factor = 0.0025
@@ -194,10 +195,44 @@ fig_actions.update_layout(
 )
 
 # Save the plot if needed
-filename_actions = "actions_" + "real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_random_poses"
+filename_actions = "actions_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025"
 if save:
     png_actions_path = os.path.join(output_dir, filename_actions + ".png")
     fig_actions.write_image(png_actions_path, width=1000, height=600)
 
 # Show the figure
 fig_actions.show()
+
+
+
+
+
+
+
+tcp_angle = np.linalg.norm(tcp_axis_angle, axis=1)
+target_angle = np.linalg.norm(target_axis_angle, axis=1)
+
+# Create Plotly figure
+fig_angle = go.Figure()
+
+# Add traces for TCP and Target orientation angles
+fig_angle.add_trace(go.Scatter(x=df['timestep'], y=tcp_angle, mode='lines', name='TCP Orientation Angle', line=dict(color='blue')))
+fig_angle.add_trace(go.Scatter(x=df['timestep'], y=target_angle, mode='lines', name='Target Orientation Angle', line=dict(color='red', dash='dash')))
+
+# Customize layout
+fig_angle.update_layout(
+    xaxis_title='Timestep',
+    yaxis_title='Rotation Angle (radians)',
+    title='TCP vs Target Orientation Angle Over Time',
+    legend_title='Legend',
+    hovermode="x unified"
+)
+
+# Save the plot if needed
+filename_angle = "angle_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025"
+if save:
+    png_angle_path = os.path.join(output_dir, filename_angle + ".png")
+    fig_angle.write_image(png_angle_path, width=1000, height=600)
+
+# Show the figure
+fig_angle.show()

@@ -6,52 +6,17 @@ import numpy as np
 
 
 # filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_pos_only.csv'
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations.csv'
-
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_1.csv'
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_3.csv'
-
 # filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_rotate_rx.csv'
 # filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_rotate_rz.csv'
 
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_random_poses.csv"
+# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_random_poses_initial_wrist_3_is_0.csv"
+
+filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses.csv"
 
 
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_26_02_v1.csv'
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_26_02_v2.csv'
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_26_02_v3.csv'
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_26_02_v4.csv'
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose.csv'
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_v2.csv'
-
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_scale_0_002_random_poses.csv'
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_decaying_scale_random_poses.csv'
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_decaying_scale_random_poses_v2.csv'
-
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_predefined_poses_pos_only.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_05_predefined_poses_pos_only.csv"
-
-
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_predefined_poses_pos_only.csv"
-
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_predefined_poses.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_04_predefined_poses.csv"
-
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_random_poses.csv"
-
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_005_predefined_poses_v3.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_005_predefined_poses_v4.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_decaying_scale_random_poses_v2.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_decaying_scale_random_poses.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_scale_0_002_random_poses_sign_flipping.csv"
-
-
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_predefined_poses_v3.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_0001_predefined_poses_v4.csv"
-filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_0025_predefined_poses_v5.csv"
-
-
-
-save = False  # True False
+save = True  # True False
 
 
 # Read data from a CSV file
@@ -88,7 +53,7 @@ fig.update_layout(
 
 output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/real_robot"
 os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
-filename = "tcp_and_target_position_" + "real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_random_poses"
+filename = "tcp_and_target_position_" + "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
 
 if save:
     png_path = os.path.join(output_dir, filename + ".png")
@@ -191,7 +156,7 @@ fig_axis_angle.update_layout(
     hovermode="x unified",
 )
 
-filename = "tcp_and_target_pose_axis_angle_" + "real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_random_poses"
+filename = "tcp_and_target_pose_axis_angle_" + "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
 
 if save:
     png_axis_angle_path = os.path.join(output_dir, filename + ".png")
@@ -207,7 +172,7 @@ fig_axis_angle.show()
 fig_actions = go.Figure()
 
 # Define colors for action components
-action_colors = {'x': 'red', 'y': 'green', 'z': 'blue', 'rx': 'purple', 'ry': 'orange', 'rz': 'cyan'}
+action_colors = {'x': 'red', 'y': 'green', 'z': 'blue', 'rx': 'purple', 'ry': 'orange', 'rz': 'brown'}
 
 # Add traces for action components
 fig_actions.add_trace(go.Scatter(x=df['timestep'], y=df['last_action_0'], mode='lines', name='Action X', line=dict(color=action_colors['x'])))
@@ -226,10 +191,43 @@ fig_actions.update_layout(
 )
 
 # Save the plot if needed
-filename_actions = "actions_" + "real_observations_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_0_01_random_poses"
+filename_actions = "actions_" + "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
 if save:
     png_actions_path = os.path.join(output_dir, filename_actions + ".png")
     fig_actions.write_image(png_actions_path, width=1000, height=600)
 
 # Show the figure
 fig_actions.show()
+
+
+
+
+
+
+tcp_angle = np.linalg.norm(tcp_axis_angle, axis=1)
+target_angle = np.linalg.norm(target_axis_angle, axis=1)
+
+# Create Plotly figure
+fig_angle = go.Figure()
+
+# Add traces for TCP and Target orientation angles
+fig_angle.add_trace(go.Scatter(x=df['timestep'], y=tcp_angle, mode='lines', name='TCP Orientation Angle', line=dict(color='blue')))
+fig_angle.add_trace(go.Scatter(x=df['timestep'], y=target_angle, mode='lines', name='Target Orientation Angle', line=dict(color='red', dash='dash')))
+
+# Customize layout
+fig_angle.update_layout(
+    xaxis_title='Timestep',
+    yaxis_title='Rotation Angle (radians)',
+    title='TCP vs Target Orientation Angle Over Time',
+    legend_title='Legend',
+    hovermode="x unified"
+)
+
+# Save the plot if needed
+filename_angle = "angle_" + "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
+if save:
+    png_angle_path = os.path.join(output_dir, filename_angle + ".png")
+    fig_angle.write_image(png_angle_path, width=1000, height=600)
+
+# Show the figure
+fig_angle.show()

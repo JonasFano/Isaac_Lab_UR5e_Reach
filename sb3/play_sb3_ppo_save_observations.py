@@ -126,7 +126,7 @@ def main():
             # print(timestep)
             timestep += 1
 
-            if timestep > 748: # 373: # 748:
+            if timestep > 3*748: # 373: # 748:
                 env.close()
 
     # close the simulator

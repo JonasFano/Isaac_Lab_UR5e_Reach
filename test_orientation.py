@@ -4,7 +4,8 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 
 # Replace with the IP address of your robot
-ROBOT_IP = "192.168.1.100"
+# ROBOT_IP = "192.168.1.100"
+ROBOT_IP = "10.52.4.217"
 
 ROT_180_Z = R.from_euler('z', 180, degrees=True)
 
