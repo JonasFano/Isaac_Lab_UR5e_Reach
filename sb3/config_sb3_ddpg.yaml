@@ -1,20 +1,23 @@
 # Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/ddpg.yml
 program: train_sb3_wandb_ddpg.py
 method: grid
-name: rel_ik_sb3_ddpg_ur5e_reach_0_05_pose
+name: rel_ik_sb3_ddpg_ur5e_reach_0_05_pose_grid_search
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
 
 parameters:
   seed:
-    value: 42
+    values: [42, 24]
+
+  num_envs:
+    value: 2048
 
   device:
     value: "cuda:0"
 
   n_timesteps: # iteration * n_steps * nenvs: 400 * 64 * 8192 = 209715200
-    value: 209715200
+    value: 104857600
 
   policy:
     value: 'MlpPolicy'
@@ -23,7 +26,7 @@ parameters:
     values: [256, 8192] 
 
   gamma:
-    value: 0.99
+    value: 0.95
 
   learning_rate:
     values: [1e-4, 3e-4]
@@ -35,16 +38,19 @@ parameters:
     value: 4
 
   buffer_size: 
-    value: 1000000
+    value: 1000000 # values: [100000, 1000000]
 
   learning_starts: 
-    value: 10000
+    value: 1000 # values: [1000, 10000]
 
   tau: 
     value: 0.02
 
-  # action_noise:
-  #   values: [NormalActionNoise, OrnsteinUhlenbeckActionNoise]
+  action_noise:
+    value: NormalActionNoise # values: [NormalActionNoise, OrnsteinUhlenbeckActionNoise]
+
+  action_sigma:
+    value: 0.01
 
   # optimize_memory_usage:
   #   value: True
@@ -52,9 +58,9 @@ parameters:
   policy_kwargs:
     parameters:
       activation_fn: 
-        value: nn.ELU
+        values: ['nn.ELU', 'nn.ReLU', 'nn.Tanh']
       net_arch:
-        values: [[300, 300], [256, 128], [128, 64]]
+        value: [256, 128] # values: [[300, 300], [256, 128], [128, 64]]
 
   normalize_input:
     value: False
