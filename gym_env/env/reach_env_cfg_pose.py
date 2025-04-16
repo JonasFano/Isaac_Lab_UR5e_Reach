@@ -208,6 +208,16 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
             rigid_props=sim_utils.RigidBodyPropertiesCfg(
                 disable_gravity=False,
                 max_depenetration_velocity=5.0,
+                # disable_gravity=False,
+                # max_depenetration_velocity=5.0,
+                # linear_damping=0.0,
+                # angular_damping=0.0,
+                # max_linear_velocity=1000.0,
+                # max_angular_velocity=3666.0,
+                # enable_gyroscopic_forces=True,
+                # solver_position_iteration_count=192,
+                # solver_velocity_iteration_count=1,
+                # max_contact_impulse=1e32,
             ),
             # articulation_props=sim_utils.ArticulationRootPropertiesCfg(
             #     enabled_self_collisions=True, 
@@ -321,7 +331,7 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                 #     "wrist_1_joint": 1200.0,
                 #     "wrist_2_joint": 1200.0,
                 #     "wrist_3_joint": 1200.0,
-                # },
+                # },RelIK_UR5e_ReachEnvCfg
                 # damping={
                 #     "shoulder_pan_joint": 133.27,
                 #     "shoulder_lift_joint": 200.72,
@@ -606,7 +616,7 @@ class CommandsCfg:
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
         body_name="wrist_3_link",
-        resampling_time_range=(15.0, 15.0), #(5.0, 5.0), # (15.0, 15.0),
+        resampling_time_range=(5.0, 5.0), #(5.0, 5.0), # (15.0, 15.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
             pos_x=(-0.15, 0.15),
@@ -684,7 +694,7 @@ class ObservationsCfg:
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
             params={"gripper_offset": [0.0, 0.0, 0.0], "robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
-            noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
+            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
             # # No Unoise for rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
             # noise=Unoise(n_min=-0.001, n_max=0.001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
             # noise=Unoise(n_min=-0.0001, n_max=0.0001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
@@ -700,7 +710,7 @@ class ObservationsCfg:
         pose_command = ObsTerm(
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
-            noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
+            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
             # No Unoise for rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
             # noise=Unoise(n_min=-0.001, n_max=0.001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
             # noise=Unoise(n_min=-0.0001, n_max=0.0001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
@@ -725,23 +735,23 @@ class EventCfg:
     reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
 
     # New training setting
-    reset_robot_joints = EventTerm(
-        func=mdp.reset_joints_by_scale,
-        mode="reset",
-        params={
-            "position_range": (0.8, 1.2),
-            "velocity_range": (0.0, 0.0),
-        },
-    )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
     # reset_robot_joints = EventTerm(
     #     func=mdp.reset_joints_by_scale,
     #     mode="reset",
     #     params={
-    #         "position_range": (1.0, 1.0),
+    #         "position_range": (0.8, 1.2),
     #         "velocity_range": (0.0, 0.0),
     #     },
     # )
+    # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
+    reset_robot_joints = EventTerm(
+        func=mdp.reset_joints_by_scale,
+        mode="reset",
+        params={
+            "position_range": (1.0, 1.0),
+            "velocity_range": (0.0, 0.0),
+        },
+    )
     # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
     # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
     # reset_robot_joints = EventTerm(
@@ -828,13 +838,13 @@ class TerminationsCfg:
 class CurriculumCfg:
     """Curriculum terms for the MDP."""
 
-    action_rate = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.02, "num_steps": 20000} #15000 #4500
-    )
+    # action_rate = CurrTerm(
+    #     func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.02, "num_steps": 20000} #15000 #4500
+    # )
 
-    action_magnitude = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.02, "num_steps": 20000} #15000 #4500
-    )
+    # action_magnitude = CurrTerm(
+    #     func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.02, "num_steps": 20000} #15000 #4500
+    # )
 
     # action_rate_v2 = CurrTerm(
     #     func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.05, "num_steps": 40000} #15000 #4500
@@ -878,7 +888,7 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
         """Post initialization."""
         # general settings
         self.decimation = 2 # 4 # 50 # 2
-        self.episode_length_s = 150.0
+        self.episode_length_s = 15.0
         # simulation settings
         self.sim.dt = 0.01 #1/60
         self.sim.render_interval = self.decimation
@@ -889,3 +899,16 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
         self.sim.physx.gpu_total_aggregate_pairs_capacity = 16 * 1024
         self.sim.physx.friction_correlation_distance = 0.00625
         self.sim.physx.gpu_collision_stack_size = 4096 * 4096 * 100 # Was added due to an PhysX error: collisionStackSize buffer overflow detected
+
+
+
+
+        # self.sim.physx.solver_type=1,
+        # self.sim.physx.max_position_iteration_count=192,  # Important to avoid interpenetration.
+        # self.sim.physx.max_velocity_iteration_count=1,
+        # self.sim.physx.bounce_threshold_velocity=0.2,
+        # self.sim.physx.friction_offset_threshold=0.01,
+        # self.sim.physx.friction_correlation_distance=0.00625,
+        # self.sim.physx.gpu_max_rigid_contact_count=2**23,
+        # self.sim.physx.gpu_max_rigid_patch_count=2**23,
+        # self.sim.physx.gpu_max_num_partitions=1,  # Important for stable simulation.

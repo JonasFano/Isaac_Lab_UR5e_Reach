@@ -4,23 +4,27 @@ import os
 from scipy.spatial.transform import Rotation as R
 import numpy as np
 
+file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
+output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/real_robot"
+os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
 
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_pos_only.csv'
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_rotate_rx.csv'
-# filepath = '/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observations_rotate_rz.csv'
+# filename = 'real_observations_pos_only'
+# filename = 'real_observations_rotate_rx'
+filename = 'real_observations_rotate_rz'
 
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_random_poses.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_random_poses_initial_wrist_3_is_0.csv"
+# filename = "ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
+# filename = "ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_random_poses"
+# filename = "ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_random_poses_initial_wrist_3_is_0"
 
-filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses.csv"
+# filename = "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
+# filename = "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_01_random_poses"
+# filename = "ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_orientation_issue"
 
-
-save = True  # True False
+save = False  # True False
 
 
 # Read data from a CSV file
-df = pd.read_csv(filepath)
+df = pd.read_csv(os.path.join(file_dir, filename + ".csv"))
 
 max_timesteps = None
 
@@ -51,12 +55,11 @@ fig.update_layout(
     hovermode="x unified",
 )
 
-output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/real_robot"
-os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
-filename = "tcp_and_target_position_" + "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
+
+
 
 if save:
-    png_path = os.path.join(output_dir, filename + ".png")
+    png_path = os.path.join(output_dir, "tcp_and_target_position_" + filename + ".png")
     fig.write_image(png_path, width=1000, height=600)
 
 # Show the figure
@@ -89,7 +92,7 @@ fig_quaternion.update_layout(
 )
 
 if save:
-    png_quaternion_path = os.path.join(output_dir, filename + "_quaternion.png")
+    png_quaternion_path = os.path.join(output_dir, "tcp_and_target_quaternion_" + filename + ".png")
     fig_quaternion.write_image(png_quaternion_path, width=1000, height=600)
 
 # Show the quaternion figure
@@ -156,10 +159,9 @@ fig_axis_angle.update_layout(
     hovermode="x unified",
 )
 
-filename = "tcp_and_target_pose_axis_angle_" + "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
 
 if save:
-    png_axis_angle_path = os.path.join(output_dir, filename + ".png")
+    png_axis_angle_path = os.path.join(output_dir, "tcp_and_target_axis_angle_" + filename + ".png")
     fig_axis_angle.write_image(png_axis_angle_path, width=1000, height=600)
 
 # Show the figure
@@ -191,9 +193,8 @@ fig_actions.update_layout(
 )
 
 # Save the plot if needed
-filename_actions = "actions_" + "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
 if save:
-    png_actions_path = os.path.join(output_dir, filename_actions + ".png")
+    png_actions_path = os.path.join(output_dir, "actions_" + filename + ".png")
     fig_actions.write_image(png_actions_path, width=1000, height=600)
 
 # Show the figure
@@ -224,10 +225,72 @@ fig_angle.update_layout(
 )
 
 # Save the plot if needed
-filename_angle = "angle_" + "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
 if save:
-    png_angle_path = os.path.join(output_dir, filename_angle + ".png")
+    png_angle_path = os.path.join(output_dir, "angle_" + filename + ".png")
     fig_angle.write_image(png_angle_path, width=1000, height=600)
 
 # Show the figure
 fig_angle.show()
+
+
+
+
+
+
+
+
+
+
+dot_products = np.einsum('ij,ij->i', tcp_quat, target_quat)  # Compute dot product row-wise
+dot_products = np.clip(dot_products, -1.0, 1.0)  # Ensure values are within valid range
+
+geodesic_distance = 2 * np.arccos(np.abs(dot_products))  # Compute geodesic distance
+
+# Create Plotly figure for geodesic distance
+fig_geodesic = go.Figure()
+
+# Add trace for geodesic distance
+fig_geodesic.add_trace(go.Scatter(x=df['timestep'], y=geodesic_distance, mode='lines',
+                                  name='Geodesic Distance', line=dict(color='purple')))
+
+# Customize layout
+fig_geodesic.update_layout(
+    xaxis_title='Timestep',
+    yaxis_title='Geodesic Distance (radians)',
+    title='Geodesic Distance Between TCP and Target Orientation Over Time',
+    legend_title='Legend',
+    hovermode="x unified"
+)
+
+# Save the plot if needed
+if save:
+    png_geodesic_distance_path = os.path.join(output_dir, "geodesic_distance_" + filename + ".png")
+    fig_geodesic.write_image(png_geodesic_distance_path, width=1000, height=600)
+
+# Show the figure
+fig_geodesic.show()
+
+
+
+# Compute min, max, and differences for x, y, z
+min_x, max_x = df['tcp_pose_0'].min(), df['tcp_pose_0'].max()
+min_y, max_y = df['tcp_pose_1'].min(), df['tcp_pose_1'].max()
+min_z, max_z = df['tcp_pose_2'].min(), df['tcp_pose_2'].max()
+
+diff_x = max_x - min_x
+diff_y = max_y - min_y
+diff_z = max_z - min_z
+
+print(f"x: min = {min_x:.6f}, max = {max_x:.6f}, diff = {diff_x:.6f}")
+print(f"y: min = {min_y:.6f}, max = {max_y:.6f}, diff = {diff_y:.6f}")
+print(f"z: min = {min_z:.6f}, max = {max_z:.6f}, diff = {diff_z:.6f}")
+
+# Print highest difference
+max_diff = max(diff_x, diff_y, diff_z)
+print(f"\nHighest difference across diff = {max_diff:.6f}")
+
+displacement = np.sqrt((df['tcp_pose_0'] - np.mean(df['tcp_pose_0']))**2 + 
+                       (df['tcp_pose_1'] - np.mean(df['tcp_pose_1']))**2 + 
+                       (df['tcp_pose_2'] - np.mean(df['tcp_pose_2']))**2)
+print(f"Max TCP deviation: {displacement.max()}")
+print(f"RMS TCP deviation: {np.sqrt((displacement**2).mean())}")

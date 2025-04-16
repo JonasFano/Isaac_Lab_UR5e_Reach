@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, List
 
 from isaaclab.assets import RigidObject
 from isaaclab.managers import SceneEntityCfg
-from isaaclab.utils.math import combine_frame_transforms, quat_error_magnitude, quat_mul, quat_apply, quat_log_error, quaternion_geodesic_distance
+from isaaclab.utils.math import combine_frame_transforms, quat_error_magnitude, quat_mul, quat_apply
 
 if TYPE_CHECKING:
     from isaaclab.envs import ManagerBasedRLEnv

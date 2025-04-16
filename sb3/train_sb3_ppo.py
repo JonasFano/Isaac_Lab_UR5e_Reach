@@ -176,8 +176,9 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
 
     #     # print(f"Timestep: {timestep}, Action: {action}")
 
-    #     fixed_action = np.array([[-0.0646, 0.3277, 0.3049, -0.0405, 0.1354, 0.9893, -0.0353]], dtype=np.float32)
+    #     # fixed_action = np.array([[-0.0646, 0.3277, 0.3049, -0.0405, 0.1354, 0.9893, -0.0353]], dtype=np.float32)
     #     # fixed_action = np.array([[-0.0525,  0.3357,  0.4391, -0.0405,  0.1354,  0.9893, -0.0353]], dtype=np.float32)
+    #     fixed_action = np.array([[-0.0, 0.0, 0.0, -0.0, 0.0, 0.0]], dtype=np.float32)
 
 
         

@@ -4,22 +4,32 @@ from scipy.spatial.transform import Rotation as R
 import os
 import numpy as np
 
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_01.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_0025.csv"
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_0025_v2.csv"
-filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025.csv"
+file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/"
+output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/comparison/"
+os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
+
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_01"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_0025"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_0025_v2"
+filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025"
 
 
-# filepath = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_1.csv"
+# filename = "observations_1"
 
+
+save = True  # False # True
 
 # Read data from a CSV file
-df = pd.read_csv(filepath)
+df = pd.read_csv(os.path.join(file_dir, filename + ".csv"))
 
 max_timesteps = None #500
+
+
+
+
 
 if max_timesteps is not None:
     df = df.iloc[:max_timesteps]
@@ -48,13 +58,8 @@ fig.update_layout(
     hovermode="x unified",
 )
 
-output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/real_robot"
-os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
-filename = "tcp_and_target_pose_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025"
-save = True  # False # True
-
 if save:
-    png_path = os.path.join(output_dir, filename + ".png")
+    png_path = os.path.join(output_dir, "tcp_and_target_position_" + filename + ".png")
     fig.write_image(png_path, width=1000, height=600)
 
 # Show the figure
@@ -87,7 +92,7 @@ fig_quaternion.update_layout(
 )
 
 if save:
-    png_quaternion_path = os.path.join(output_dir, filename + "_quaternion.png")
+    png_quaternion_path = os.path.join(output_dir, "tcp_and_target_quaternion_" + filename + ".png")
     fig_quaternion.write_image(png_quaternion_path, width=1000, height=600)
 
 # Show the quaternion figure
@@ -156,10 +161,8 @@ fig_axis_angle.update_layout(
     hovermode="x unified",
 )
 
-filename = "tcp_and_target_pose_axis_angle_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025"
-
 if save:
-    png_axis_angle_path = os.path.join(output_dir, filename + ".png")
+    png_axis_angle_path = os.path.join(output_dir, "tcp_and_target_axis_angle_" + filename + ".png")
     fig_axis_angle.write_image(png_axis_angle_path, width=1000, height=600)
 
 # Show the figure
@@ -195,9 +198,8 @@ fig_actions.update_layout(
 )
 
 # Save the plot if needed
-filename_actions = "actions_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025"
 if save:
-    png_actions_path = os.path.join(output_dir, filename_actions + ".png")
+    png_actions_path = os.path.join(output_dir, "actions_" + filename + ".png")
     fig_actions.write_image(png_actions_path, width=1000, height=600)
 
 # Show the figure
@@ -229,10 +231,44 @@ fig_angle.update_layout(
 )
 
 # Save the plot if needed
-filename_angle = "angle_" + "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025"
 if save:
-    png_angle_path = os.path.join(output_dir, filename_angle + ".png")
+    png_angle_path = os.path.join(output_dir, "angle_" + filename + ".png")
     fig_angle.write_image(png_angle_path, width=1000, height=600)
 
 # Show the figure
 fig_angle.show()
+
+
+
+
+
+
+dot_products = np.einsum('ij,ij->i', tcp_quat, target_quat)  # Compute dot product row-wise
+dot_products = np.clip(dot_products, -1.0, 1.0)  # Ensure values are within valid range
+
+geodesic_distance = 2 * np.arccos(np.abs(dot_products))  # Compute geodesic distance
+
+# Create Plotly figure for geodesic distance
+fig_geodesic = go.Figure()
+
+# Add trace for geodesic distance
+fig_geodesic.add_trace(go.Scatter(x=df['timestep'], y=geodesic_distance, mode='lines',
+                                  name='Geodesic Distance', line=dict(color='purple')))
+
+# Customize layout
+fig_geodesic.update_layout(
+    xaxis_title='Timestep',
+    yaxis_title='Geodesic Distance (radians)',
+    title='Geodesic Distance Between TCP and Target Orientation Over Time',
+    legend_title='Legend',
+    hovermode="x unified"
+)
+
+# Save the plot if needed
+if save:
+    png_geodesic_distance_path = os.path.join(output_dir, "geodesic_distance_" + filename + ".png")
+    fig_geodesic.write_image(png_geodesic_distance_path, width=1000, height=600)
+
+
+# Show the figure
+fig_geodesic.show()

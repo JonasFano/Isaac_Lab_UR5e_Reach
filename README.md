@@ -12,6 +12,7 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     cd isaaclab/IsaacLab
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/train_sb3_ppo.py --num_envs 1 --task UR5e-Reach-IK --headless --no_logging
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/train_sb3_ppo.py --num_envs 4096 --task UR5e-Reach-Pose-IK --headless
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/train_sb3_ppo.py --num_envs 1 --task UR5e-Reach-Pose-IK --no_logging
 
 
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/ppo/UR5e-Reach-Pose-IK/2024-12-13_16-04-26/model.zip
@@ -297,6 +298,9 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_ee_acc config_sb3_ppo.yaml
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_ee_acc_without_gripper config_sb3_ppo.yaml
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper config_sb3_ppo.yaml
+
+    wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization config_sb3_ppo.yaml
+    wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization_800 config_sb3_ppo.yaml
 
 
     
