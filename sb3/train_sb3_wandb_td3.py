@@ -46,7 +46,7 @@ def main():
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     run = wandb.init(
-        project="rel_ik_sb3_td3_ur5e_reach_0_05_pose_bayes",
+        project="rel_ik_sb3_td3_ur5e_reach_0_05_pose_grid_search",
         config=config,
         sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
         monitor_gym=False,  # auto-upload the videos of agents playing the game
@@ -55,7 +55,7 @@ def main():
 
     # Load env cfg
     task = "UR5e-Reach-Pose-IK"
-    num_envs = 2048
+    num_envs = wandb.config["num_envs"]
     device = "cuda"
     env_cfg = parse_env_cfg(task, device=device, num_envs=num_envs)
     env_cfg.seed = wandb.config["seed"]
@@ -138,7 +138,7 @@ def main():
     agent.learn(
         total_timesteps=wandb.config["n_timesteps"],
         callback=WandbCallback(
-            gradient_save_freq=10000,
+            gradient_save_freq=1000,
             model_save_path=f"models/{run.id}",
             verbose=2,
         ),

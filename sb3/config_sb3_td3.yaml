@@ -1,68 +1,65 @@
 # Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/td3.yml
 program: train_sb3_wandb_td3.py
-method: bayes
-name: rel_ik_sb3_td3_ur5e_reach_0_05_pose_bayes
+method: grid
+name: rel_ik_sb3_td3_ur5e_reach_0_05_pose_grid_search
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
 
 parameters:
   seed:
-    value: 42
+    values: [42, 24]
+
+  num_envs:
+    value: 2048
 
   device:
     value: "cuda:0"
 
   n_timesteps: # iteration * n_steps * nenvs: 400 * 64 * 8192 = 209715200
-    value: 209715200
+    value: 104857600
 
   policy:
     value: 'MlpPolicy'
 
   batch_size:
-    values: [64, 128, 256, 512]
+    values: [256, 512]
 
   gamma:
-    min: 0.9
-    max: 0.99
+    value: 0.95
 
   learning_rate:
-    min: !!float 5e-5
-    max: !!float 1e-3
+    values: [1e-4, 3e-4]
 
   train_freq:
-    values: [1, 4, 8]
+    value: 4
 
   gradient_steps:
-    values: [1, 4, 8]
+    value: 4
 
   buffer_size: 
-    values: [50000, 100000, 1000000, 5000000]
+    value: 1000000
 
   policy_delay:
     value: 2
 
   learning_starts: 
-    values: [100, 1000, 10000]
+    value: 1000
 
   tau: 
-    min: 0.001
-    max: 0.05
+    value: 0.02
 
   target_policy_noise:
-    min: 0.0
-    max: 0.3
+    values: [0.2, 0.4]
 
   target_noise_clip:
-    min: 0.0
-    max: 0.6
+    values: [0.2, 0.4]
 
   action_noise:
     value: NormalActionNoise
 
   action_sigma:
-    min: 0.0
-    max: 0.1
+    value: 0.01
 
   # replay_buffer_class: 
   #   value: "HerReplayBuffer"
@@ -75,7 +72,7 @@ parameters:
       activation_fn: 
         values: ['nn.ELU', 'nn.ReLU', 'nn.Tanh']
       net_arch:
-        values: [[64, 64], [128, 128], [256, 256], [400, 300]]
+        value: [256, 128]
 
 
   normalize_input:

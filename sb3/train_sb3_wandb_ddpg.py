@@ -5,6 +5,7 @@ import numpy as np
 import torch.nn as nn  # Import nn to access activation functions
 from stable_baselines3 import DDPG
 from stable_baselines3.common.vec_env import VecNormalize
+from stable_baselines3.common.noise import NormalActionNoise
 
 # argparse for non-agent parameters
 parser = argparse.ArgumentParser(description="Train an RL agent with Stable-Baselines3.")
@@ -44,7 +45,7 @@ def main():
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     run = wandb.init(
-        project="rel_ik_sb3_ddpg_ur5e_reach_0_05_pose",
+        project="rel_ik_sb3_ddpg_ur5e_reach_0_05_pose_grid_search",
         config=config,
         sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
         monitor_gym=False,  # auto-upload the videos of agents playing the game
@@ -53,7 +54,7 @@ def main():
 
     # Load env cfg
     task = "UR5e-Reach-Pose-IK"
-    num_envs = 4096
+    num_envs = wandb.config["num_envs"]
     device = "cuda"
     env_cfg = parse_env_cfg(task, device=device, num_envs=num_envs)
     env_cfg.seed = wandb.config["seed"]
@@ -93,6 +94,12 @@ def main():
         else:
             raise ValueError(f"Unknown activation function: {activation_fn_name}")
         
+    if "action_noise" in wandb.config and wandb.config["action_noise"] == "NormalActionNoise":
+        action_dim = env.action_space.shape[0]
+        action_noise = NormalActionNoise(mean=np.zeros(action_dim), sigma=wandb.config.action_sigma * np.ones(action_dim))
+    else:
+        action_noise = None
+        
     # Create a new agent from stable baselines
     agent = DDPG(
         wandb.config["policy"], 
@@ -108,13 +115,14 @@ def main():
         learning_starts=wandb.config.learning_starts,
         tau=wandb.config.tau,
         policy_kwargs=policy_kwargs,
+        action_noise=action_noise,
     )
 
     # Train the agent
     agent.learn(
         total_timesteps=wandb.config["n_timesteps"],
         callback=WandbCallback(
-            gradient_save_freq=10000,
+            gradient_save_freq=1000,
             model_save_path=f"models/{run.id}",
             verbose=2,
         ),

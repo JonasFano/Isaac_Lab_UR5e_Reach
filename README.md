@@ -347,14 +347,14 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3
     wandb sweep --project rel_ik_sb3_td3_ur5e_reach_0_05_pose config_sb3_td3.yaml
 
-    wandb sweep --project rel_ik_sb3_td3_ur5e_reach_0_05_pose_bayes config_sb3_td3.yaml
+    wandb sweep --project rel_ik_sb3_td3_ur5e_reach_0_05_pose_grid_search config_sb3_td3.yaml
 
 
 
 # UR5e Wandb DDPG
     source isaaclab/bin/activate
     cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3
-    wandb sweep --project rel_ik_sb3_ddpg_ur5e_reach_0_05_pose config_sb3_ddpg.yaml
+    wandb sweep --project rel_ik_sb3_ddpg_ur5e_reach_0_05_pose_grid_search config_sb3_ddpg.yaml
 
 
 # Remote connection
