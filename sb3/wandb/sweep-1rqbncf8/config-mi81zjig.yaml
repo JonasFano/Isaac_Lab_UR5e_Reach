@@ -1,0 +1,50 @@
+wandb_version: 1
+
+action_noise:
+  value: NormalActionNoise
+action_sigma:
+  value: 0.01
+batch_size:
+  value: 256
+buffer_size:
+  value: 1000000
+clip_obs:
+  value: 50
+device:
+  value: cuda:0
+gamma:
+  value: 0.95
+gradient_steps:
+  value: 4
+learning_rate:
+  value: 0.0001
+learning_starts:
+  value: 1000
+n_timesteps:
+  value: 104857600
+normalize_input:
+  value: false
+normalize_value:
+  value: false
+num_envs:
+  value: 2048
+policy:
+  value: MlpPolicy
+policy_delay:
+  value: 2
+policy_kwargs:
+  value:
+    activation_fn: nn.ReLU
+    net_arch:
+    - 256
+    - 128
+seed:
+  value: 42
+target_noise_clip:
+  value: 0.2
+target_policy_noise:
+  value: 0.4
+tau:
+  value: 0.02
+train_freq:
+  value: 4

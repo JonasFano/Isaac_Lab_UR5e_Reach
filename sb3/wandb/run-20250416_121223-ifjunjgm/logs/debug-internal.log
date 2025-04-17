@@ -1,0 +1,350 @@
+2025-04-16 12:12:23,535 INFO    StreamThr :103582 [internal.py:wandb_internal():83] W&B internal server running at pid: 103582, started at: 2025-04-16 12:12:23.535319
+2025-04-16 12:12:23,537 INFO    WriterThread:103582 [datastore.py:open_for_write():87] open: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/run-ifjunjgm.wandb
+2025-04-16 12:12:23,926 INFO    SenderThread:103582 [dir_watcher.py:__init__():211] watching files in: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files
+2025-04-16 12:12:23,927 INFO    SenderThread:103582 [sender.py:_start_run_threads():1134] run started: ifjunjgm with start time 1744798343.534435
+2025-04-16 12:12:23,964 INFO    HandlerThread:103582 [system_monitor.py:start():187] Starting system monitor
+2025-04-16 12:12:23,964 INFO    SystemMonitor:103582 [system_monitor.py:_start():151] Starting system asset monitoring threads
+2025-04-16 12:12:23,964 INFO    HandlerThread:103582 [system_monitor.py:probe():207] Collecting system info
+2025-04-16 12:12:23,965 INFO    SystemMonitor:103582 [interfaces.py:start():186] Started cpu monitoring
+2025-04-16 12:12:23,965 INFO    SystemMonitor:103582 [interfaces.py:start():186] Started disk monitoring
+2025-04-16 12:12:23,966 INFO    SystemMonitor:103582 [interfaces.py:start():186] Started gpu monitoring
+2025-04-16 12:12:23,966 INFO    SystemMonitor:103582 [interfaces.py:start():186] Started memory monitoring
+2025-04-16 12:12:23,967 INFO    SystemMonitor:103582 [interfaces.py:start():186] Started network monitoring
+2025-04-16 12:12:23,979 INFO    HandlerThread:103582 [system_monitor.py:probe():217] Finished collecting system info
+2025-04-16 12:12:23,979 INFO    HandlerThread:103582 [system_monitor.py:probe():220] Publishing system info
+2025-04-16 12:12:23,979 INFO    HandlerThread:103582 [system_monitor.py:probe():222] Finished publishing system info
+2025-04-16 12:12:23,983 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-metadata.json with policy now
+2025-04-16 12:12:24,596 INFO    wandb-upload_0:103582 [upload_job.py:push():130] Uploaded file /tmp/tmpq4i80ksbwandb/s72uv1mr-wandb-metadata.json
+2025-04-16 12:12:24,927 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_created():272] file/dir created: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/requirements.txt
+2025-04-16 12:12:24,927 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_created():272] file/dir created: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-metadata.json
+2025-04-16 12:12:24,927 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_created():272] file/dir created: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:12:26,927 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:12:27,679 INFO    HandlerThread:103582 [handler.py:handle_tbrecord():797] handling tbrecord: tbrecord {
+  log_dir: "runs/ifjunjgm/PPO_1"
+  save: true
+}
+control {
+  relay_id: "3b568c97f40247f79722181b27b391b3"
+}
+_info {
+  stream_id: "ifjunjgm"
+}
+
+2025-04-16 12:12:27,727 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0 with policy live
+2025-04-16 12:12:27,927 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_created():272] file/dir created: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:12:28,121 INFO    wandb-upload_0:103582 [upload_job.py:push():130] Uploaded file /tmp/tmpq4i80ksbwandb/i34ttpo8-events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:12:28,927 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:12:29,927 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:12:34,929 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:12:36,929 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:12:39,849 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:12:39,930 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:12:39,930 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_created():272] file/dir created: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:12:40,930 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:12:43,749 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:12:43,931 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:12:43,931 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:12:44,931 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:12:48,758 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:12:48,932 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:12:48,932 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:12:50,933 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:12:51,933 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:12:52,764 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:12:52,933 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:12:54,934 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:12:55,934 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:12:55,934 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/config.yaml
+2025-04-16 12:12:56,771 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:12:56,935 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:12:56,935 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:12:59,777 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:12:59,935 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:12:59,936 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:00,936 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:03,782 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:03,937 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:03,937 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:04,937 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:07,790 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:07,938 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:07,938 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:08,938 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:11,796 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:11,938 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:11,939 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:12,939 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:15,802 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:15,940 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:15,940 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:16,940 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:19,810 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:19,941 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:19,941 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:20,941 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:23,817 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:23,942 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:23,942 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:24,942 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:27,825 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:27,943 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:27,943 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:28,419 INFO    wandb-upload_0:103582 [upload_job.py:push():130] Uploaded file /tmp/tmpq4i80ksbwandb/89cpdsob-events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:28,943 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:31,831 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:31,944 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:31,944 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:32,944 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:35,837 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:35,945 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:35,945 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:36,945 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:39,843 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:39,946 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:39,946 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:40,946 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:43,848 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:43,947 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:43,947 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:44,947 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:47,853 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:47,948 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:47,948 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:48,948 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:51,858 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:51,949 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:51,949 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:52,949 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:13:55,864 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:13:55,950 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:13:55,950 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:13:56,950 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:00,870 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:00,951 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:00,951 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:02,951 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:04,876 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:04,952 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:04,952 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:06,952 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:08,884 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:08,953 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:08,953 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:10,953 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:12,890 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:12,953 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:12,953 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:14,954 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:17,897 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:17,955 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:17,955 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:18,955 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:21,903 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:21,956 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:21,956 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:22,956 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:25,908 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:25,957 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:25,957 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:26,957 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:29,915 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:29,958 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:29,958 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:30,488 INFO    wandb-upload_0:103582 [upload_job.py:push():130] Uploaded file /tmp/tmpq4i80ksbwandb/f4xqbobe-events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:30,958 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:34,921 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:34,959 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:34,959 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:36,959 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:38,928 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:38,960 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:38,960 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:40,960 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:43,934 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:43,961 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:43,961 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:44,961 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:47,939 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:47,962 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:47,962 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:48,962 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:51,946 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:51,963 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:51,963 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:52,963 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:55,954 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:55,964 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:55,964 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:14:56,964 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:14:59,962 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:14:59,965 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:14:59,965 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:00,965 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:04,967 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:04,968 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:05,967 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:06,967 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:08,968 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:08,973 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:09,968 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:10,969 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:13,969 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:13,983 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:14,970 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:14,970 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:17,971 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:17,991 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:18,971 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:18,971 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:21,972 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:21,995 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:22,972 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:22,973 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:25,973 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:26,001 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:26,974 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:26,974 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:29,975 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:30,006 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:30,575 INFO    wandb-upload_0:103582 [upload_job.py:push():130] Uploaded file /tmp/tmpq4i80ksbwandb/b06oq9u1-events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:30,975 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:30,975 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:34,976 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:35,028 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:35,976 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:36,977 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:38,977 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:39,017 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:39,978 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:40,978 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:42,978 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:43,024 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:43,978 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:44,979 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:46,980 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:47,029 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:47,980 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:48,980 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:50,981 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:51,036 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:51,981 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:52,981 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:54,982 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:55,043 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:55,982 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:15:56,982 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:15:58,983 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:15:59,050 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:15:59,983 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:16:00,983 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:16:03,984 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:16:04,057 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:16:04,984 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:16:04,984 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:16:07,985 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:16:08,062 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:16:08,985 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:16:08,985 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:16:11,986 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:16:12,069 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:16:12,986 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:16:12,986 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:16:15,987 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:16:16,076 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:16:16,987 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:16:16,987 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:16:19,988 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:16:20,080 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:16:20,988 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:16:20,988 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:16:23,989 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:16:24,087 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:16:24,989 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:16:24,989 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:16:47,742 INFO    SenderThread:103582 [sender.py:send_exit():554] handling exit code: 1
+2025-04-16 12:16:47,742 INFO    SenderThread:103582 [sender.py:send_exit():556] handling runtime: 263
+2025-04-16 12:16:47,743 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:16:47,743 INFO    SenderThread:103582 [sender.py:send_exit():562] send defer
+2025-04-16 12:16:47,743 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 0
+2025-04-16 12:16:47,743 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 0
+2025-04-16 12:16:47,743 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 1
+2025-04-16 12:16:47,743 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 1
+2025-04-16 12:16:47,743 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 1
+2025-04-16 12:16:47,743 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 2
+2025-04-16 12:16:47,743 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 2
+2025-04-16 12:16:47,743 INFO    HandlerThread:103582 [system_monitor.py:finish():196] Stopping system monitor
+2025-04-16 12:16:47,743 INFO    HandlerThread:103582 [interfaces.py:finish():198] Joined cpu monitor
+2025-04-16 12:16:47,744 INFO    HandlerThread:103582 [interfaces.py:finish():198] Joined disk monitor
+2025-04-16 12:16:47,794 INFO    HandlerThread:103582 [interfaces.py:finish():198] Joined gpu monitor
+2025-04-16 12:16:47,794 INFO    HandlerThread:103582 [interfaces.py:finish():198] Joined memory monitor
+2025-04-16 12:16:47,794 INFO    HandlerThread:103582 [interfaces.py:finish():198] Joined network monitor
+2025-04-16 12:16:47,795 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 2
+2025-04-16 12:16:47,795 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 3
+2025-04-16 12:16:47,795 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 3
+2025-04-16 12:16:47,816 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:16:47,817 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 3
+2025-04-16 12:16:47,817 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 4
+2025-04-16 12:16:47,817 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 4
+2025-04-16 12:16:48,740 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:16:49,740 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:16:53,740 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 4
+2025-04-16 12:16:53,740 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 5
+2025-04-16 12:16:53,742 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:16:53,742 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 5
+2025-04-16 12:16:53,743 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:16:53,759 INFO    SenderThread:103582 [sender.py:_save_file():1403] saving file wandb-summary.json with policy end
+2025-04-16 12:16:53,759 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 5
+2025-04-16 12:16:53,759 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 6
+2025-04-16 12:16:53,759 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 6
+2025-04-16 12:16:53,759 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 6
+2025-04-16 12:16:53,759 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 7
+2025-04-16 12:16:53,760 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 7
+2025-04-16 12:16:53,760 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 7
+2025-04-16 12:16:54,743 INFO    Thread-12 :103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:16:56,840 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 8
+2025-04-16 12:16:56,840 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 8
+2025-04-16 12:16:56,841 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 8
+2025-04-16 12:16:56,841 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 9
+2025-04-16 12:16:56,841 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 9
+2025-04-16 12:16:56,841 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 9
+2025-04-16 12:16:56,842 INFO    SenderThread:103582 [dir_watcher.py:finish():359] shutting down directory watcher
+2025-04-16 12:16:57,743 INFO    SenderThread:103582 [dir_watcher.py:_on_file_modified():289] file/dir modified: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:16:57,744 INFO    SenderThread:103582 [dir_watcher.py:finish():389] scan: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files
+2025-04-16 12:16:57,744 INFO    SenderThread:103582 [dir_watcher.py:finish():403] scan save: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/config.yaml config.yaml
+2025-04-16 12:16:57,744 INFO    SenderThread:103582 [dir_watcher.py:finish():403] scan save: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json wandb-summary.json
+2025-04-16 12:16:57,744 INFO    SenderThread:103582 [dir_watcher.py:finish():403] scan save: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-metadata.json wandb-metadata.json
+2025-04-16 12:16:57,745 INFO    SenderThread:103582 [dir_watcher.py:finish():403] scan save: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/requirements.txt requirements.txt
+2025-04-16 12:16:57,745 INFO    SenderThread:103582 [dir_watcher.py:finish():403] scan save: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log output.log
+2025-04-16 12:16:57,745 INFO    SenderThread:103582 [dir_watcher.py:finish():403] scan save: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0 events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:16:57,745 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 10
+2025-04-16 12:16:57,745 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 10
+2025-04-16 12:16:57,747 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 10
+2025-04-16 12:16:57,747 INFO    SenderThread:103582 [file_pusher.py:finish():169] shutting down file pusher
+2025-04-16 12:16:58,438 INFO    wandb-upload_3:103582 [upload_job.py:push():130] Uploaded file /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/output.log
+2025-04-16 12:16:58,462 INFO    wandb-upload_4:103582 [upload_job.py:push():130] Uploaded file /tmp/tmpq4i80ksbwandb/qabkb2ro-events.out.tfevents.1744798347.ia-li-jrwh924.unirobotts.local.103402.0
+2025-04-16 12:17:19,443 INFO    wandb-upload_0:103582 [upload_job.py:push():130] Uploaded file /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/config.yaml
+2025-04-16 12:17:19,671 INFO    wandb-upload_1:103582 [upload_job.py:push():130] Uploaded file /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/wandb-summary.json
+2025-04-16 12:18:56,283 INFO    wandb-upload_2:103582 [upload_job.py:push():130] Uploaded file /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/files/requirements.txt
+2025-04-16 12:18:56,483 INFO    Thread-11 (_thread_body):103582 [sender.py:transition_state():582] send defer: 11
+2025-04-16 12:18:56,483 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 11
+2025-04-16 12:18:56,484 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 11
+2025-04-16 12:18:56,484 INFO    SenderThread:103582 [file_pusher.py:join():175] waiting for file pusher
+2025-04-16 12:18:56,484 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 12
+2025-04-16 12:18:56,484 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 12
+2025-04-16 12:18:56,484 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 12
+2025-04-16 12:18:56,484 INFO    SenderThread:103582 [file_stream.py:finish():601] file stream finish called
+2025-04-16 12:18:56,668 INFO    SenderThread:103582 [file_stream.py:finish():605] file stream finish is done
+2025-04-16 12:18:56,668 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 13
+2025-04-16 12:18:56,668 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 13
+2025-04-16 12:18:56,668 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 13
+2025-04-16 12:18:56,668 INFO    SenderThread:103582 [sender.py:transition_state():582] send defer: 14
+2025-04-16 12:18:56,668 INFO    HandlerThread:103582 [handler.py:handle_request_defer():188] handle defer: 14
+2025-04-16 12:18:56,668 INFO    SenderThread:103582 [sender.py:send_request_defer():578] handle sender defer: 14
+2025-04-16 12:18:56,672 INFO    MainThread:103582 [wandb_run.py:_footer_history_summary_info():4064] rendering history
+2025-04-16 12:18:56,672 INFO    MainThread:103582 [wandb_run.py:_footer_history_summary_info():4096] rendering summary
+2025-04-16 12:18:56,673 INFO    MainThread:103582 [wandb_run.py:_footer_sync_info():4025] logging synced files
+2025-04-16 12:18:56,673 INFO    HandlerThread:103582 [handler.py:finish():897] shutting down handler
+2025-04-16 12:18:57,670 INFO    WriterThread:103582 [datastore.py:close():296] close: /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/wandb/run-20250416_121223-ifjunjgm/run-ifjunjgm.wandb
+2025-04-16 12:18:57,670 INFO    SenderThread:103582 [sender.py:finish():1584] shutting down sender
+2025-04-16 12:18:57,670 INFO    SenderThread:103582 [file_pusher.py:finish():169] shutting down file pusher
+2025-04-16 12:18:57,670 INFO    SenderThread:103582 [file_pusher.py:join():175] waiting for file pusher

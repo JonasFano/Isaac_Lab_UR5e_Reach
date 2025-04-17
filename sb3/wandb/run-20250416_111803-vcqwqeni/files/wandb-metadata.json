@@ -1,0 +1,194 @@
+{
+    "os": "Linux-6.8.0-57-generic-x86_64-with-glibc2.35",
+    "python": "CPython 3.10.12",
+    "heartbeatAt": "2025-04-16T09:18:03.921859",
+    "startedAt": "2025-04-16T09:18:03.473493",
+    "docker": null,
+    "args": [
+        "service",
+        "--debug",
+        "--port-filename",
+        "/tmp/tmp0gfslp0o/port-93124.txt",
+        "--pid",
+        "93124"
+    ],
+    "state": "running",
+    "program": "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/train_sb3_wandb_ppo.py",
+    "codePathLocal": "train_sb3_wandb_ppo.py",
+    "codePath": "sb3/train_sb3_wandb_ppo.py",
+    "git": {
+        "remote": "https://github.com/JonasFano/Isaac_Lab_UR5e_Reach.git",
+        "commit": "c888b4fe8126735fb6e2f574b9b8a0d5da1adf01"
+    },
+    "email": "jofa@universal-robots.com",
+    "root": "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach",
+    "host": "ia-li-jrwh924.unirobotts.local",
+    "username": null,
+    "executable": "/home/jofa/isaaclab/bin/python",
+    "cpu_count": 20,
+    "cpu_count_logical": 28,
+    "cpu_freq": {
+        "current": 3582.4313571428565,
+        "min": 800.0,
+        "max": 4571.428571428572
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 4678.346,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 4680.142,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 4683.666,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 4683.085,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 4683.54,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 4683.271,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 4703.436,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 4700.182,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 4742.737,
+            "min": 800.0,
+            "max": 5300.0
+        },
+        {
+            "current": 4700.706,
+            "min": 800.0,
+            "max": 5300.0
+        },
+        {
+            "current": 4742.593,
+            "min": 800.0,
+            "max": 5300.0
+        },
+        {
+            "current": 4700.047,
+            "min": 800.0,
+            "max": 5300.0
+        },
+        {
+            "current": 4669.886,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 4670.155,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 4454.264,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 3900.0,
+            "min": 800.0,
+            "max": 5100.0
+        },
+        {
+            "current": 3800.0,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3799.884,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3636.699,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3784.89,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3800.031,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3799.912,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3784.815,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3787.303,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3800.112,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3799.756,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3800.235,
+            "min": 800.0,
+            "max": 3800.0
+        },
+        {
+            "current": 3787.73,
+            "min": 800.0,
+            "max": 3800.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 1004315222016,
+            "used": 128863571968
+        }
+    },
+    "gpu": "NVIDIA RTX 3500 Ada Generation Laptop GPU",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA RTX 3500 Ada Generation Laptop GPU",
+            "memory_total": 12878610432
+        }
+    ],
+    "memory": {
+        "total": 33319784448
+    }
+}

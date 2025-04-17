@@ -39,6 +39,9 @@ parameters:
   vf_coef:
     value: 0.1
 
+  learning_rate:
+    value: 0.0001
+
   clip_range:
     value: 0.2
 
