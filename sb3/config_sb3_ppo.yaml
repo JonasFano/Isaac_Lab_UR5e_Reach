@@ -1,6 +1,6 @@
 program: train_sb3_wandb_ppo.py
 method: grid
-name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization_800_batch_size
+name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization_800_n_steps
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -19,10 +19,10 @@ parameters:
     value: 'MlpPolicy'
 
   n_steps:
-    value: 64
+    values: [32, 64, 128]
 
   batch_size:
-    values: [2048, 8192, 16384, 32768]
+    value: 16384
 
   gae_lambda:
     value: 0.95
