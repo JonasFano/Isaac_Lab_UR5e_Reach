@@ -1,6 +1,6 @@
 program: train_sb3_wandb_ppo.py
 method: grid
-name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization_800_vf_coef
+name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization_800_network_architecture
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -37,7 +37,7 @@ parameters:
     value: 0.001
 
   vf_coef:
-    values: [0.01, 0.1, 0.5]
+    value: 0.01
 
   learning_rate:
     value: 0.0001
@@ -52,9 +52,9 @@ parameters:
       net_arch:
         parameters:
           pi:
-            value: [256, 128] # values: [[128, 64], [256, 128], [256, 128, 64]]
+            values: [[128, 64], [256, 128], [256, 128, 64]]
           vf:
-            value: [256, 128] # values: [[128, 64], [256, 128], [256, 128, 64]]
+            values: [[128, 64], [256, 128], [256, 128, 64]]
 
   target_kl:
     value: 0.02
