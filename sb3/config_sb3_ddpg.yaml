@@ -23,13 +23,13 @@ parameters:
     value: 'MlpPolicy'
 
   batch_size:
-    values: [256, 8192] 
+    values: [128, 256, 512, 1024] 
 
   gamma:
     value: 0.95
 
   learning_rate:
-    values: [1e-4, 3e-4]
+    values: [0.0001, 0.0003]
 
   train_freq:
     value: 4
@@ -38,7 +38,7 @@ parameters:
     value: 4
 
   buffer_size: 
-    value: 1000000 # values: [100000, 1000000]
+    value: 1000000 # values: [50000, 100000, 1000000]
 
   learning_starts: 
     value: 1000 # values: [1000, 10000]
@@ -50,7 +50,7 @@ parameters:
     value: NormalActionNoise # values: [NormalActionNoise, OrnsteinUhlenbeckActionNoise]
 
   action_sigma:
-    value: 0.01
+    value: 0.01 # values: [0.01, 0.05]
 
   # optimize_memory_usage:
   #   value: True
@@ -63,7 +63,7 @@ parameters:
         value: [256, 128] # values: [[300, 300], [256, 128], [128, 64]]
 
   normalize_input:
-    value: False
+    value: False # values: [True, False]
 
   normalize_value:
     value: False
