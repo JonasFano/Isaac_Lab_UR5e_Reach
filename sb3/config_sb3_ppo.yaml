@@ -1,6 +1,6 @@
 program: train_sb3_wandb_ppo.py
 method: grid
-name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization_800_normalize_obs
+name: rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization_800_normalize_rew
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -63,10 +63,10 @@ parameters:
     value: 1.0
 
   normalize_input:
-    values: [True, False]
+    value: True
 
   normalize_value:
-    value: False # values: [True, False]
+    values: [True, False]
 
   clip_obs:
     value: 50.0
