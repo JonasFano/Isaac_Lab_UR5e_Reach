@@ -37,7 +37,7 @@ parameters:
     value: 0.001
 
   vf_coef:
-    value: 0.01
+    value: 0.1
 
   learning_rate:
     value: 0.0001
