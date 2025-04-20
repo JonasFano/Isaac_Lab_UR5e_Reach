@@ -1,5 +1,5 @@
 # Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/ppo.yml#L32
-seed: 42
+seed: 24
 
 # epoch * n_steps * nenvs: 200 * 64 * 8192 = 104857600
 # epoch * n_steps * nenvs: 400 * 64 * 8192 = 209715200
@@ -11,19 +11,22 @@ batch_size: 16384 # 192
 gae_lambda: 0.95
 gamma: 0.95
 n_epochs: 8
-ent_coef: 0.01
+ent_coef: 0.001
 vf_coef: 0.1
-learning_rate: !!float 3e-4 #3e-4
+learning_rate: !!float 1e-4 #3e-4
 clip_range: 0.2
 policy_kwargs: "dict(
                   activation_fn=nn.Tanh,
-                  net_arch=dict(pi=[128, 64], vf=[128, 64])
+                  net_arch=dict(pi=[256, 128], vf=[256, 128])
                 )"
 target_kl: 0.02
 max_grad_norm: 1.0
 
 # Uses VecNormalize class to normalize obs
 normalize_input: False
+# normalize_input: True
+
 # Uses VecNormalize class to normalize rew
 normalize_value: False
+# normalize_value: True
 clip_obs: 50.0 #100

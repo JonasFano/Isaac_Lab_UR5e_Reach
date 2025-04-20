@@ -219,15 +219,6 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
 
 
 
-
-
-
-# SAC
-    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/train_sb3_sac.py --num_envs 4096 --task UR5e-Reach-Pose-IK --headless
-
-    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_sac.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/logs/sb3/sac/UR5e-Reach-Pose-IK/HerReplayBuffer/model.zip
-
-
 # Tensorboard
     tensorboard --logdir='directory'
 
@@ -330,16 +321,9 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     wandb sweep --project abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v10 config_sb3_ppo.yaml
     wandb sweep --project abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v11 config_sb3_ppo.yaml
 
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization_800/group_g/2zlcpe8a/model.zip
 
-
-# UR5e Wandb SAC
-    source isaaclab/bin/activate
-    cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3
-    wandb sweep --project rel_ik_sb3_sac_ur5e_reach_0_05_pose config_sb3_sac.yaml
-    wandb sweep --project rel_ik_sb3_sac_ur5e_reach_0_05_pose_2 config_sb3_sac.yaml
-    wandb sweep --project rel_ik_sb3_sac_ur5e_reach_0_05_pose_3 config_sb3_sac.yaml
-    wandb sweep --project rel_ik_sb3_sac_ur5e_reach_0_05_pose_4 config_sb3_sac.yaml
-
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization_800/group_b/q229e8ps/model.zip
 
 
 # UR5e Wandb TD3

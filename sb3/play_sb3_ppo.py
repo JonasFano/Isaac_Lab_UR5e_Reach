@@ -98,7 +98,7 @@ def main():
     if "normalize_input" in agent_cfg:
         env = VecNormalize(
             env,
-            training=True,
+            training=False,
             norm_obs="normalize_input" in agent_cfg and agent_cfg.pop("normalize_input"),
             norm_reward="normalize_value" in agent_cfg and agent_cfg.pop("normalize_value"),
             clip_obs="clip_obs" in agent_cfg and agent_cfg.pop("clip_obs"),
@@ -120,8 +120,9 @@ def main():
             # agent stepping
             actions, _ = agent.predict(obs, deterministic=True)
             # env stepping
-            obs, _, _, _ = env.step(actions)
+            obs, rew, _, _ = env.step(actions)
             # print(obs)
+            print(rew)
             # time.sleep(10)
 
         if args_cli.video:
