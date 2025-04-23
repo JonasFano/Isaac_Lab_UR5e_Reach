@@ -1,7 +1,7 @@
 # Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/ddpg.yml
 program: train_sb3_wandb_ddpg.py
 method: grid
-name: rel_ik_sb3_ddpg_ur5e_reach_0_05_pose_grid_search
+name: rel_ik_sb3_ddpg_ur5e_reach_0_05_pose_grid_search_buffer_size_learning_starts
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -23,13 +23,13 @@ parameters:
     value: 'MlpPolicy'
 
   batch_size:
-    values: [128, 256, 512, 1024] 
+    value: 256 
 
   gamma:
     value: 0.95
 
   learning_rate:
-    values: [0.0001, 0.0003]
+    value: 0.0001
 
   train_freq:
     value: 4
@@ -38,10 +38,10 @@ parameters:
     value: 4
 
   buffer_size: 
-    value: 1000000 # values: [50000, 100000, 1000000]
+    values: [50000, 100000, 1000000]
 
   learning_starts: 
-    value: 1000 # values: [1000, 10000]
+    values: [1000, 10000]
 
   tau: 
     value: 0.02
@@ -58,7 +58,7 @@ parameters:
   policy_kwargs:
     parameters:
       activation_fn: 
-        values: ['nn.ELU', 'nn.ReLU', 'nn.Tanh']
+        value: nn.Tanh
       net_arch:
         value: [256, 128] # values: [[300, 300], [256, 128], [128, 64]]
 
