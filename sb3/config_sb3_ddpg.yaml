@@ -1,7 +1,7 @@
 # Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/ddpg.yml
 program: train_sb3_wandb_ddpg.py
 method: grid
-name: rel_ik_sb3_ddpg_ur5e_reach_0_05_pose_grid_search_buffer_size_learning_starts
+name: rel_ik_sb3_ddpg_ur5e_reach_0_05_pose_grid_search_action_sigma
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -38,10 +38,10 @@ parameters:
     value: 4
 
   buffer_size: 
-    values: [50000, 100000, 1000000]
+    value: 1000000
 
   learning_starts: 
-    values: [1000, 10000]
+    value: 1000
 
   tau: 
     value: 0.02
@@ -50,7 +50,7 @@ parameters:
     value: NormalActionNoise # values: [NormalActionNoise, OrnsteinUhlenbeckActionNoise]
 
   action_sigma:
-    value: 0.01 # values: [0.01, 0.05]
+    values: [0.01, 0.05] # value: 0.01
 
   # optimize_memory_usage:
   #   value: True
