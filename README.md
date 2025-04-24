@@ -321,8 +321,13 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     wandb sweep --project abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v10 config_sb3_ppo.yaml
     wandb sweep --project abs_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_v11 config_sb3_ppo.yaml
 
+### Normalize obs and reward 
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization_800/group_g/2zlcpe8a/model.zip
 
+### Normalize obs and do not normalize reward
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization_800/group_f/9nutoono/model.zip
+
+### Do not normalize obs and reward
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization_800/group_b/q229e8ps/model.zip
 
 

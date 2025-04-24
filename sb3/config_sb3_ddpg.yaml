@@ -1,7 +1,7 @@
 # Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/ddpg.yml
 program: train_sb3_wandb_ddpg.py
 method: grid
-name: rel_ik_sb3_ddpg_ur5e_reach_0_05_pose_grid_search_action_sigma
+name: rel_ik_sb3_ddpg_ur5e_reach_0_05_pose_grid_search_network_architecture
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -50,7 +50,7 @@ parameters:
     value: NormalActionNoise # values: [NormalActionNoise, OrnsteinUhlenbeckActionNoise]
 
   action_sigma:
-    values: [0.01, 0.05] # value: 0.01
+    value: 0.01
 
   # optimize_memory_usage:
   #   value: True
@@ -60,7 +60,7 @@ parameters:
       activation_fn: 
         value: nn.Tanh
       net_arch:
-        value: [256, 128] # values: [[300, 300], [256, 128], [128, 64]]
+        values: [[300, 300], [256, 128], [128, 64]] # value: [256, 128]
 
   normalize_input:
     value: False # values: [True, False]
