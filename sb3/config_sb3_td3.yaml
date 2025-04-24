@@ -1,7 +1,7 @@
 # Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/td3.yml
 program: train_sb3_wandb_td3.py
 method: grid
-name: rel_ik_sb3_td3_ur5e_reach_0_05_pose_grid_search_action_noise
+name: rel_ik_sb3_td3_ur5e_reach_0_05_pose_grid_search_network_architecture
 metric:
   goal: maximize
   name: rollout/ep_rew_mean
@@ -59,7 +59,7 @@ parameters:
     value: NormalActionNoise
 
   action_sigma:
-    values: [0.1, 0.5]
+    value: 0.01
 
   # replay_buffer_class: 
   #   value: "HerReplayBuffer"
@@ -72,7 +72,7 @@ parameters:
       activation_fn: 
         value: nn.Tanh
       net_arch:
-        value: [256, 128]
+        values: [[300, 300], [256, 128], [128, 64]] #value: [256, 128]
 
 
   normalize_input:
