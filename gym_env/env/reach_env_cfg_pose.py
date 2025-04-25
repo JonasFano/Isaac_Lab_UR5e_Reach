@@ -839,7 +839,7 @@ class CurriculumCfg:
     """Curriculum terms for the MDP."""
 
     action_rate = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.02, "num_steps": 16000} #15000 #4500
+        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.04, "num_steps": 16000} #15000 #4500
     )
 
     # action_magnitude = CurrTerm(
