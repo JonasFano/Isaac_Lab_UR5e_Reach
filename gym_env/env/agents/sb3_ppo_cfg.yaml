@@ -23,10 +23,10 @@ target_kl: 0.02
 max_grad_norm: 1.0
 
 # Uses VecNormalize class to normalize obs
-# normalize_input: False
-normalize_input: True
+normalize_input: False
+# normalize_input: True
 
 # Uses VecNormalize class to normalize rew
-# normalize_value: False
-normalize_value: True
+normalize_value: False
+# normalize_value: True
 clip_obs: 50.0 #100

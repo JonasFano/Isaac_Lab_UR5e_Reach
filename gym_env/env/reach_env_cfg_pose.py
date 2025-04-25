@@ -806,7 +806,7 @@ class RewardsCfg:
     # action penalty
     action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=-1e-4)
 
-    action_magnitude = RewTerm(func=mdp.action_l2_position, weight=-1e-4)
+    # action_magnitude = RewTerm(func=mdp.action_l2_position, weight=-1e-4)
 
     # joint_vel = RewTerm(
     #     func=mdp.joint_vel_l2,
@@ -838,9 +838,9 @@ class TerminationsCfg:
 class CurriculumCfg:
     """Curriculum terms for the MDP."""
 
-    # action_rate = CurrTerm(
-    #     func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.02, "num_steps": 20000} #15000 #4500
-    # )
+    action_rate = CurrTerm(
+        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.02, "num_steps": 16000} #15000 #4500
+    )
 
     # action_magnitude = CurrTerm(
     #     func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.02, "num_steps": 20000} #15000 #4500
