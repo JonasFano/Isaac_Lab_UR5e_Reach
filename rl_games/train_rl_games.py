@@ -62,6 +62,9 @@ from omni.isaac.lab.utils.assets import retrieve_file_path
 from omni.isaac.lab.utils.dict import print_dict
 from omni.isaac.lab.utils.io import dump_pickle, dump_yaml
 
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import gym_env.env # This import is strictly necessary otherwise it would recognize the registered custom gym environment
 from omni.isaac.lab_tasks.utils.hydra import hydra_task_config
 from omni.isaac.lab_tasks.utils.wrappers.rl_games import RlGamesGpuEnv, RlGamesVecEnvWrapper
@@ -100,7 +103,7 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
 
     # specify directory for logging experiments
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    log_root_path = os.path.join(script_dir, "logs", "rl_games", agent_cfg["params"]["config"]["name"])
+    log_root_path = os.path.join(script_dir, "logs", agent_cfg["params"]["config"]["name"])
     log_root_path = os.path.abspath(log_root_path)
     print(f"[INFO] Logging experiment in directory: {log_root_path}")
     # specify directory for logging runs

@@ -113,6 +113,7 @@ def position_command_error_tanh(
     curr_pos_w = get_current_tcp_pose_w(env, gripper_offset, asset_cfg)[:, :3]
 
     distance = torch.norm(curr_pos_w - des_pos_w, dim=1)
+    print("Position Error: ", distance)
     return 1 - torch.tanh(distance / std)
 
 
@@ -135,7 +136,7 @@ def orientation_command_error(env: ManagerBasedRLEnv, command_name: str, asset_c
 
     quat_error = quat_error_magnitude(curr_quat_w, des_quat_w)
 
-    # print("Error magnitude: ", quat_error)
+    print("Quaternion Error: ", quat_error)
     # print("Geodesic magnitude: ", quaternion_geodesic_distance(curr_quat_w, des_quat_w))
     # print("Log Error: ", quat_log_error(curr_quat_w, des_quat_w))
 
