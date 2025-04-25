@@ -121,8 +121,8 @@ def main():
             actions, _ = agent.predict(obs, deterministic=True)
             # env stepping
             obs, rew, _, _ = env.step(actions)
-            print(timestep)
-            timestep += 1
+            # print(timestep)
+            # timestep += 1
             # print(obs)
             # print(rew)
             # time.sleep(10)
