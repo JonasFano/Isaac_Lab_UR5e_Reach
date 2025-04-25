@@ -52,7 +52,7 @@ def main():
     )
 
     # Load env cfg
-    task = "UR5e-Reach-Pose-IK" # "UR5e-Reach-Pose-IK" # "UR5e-Lift-Cube"
+    task = "UR5e-Reach-Pose-Abs-IK" # "UR5e-Reach-Pose-IK" # "UR5e-Lift-Cube"
     num_envs = wandb.config["num_envs"]
     device = "cuda"
     env_cfg = parse_env_cfg(task, device=device, num_envs=num_envs)
