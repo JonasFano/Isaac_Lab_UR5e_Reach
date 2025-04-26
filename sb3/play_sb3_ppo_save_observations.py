@@ -29,7 +29,6 @@ import torch
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import VecNormalize
-from isaaclab.utils.dict import print_dict
 
 import sys
 import os
