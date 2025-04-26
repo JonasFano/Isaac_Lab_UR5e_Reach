@@ -806,7 +806,7 @@ class RewardsCfg:
     # action penalty
     # action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-4)
 
-    action_magnitude = RewTerm(func=mdp.action_l2, weight=-1e-4)
+    # action_magnitude = RewTerm(func=mdp.action_l2, weight=-1e-4)
 
     # joint_vel = RewTerm(
     #     func=mdp.joint_vel_l2,
@@ -819,11 +819,11 @@ class RewardsCfg:
     #     weight=-0.05,
     #     params={"pos_threshold": 1.0, "axis_angle_threshold": 2.0}) # "pos_threshold": 0.05, "axis_angle_threshold": 0.08})
 
-    # ee_acc = RewTerm(
-    #     func=mdp.body_lin_acc_l2,
-    #     weight=-1e-4,
-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]),}
-    # )
+    ee_acc = RewTerm(
+        func=mdp.body_lin_acc_l2,
+        weight=-1e-4,
+        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]),}
+    )
 
 
 @configclass
@@ -842,9 +842,9 @@ class CurriculumCfg:
     #     func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -1.0, "num_steps": 16000} #15000 #4500
     # )
 
-    action_magnitude = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.01, "num_steps": 16000} #15000 #4500
-    )
+    # action_magnitude = CurrTerm(
+    #     func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.01, "num_steps": 16000} #15000 #4500
+    # )
 
     # action_rate_v2 = CurrTerm(
     #     func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.05, "num_steps": 40000} #15000 #4500
@@ -858,9 +858,9 @@ class CurriculumCfg:
     #     func=mdp.modify_reward_weight, params={"term_name": "joint_vel", "weight": -0.01, "num_steps": 4500}
     # )
 
-    # ee_acc = CurrTerm(
-    #     func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": -0.001, "num_steps": 20000} #4500
-    # )
+    ee_acc = CurrTerm(
+        func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": -0.05, "num_steps": 16000} #4500
+    )
 
 
 ##
