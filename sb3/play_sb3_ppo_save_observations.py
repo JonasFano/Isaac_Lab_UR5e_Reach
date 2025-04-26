@@ -109,8 +109,8 @@ def main():
     obs = env.reset()
     timestep = 0
 
-    save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data"
-    csv_path = os.path.join(save_dir, "observations_1.csv")
+    save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim"
+    csv_path = os.path.join(save_dir, "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_0_1_step_16000.csv")
 
     # simulate environment
     while simulation_app.is_running():
