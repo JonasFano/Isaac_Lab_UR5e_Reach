@@ -804,9 +804,9 @@ class RewardsCfg:
 
 
     # action penalty
-    action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=-1e-4)
+    action_rate = RewTerm(func=mdp.action_rate, weight=-1e-4)
 
-    # action_magnitude = RewTerm(func=mdp.action_l2_position, weight=-1e-4)
+    # action_magnitude = RewTerm(func=mdp.action, weight=-1e-4)
 
     # joint_vel = RewTerm(
     #     func=mdp.joint_vel_l2,
