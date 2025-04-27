@@ -5,26 +5,19 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 
 # Path to the CSV file
-# csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_ur5e_with_unoise.csv"
-# csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_1.csv"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_0_1_step_16000"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_1_0_step_16000"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_1_0_step_16000"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_magnitude_pos_0_8_step_16000"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_magnitude_0_05_step_16000"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_magnitude_0_01_step_16000"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_1_action_magnitude_0_01_step_16000"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_5_action_magnitude_0_02_step_16000"
+filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper"
 
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_decimation_4"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_penalize_joint_vel"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_joint_vel"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v2"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v3"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_1_pose_hand_e_penalize_ee_acc_v4"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_800000"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v3"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v4"
-# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v5"
-filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper"
+csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim/" + filename + ".csv"
 
-csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/" + filename + ".csv"
-
+save = False # False True
 
 # Output directory for saving the plots
 # output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots"
@@ -42,6 +35,11 @@ data.fillna(0, inplace=True)
 
 # Ensure numeric data types
 data = data.apply(pd.to_numeric, errors='coerce')
+
+max_timesteps = 748 #500
+
+if max_timesteps is not None:
+    data = data.iloc[:max_timesteps]
 
 # Round numerical values to 4 decimal places
 # data = data.round(4)
@@ -103,7 +101,7 @@ tcp_pose_error = pose_command.values - tcp_pose.values
 tcp_pose_error = pd.DataFrame(tcp_pose_error, columns=[col.replace("tcp_pose", "tcp_pose_error") for col in tcp_pose.columns], index=data.index)
 
 amount = min(3, len(tcp_pose.columns))  # Ensure we only use available columns
-save = False # False True
+
 
 # Function to create and save individual plots
 def create_and_save_plot(y_data, amount, title, filename):
@@ -177,6 +175,116 @@ def create_and_save_tripple_comparison_plot(y_data1, y_data2, y_data3, amount, t
 
 
 # Only visualize TCP Displacement vs Actions
-create_and_save_comparison_plot(tcp_displacement, actions, 3, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
-create_and_save_comparison_plot(tcp_displacement, actions, 6, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
+# create_and_save_comparison_plot(tcp_displacement, actions, 3, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
+# create_and_save_comparison_plot(tcp_displacement, actions, 6, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
 
+
+
+# Match corresponding columns manually
+tcp_displacement_cols = [f"tcp_displacement_{i}" for i in range(6)]
+actions_cols = [f"actions_{i}" for i in range(6)]
+
+
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper
+# Mean MSE across position dimensions: 0.002708326068215776
+# Mean MAE across position dimensions: 0.028883456477092184
+# Total Max Error across position dimensions: 0.193931132555008
+# Smoothness (Sum of Squared Accelerations): 0.011345
+
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_0_1_step_16000
+# Mean MSE across position dimensions: 0.0006979464525297263
+# Mean MAE across position dimensions: 0.01606827213001112
+# Total Max Error across position dimensions: 0.08964138925075535
+
+
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_1_0_step_16000
+# Mean MSE across position dimensions: 0.00011988212159580724
+# Mean MAE across position dimensions: 0.00612532964959327
+# Total Max Error across position dimensions: 0.041737221181392656
+
+
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_1_0_step_16000
+# Mean MSE across position dimensions: 7.467854633694337e-05
+# Mean MAE across position dimensions: 0.00436464059708077
+# Total Max Error across position dimensions: 0.03550783693790433
+
+
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_magnitude_pos_0_8_step_16000
+# Mean MSE across position dimensions: 0.00014908182648106034
+# Mean MAE across position dimensions: 0.00717901318451671
+# Total Max Error across position dimensions: 0.03712572008371352
+
+
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_magnitude_0_05_step_16000
+# Mean MSE across position dimensions: 0.00048177464049099366
+# Mean MAE across position dimensions: 0.007659782973102856
+# Total Max Error across position dimensions: 0.12821158468723295
+
+
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_magnitude_0_01_step_16000
+# Mean MSE across position dimensions: 0.0011074326104506124
+# Mean MAE across position dimensions: 0.0140584918636806
+# Total Max Error across position dimensions: 0.17446028292179122
+
+
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_1_action_magnitude_0_01_step_16000
+# Mean MSE across position dimensions: 0.0006070796839759171
+# Mean MAE across position dimensions: 0.014414018859927796
+# Total Max Error across position dimensions: 0.09233542978763573
+# Smoothness (Sum of Squared Accelerations): 0.004963
+
+
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_5_action_magnitude_0_02_step_16000
+# Mean MSE across position dimensions: 0.00019258806844600545
+# Mean MAE across position dimensions: 0.007439411668446925
+# Total Max Error across position dimensions: 0.0579601466655732
+# Smoothness (Sum of Squared Accelerations): 0.004246
+
+
+# Define a threshold
+threshold = 0.001  # You can tune this!
+
+# Only select position components (first three)
+tcp_displacement_pos = tcp_displacement[tcp_displacement_cols[:3]].values  # [:3] = x, y, z
+actions_pos = actions[actions_cols[:3]].values
+
+# Get absolute values
+tcp_displacement_abs = np.abs(tcp_displacement_pos)
+actions_abs = np.abs(actions_pos)
+
+# Create a mask: keep timesteps where any position dimension exceeds the threshold
+mask = (tcp_displacement_abs > threshold) | (actions_abs > threshold)
+mask = mask.any(axis=1)  # At least one position dimension must exceed threshold
+
+# Apply mask
+filtered_tcp_displacement = tcp_displacement_pos[mask]
+filtered_actions = actions_pos[mask]
+
+print(f"Number of selected timesteps after filtering: {filtered_tcp_displacement.shape[0]} / {tcp_displacement.shape[0]}")
+
+# Now compute errors on the filtered subset
+error = filtered_tcp_displacement - filtered_actions
+mse_per_dimension = (error ** 2).mean(axis=0)
+mae_per_dimension = np.abs(error).mean(axis=0)
+max_error_per_dimension = np.abs(error).max(axis=0)
+
+# Print nicely
+for i in range(3):
+    print(f"Position Dimension {i}: MSE = {mse_per_dimension[i]:.6f}, MAE = {mae_per_dimension[i]:.6f}, Max Error = {max_error_per_dimension[i]:.6f}")
+
+print("\nMean MSE across position dimensions:", np.mean(mse_per_dimension))
+print("Mean MAE across position dimensions:", np.mean(mae_per_dimension))
+print("Total Max Error across position dimensions:", np.max(max_error_per_dimension))
+
+
+
+# Second derivative (acceleration estimate)
+acceleration = np.diff(filtered_tcp_displacement, axis=0)
+
+# Compute squared norms
+squared_acc = np.sum(acceleration**2, axis=1)
+
+# Sum over all timesteps
+smoothness = np.sum(squared_acc)
+
+print(f"Smoothness (Sum of Squared Accelerations): {smoothness:.6f}")
