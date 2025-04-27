@@ -7,6 +7,8 @@ from isaaclab.envs.mdp.actions.actions_cfg import DifferentialInverseKinematicsA
 
 from . import reach_env_cfg_pose_domain_rand
 
+from taskparameters import TaskParams
+
 @configclass
 class RelIK_UR5e_Domain_Rand_ReachEnvCfg(reach_env_cfg_pose_domain_rand.UR5e_Domain_Rand_ReachEnvCfg):
     def __post_init__(self):
@@ -25,7 +27,7 @@ class RelIK_UR5e_Domain_Rand_ReachEnvCfg(reach_env_cfg_pose_domain_rand.UR5e_Dom
                     prim_path="{ENV_REGEX_NS}/robot/wrist_3_link",
                     name="end_effector",
                     offset=OffsetCfg(
-                        pos=[0.0, 0.0, 0.15],
+                        pos=TaskParams.gripper_offset,
                     ),
                 ),
             ],
@@ -36,12 +38,12 @@ class RelIK_UR5e_Domain_Rand_ReachEnvCfg(reach_env_cfg_pose_domain_rand.UR5e_Dom
 
         self.actions.arm_action = DifferentialInverseKinematicsActionCfg(
             asset_name="robot",
-            joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
+            joint_names=TaskParams.joint_names,
             body_name="wrist_3_link",
-            controller=DifferentialIKControllerCfg(command_type="pose", use_relative_mode=True, ik_method="dls"), # DifferentialIKControllerCfg(command_type="pose", use_relative_mode=True, ik_method="dls"),
-            body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.0, 0.0, 0.15]),
-            scale=0.05,
-            debug_vis=False  # Enable debug visualization, set to False for production
+            controller=DifferentialIKControllerCfg(command_type=TaskParams.command_type, use_relative_mode=TaskParams.use_relative_mode, ik_method=TaskParams.ik_method),
+            body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=TaskParams.gripper_offset),
+            scale=TaskParams.action_scale,
+            debug_vis=False  # Enable debug visualization
         )
 
 

@@ -110,7 +110,7 @@ def main():
     timestep = 0
 
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim"
-    csv_path = os.path.join(save_dir, "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper.csv")
+    csv_path = os.path.join(save_dir, "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_8_step_16000.csv")
 
     # simulate environment
     while simulation_app.is_running():
