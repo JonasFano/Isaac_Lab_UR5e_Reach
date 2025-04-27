@@ -66,8 +66,8 @@ class TaskParams:
     wrist_3_damping = 2 * math.sqrt(robot_stiffness * wrist_3_mass)
     
     # Domain randomize robot stiffness and damping
-    robot_randomize_stiffness = (1.0, 1.0),
-    robot_randomize_damping = (1.0, 1.0),
+    robot_randomize_stiffness = (0.5, 1.5),
+    robot_randomize_damping = (0.5, 1.5),
     robot_randomize_stiffness_operation = "scale",
     robot_randomize_damping_operation = "scale"
     robot_randomize_stiffness_distribution = "uniform"
