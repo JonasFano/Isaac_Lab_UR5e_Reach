@@ -266,9 +266,7 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     source isaaclab/bin/activate
     cd /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3
 
-    wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand config_sb3_ppo_domain_rand.yaml
-
-    wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_domain_rand_v2 config_sb3_ppo_domain_rand.yaml
+    wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_domain_rand config_sb3_ppo.yaml
 
 
 # Abs IK UR5e Wandb PPO

@@ -13,10 +13,8 @@ from isaaclab.managers import TerminationTermCfg as DoneTerm
 from isaaclab.scene import InteractiveSceneCfg
 from isaaclab.utils import configclass
 from isaaclab.actuators import ImplicitActuatorCfg
-from isaaclab.utils.noise import AdditiveUniformNoiseCfg as Unoise
 from . import mdp
 import os
-import math
 
 from taskparameters import TaskParams
 
@@ -131,7 +129,6 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
 @configclass
 class CommandsCfg:
     """Command terms for the MDP."""
-    # New training setting
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
         body_name="wrist_3_link",
@@ -166,7 +163,6 @@ class ObservationsCfg:
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
             params={"gripper_offset": TaskParams.gripper_offset, "robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
-            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
         )
 
         # Desired ee (or tcp) pose in base frame
@@ -178,7 +174,6 @@ class ObservationsCfg:
         pose_command = ObsTerm(
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
-            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
         )
 
         # Previous action
