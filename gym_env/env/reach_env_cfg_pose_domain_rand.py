@@ -205,7 +205,7 @@ class EventCfg:
         func=mdp.randomize_actuator_gains_custom,
         mode="reset",
         params={
-            "asset_cfg": SceneEntityCfg("robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"]),
+            "asset_cfg": SceneEntityCfg("robot", joint_names=TaskParams.joint_names),
             "stiffness_distribution_params": TaskParams.robot_randomize_stiffness,
             "damping_distribution_params": TaskParams.robot_randomize_damping,
             "operation_stiffness": TaskParams.robot_randomize_stiffness_operation,
@@ -238,9 +238,11 @@ class RewardsCfg:
 
 
     # action penalty
-    action_rate = RewTerm(func=mdp.action_rate_l2, weight=TaskParams.action_rate_weight)
+    # action_rate = RewTerm(func=mdp.action_rate_l2, weight=TaskParams.action_rate_weight)
+    action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=TaskParams.action_rate_weight)
 
     # action_magnitude = RewTerm(func=mdp.action_l2, weight=TaskParams.action_magnitude_weight)
+    # action_magnitude = RewTerm(func=mdp.action_l2_position, weight=TaskParams.action_magnitude_weight)
 
     # ee_acc = RewTerm(
     #     func=mdp.body_lin_acc_l2,

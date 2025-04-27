@@ -121,15 +121,15 @@ def main():
             actions, _ = agent.predict(obs, deterministic=True)
             # env stepping
             obs, rew, _, _ = env.step(actions)
-            print(timestep)
-            timestep += 1
+            # print(timestep)
+            # timestep += 1
             # print(obs)
             # print(rew)
             # time.sleep(10)
 
-            if timestep > 250: # 373: # 748:
-                env.close()
-                break
+            # if timestep > 249: # 373: # 748:
+            #     env.close()
+            #     break
 
         if args_cli.video:
             timestep += 1

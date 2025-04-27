@@ -30,11 +30,11 @@ class TaskParams:
     end_effector_orientation_tracking_weight = -0.1
 
     action_rate_weight = -1e-4
-    action_rate_curriculum_weight = -0.5
-    action_magnitude_weight = -1e-4
-    action_magnitude_curriculum_weight = -0.02
-    ee_acc_weight = -1e-4
-    ee_acc_curriculum_weight = -0.001
+    action_rate_curriculum_weight = -1.0
+    # action_magnitude_weight = -1e-4
+    # action_magnitude_curriculum_weight = -0.02
+    # ee_acc_weight = -1e-4
+    # ee_acc_curriculum_weight = -0.001
     curriculum_num_steps = 16000
 
 
@@ -66,15 +66,15 @@ class TaskParams:
     wrist_3_damping = 2 * math.sqrt(robot_stiffness * wrist_3_mass)
     
     # Domain randomize robot stiffness and damping
-    robot_randomize_stiffness = (0.5, 1.5),
-    robot_randomize_damping = (0.5, 1.5),
+    robot_randomize_stiffness = (1.0, 1.0),
+    robot_randomize_damping = (1.0, 1.0),
     robot_randomize_stiffness_operation = "scale",
     robot_randomize_damping_operation = "scale"
     robot_randomize_stiffness_distribution = "uniform"
     robot_randomize_damping_distribution = "uniform"
 
-    robot_initial_joint_pos = [2.5, -2.0, 2.0, -1.5, -1.5, 0.0, 0.0, 0.0] # With gripper joint pos set to 0.0
-    robot_reset_joints_pos_range = (1.0, 1.0)
+    robot_initial_joint_pos = [1.3, -2.0, 2.0, -1.5, -1.5, 0.0, 0.0, 0.0] # With gripper joint pos set to 0.0
+    robot_reset_joints_pos_range = (0.9, 1.1)
     robot_reset_joints_vel_range = (0.0, 0.0)
 
     gripper_offset = [0.0, 0.0, 0.0]

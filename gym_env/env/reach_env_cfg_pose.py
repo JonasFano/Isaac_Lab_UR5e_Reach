@@ -47,7 +47,7 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                 max_contact_impulse=1e32,
             ),
             articulation_props=sim_utils.ArticulationRootPropertiesCfg(
-                enabled_self_collisions=True, 
+                enabled_self_collisions=False, 
                 solver_position_iteration_count=8, 
                 solver_velocity_iteration_count=0
             ),
@@ -229,11 +229,11 @@ class RewardsCfg:
         params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
     )
 
-
-    # action penalty
-    action_rate = RewTerm(func=mdp.action_rate_l2, weight=TaskParams.action_rate_weight)
+    # action_rate = RewTerm(func=mdp.action_rate_l2, weight=TaskParams.action_rate_weight)
+    action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=TaskParams.action_rate_weight)
 
     # action_magnitude = RewTerm(func=mdp.action_l2, weight=TaskParams.action_magnitude_weight)
+    # action_magnitude = RewTerm(func=mdp.action_l2_position, weight=TaskParams.action_magnitude_weight)
 
     # ee_acc = RewTerm(
     #     func=mdp.body_lin_acc_l2,

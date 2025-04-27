@@ -6,14 +6,15 @@ from scipy.spatial.transform import Rotation as R
 
 # Path to the CSV file
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_0_1_step_16000"
-# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_1_0_step_16000"
+filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_1_0_step_16000"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_8_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_1_0_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_magnitude_pos_0_8_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_magnitude_0_05_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_magnitude_0_01_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_1_action_magnitude_0_01_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_5_action_magnitude_0_02_step_16000"
-filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper"
 
 csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim/" + filename + ".csv"
 
@@ -176,7 +177,7 @@ def create_and_save_tripple_comparison_plot(y_data1, y_data2, y_data3, amount, t
 
 # Only visualize TCP Displacement vs Actions
 # create_and_save_comparison_plot(tcp_displacement, actions, 3, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
-# create_and_save_comparison_plot(tcp_displacement, actions, 6, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
+create_and_save_comparison_plot(tcp_displacement, actions, 6, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
 
 
 
@@ -201,6 +202,13 @@ actions_cols = [f"actions_{i}" for i in range(6)]
 # Mean MSE across position dimensions: 0.00011988212159580724
 # Mean MAE across position dimensions: 0.00612532964959327
 # Total Max Error across position dimensions: 0.041737221181392656
+
+
+# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_8_step_16000
+# Mean MSE across position dimensions: 0.00030663767204684456
+# Mean MAE across position dimensions: 0.008501266520599736
+# Total Max Error across position dimensions: 0.07829238474369048
+# Smoothness (Sum of Squared Accelerations): 0.004127
 
 
 # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_1_0_step_16000
