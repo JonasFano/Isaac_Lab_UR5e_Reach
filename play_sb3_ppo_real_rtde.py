@@ -257,7 +257,7 @@ class UR5eRobotController:
 
             print(f"Position Error: {position_distance}, Orientation Error: {orientation_distance}")
 
-            if (position_distance < 0.01 and orientation_distance < 0.05):# or (position_distance < 0.01 and orientation_distance < 0.08 and timestep > 100):
+            if (position_distance < 0.01 and orientation_distance < 0.06981317) or (timestep > 200):
                 print("Target reached!")
                 print("Final TCP Pose: ", self.tcp_pose)
                 # return
@@ -274,15 +274,19 @@ class UR5eRobotController:
 
 
 if __name__ == "__main__":
-    robot_ip = "10.126.51.99"
-    # robot_ip = "192.168.1.100"
-    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2/su6rb80q/model.zip"
-    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper/yiv2hxjt/model.zip"
-    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2/87m5wbvy/model.zip"
+    # robot_ip = "10.126.51.99"
+    robot_ip = "192.168.1.100"
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/01gt11w7/model.zip" # Relative without normalization
+    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/4onkm2st/model.zip" # Act. Rate Pos (-1.0)
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/yiv7mwsi/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1)
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
-    filename = "ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses.csv"
-    # filename = "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_01_random_poses.csv"
-    action_scaling = 0.0025
+    filename = "standard_model_predefined_poses.csv"
+    # filename = "standard_model_random_poses.csv"
+    # filename = "optimized_model_predefined_poses.csv"
+    # filename = "optimized_model_random_poses.csv"
+    # filename = "domain_rand_model_predefined_poses.csv"
+    # filename = "domain_rand_model_random_poses.csv"
+    action_scaling = 0.05
     save = False # False # True
     mode = "Predefined" # Options available: "Sample" (sample uniformly from specified range), "Predefined" (predefined poses)
 

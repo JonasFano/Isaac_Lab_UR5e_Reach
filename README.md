@@ -325,7 +325,7 @@ ssh -I 10.178.107.200 jofa@ia-li-2wqd414.unirobotts.local
 
 # Change ip address
 ip link 
-sudo ifconfig enp0s31f6 192.168.1.101 up
+sudo ifconfig enp0s31f6 192.168.0.101 up
 
 # Run test_rtde.py
 python3 test_rtde.py
