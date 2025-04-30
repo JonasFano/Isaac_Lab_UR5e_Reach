@@ -44,7 +44,7 @@ def main():
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     run = wandb.init(
-        project="rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_domain_rand",
+        project="impedance_ctrl_sb3_ppo_ur5e_reach_0_05_pose_without_gripper",
         config=config,
         sync_tensorboard=True,  # auto-upload sb3's tensorboard metrics
         monitor_gym=False,  # auto-upload the videos of agents playing the game
@@ -52,7 +52,7 @@ def main():
     )
 
     # Load env cfg
-    task = "UR5e-Domain-Rand-Reach-Pose-IK" # "UR5e-Reach-Pose-IK" # "UR5e-Lift-Cube"
+    task = "UR5e-Impedance-Ctrl" # "UR5e-Domain-Rand-Reach-Pose-IK" # "UR5e-Reach-Pose-IK" # "UR5e-Lift-Cube"
     num_envs = wandb.config["num_envs"]
     device = "cuda"
     env_cfg = parse_env_cfg(task, device=device, num_envs=num_envs)

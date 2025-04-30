@@ -15,6 +15,7 @@ from isaaclab.utils import configclass
 from isaaclab.actuators import ImplicitActuatorCfg
 from . import mdp
 import os
+from gym_env.env.controller.impedance_control_cfg import ImpedanceControllerCfg
 
 from taskparameters import TaskParams
 
@@ -81,20 +82,20 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                     "wrist_3_joint": TaskParams.robot_effort_limit,
                 },
                 stiffness = {
-                    "shoulder_pan_joint": TaskParams.robot_stiffness,
-                    "shoulder_lift_joint": TaskParams.robot_stiffness,
-                    "elbow_joint": TaskParams.robot_stiffness,
-                    "wrist_1_joint": TaskParams.robot_stiffness,
-                    "wrist_2_joint": TaskParams.robot_stiffness,
-                    "wrist_3_joint": TaskParams.robot_stiffness,
+                    "shoulder_pan_joint": 0, #TaskParams.robot_stiffness,
+                    "shoulder_lift_joint": 0, #TaskParams.robot_stiffness,
+                    "elbow_joint": 0, #TaskParams.robot_stiffness,
+                    "wrist_1_joint": 0, #TaskParams.robot_stiffness,
+                    "wrist_2_joint": 0, #TaskParams.robot_stiffness,
+                    "wrist_3_joint": 0, #TaskParams.robot_stiffness,
                 },
                 damping = {
-                    "shoulder_pan_joint": TaskParams.shoulder_pan_damping,
-                    "shoulder_lift_joint": TaskParams.shoulder_lift_damping,
-                    "elbow_joint": TaskParams.elbow_damping,
-                    "wrist_1_joint": TaskParams.wrist_1_damping,
-                    "wrist_2_joint": TaskParams.wrist_2_damping,
-                    "wrist_3_joint": TaskParams.wrist_3_damping,
+                    "shoulder_pan_joint": 0, #TaskParams.shoulder_pan_damping,
+                    "shoulder_lift_joint": 0, #TaskParams.shoulder_lift_damping,
+                    "elbow_joint": 0, #TaskParams.elbow_damping,
+                    "wrist_1_joint": 0, #TaskParams.wrist_1_damping,
+                    "wrist_2_joint": 0, #TaskParams.wrist_2_damping,
+                    "wrist_3_joint": 0, #TaskParams.wrist_3_damping,
                 }
             )
         }
@@ -149,7 +150,7 @@ class CommandsCfg:
 class ActionsCfg:
     """Action specifications for the MDP."""
     # Set actions
-    arm_action: mdp.JointPositionActionCfg | mdp.DifferentialInverseKinematicsActionCfg = MISSING
+    arm_action: mdp.JointPositionActionCfg | mdp.DifferentialInverseKinematicsActionCfg | ImpedanceControllerCfg = MISSING 
 
 
 @configclass
@@ -218,11 +219,11 @@ class RewardsCfg:
         weight=TaskParams.end_effector_position_tracking_fine_grained_weight,
         params={"gripper_offset": TaskParams.gripper_offset, "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": TaskParams.end_effector_position_tracking_fine_grained_std, "command_name": "ee_pose"},
     )
-    end_effector_orientation_tracking = RewTerm(
-        func=mdp.orientation_command_error,
-        weight=TaskParams.end_effector_orientation_tracking_weight,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
-    )
+    # end_effector_orientation_tracking = RewTerm(
+    #     func=mdp.orientation_command_error,
+    #     weight=TaskParams.end_effector_orientation_tracking_weight,
+    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
+    # )
 
     # action_rate = RewTerm(func=mdp.action_rate_l2, weight=TaskParams.action_rate_weight)
     action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=TaskParams.action_rate_weight)

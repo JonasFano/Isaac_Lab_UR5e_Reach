@@ -1,5 +1,6 @@
 import gymnasium as gym
-from . import agents, ik_rel_env_cfg, joint_pos_env_cfg, ik_rel_env_cfg_pose, ik_abs_env_cfg_pose, ik_rel_env_cfg_pose_domain_rand, ik_rel_env_cfg_pose_ur3e, ik_abs_env_cfg_pose_domain_rand, ik_abs_env_cfg_pose_hand_e
+from . import agents, ik_rel_env_cfg, joint_pos_env_cfg, ik_rel_env_cfg_pose, ik_abs_env_cfg_pose, ik_rel_env_cfg_pose_domain_rand
+from . import ik_rel_env_cfg_pose_ur3e, ik_abs_env_cfg_pose_domain_rand, ik_abs_env_cfg_pose_hand_e, imp_ctrl_env_cfg
 
 # Register Gym environments.
 
@@ -106,5 +107,16 @@ gym.register(
         "sb3_ppo_cfg_entry_point": f"{agents.__name__}:sb3_ppo_cfg.yaml",
         "rl_games_cfg_entry_point": f"{agents.__name__}:rl_games_ppo_cfg.yaml",
         "sb3_sac_cfg_entry_point": f"{agents.__name__}:sb3_sac_cfg.yaml",
+    },
+)
+
+
+gym.register(
+    id="UR5e-Impedance-Ctrl",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": imp_ctrl_env_cfg.ImpCtrl_UR5e_EnvCfg,
+        "sb3_ppo_cfg_entry_point": f"{agents.__name__}:sb3_ppo_cfg.yaml",
     },
 )

@@ -6,7 +6,7 @@ from scipy.spatial.transform import Rotation as R
 
 # Path to the CSV file
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_0_1_step_16000"
-filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_1_0_step_16000"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_1_0_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_8_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_1_0_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_magnitude_pos_0_8_step_16000"
@@ -15,6 +15,7 @@ filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_1_action_magnitude_0_01_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_5_action_magnitude_0_02_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper"
+filename = "impedance_ctrl_sb3_ppo_ur5e_reach_0_05_pose_without_gripper"
 
 csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim/" + filename + ".csv"
 
@@ -176,8 +177,8 @@ def create_and_save_tripple_comparison_plot(y_data1, y_data2, y_data3, amount, t
 
 
 # Only visualize TCP Displacement vs Actions
-# create_and_save_comparison_plot(tcp_displacement, actions, 3, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
-create_and_save_comparison_plot(tcp_displacement, actions, 6, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
+create_and_save_comparison_plot(tcp_displacement, actions, 3, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
+# create_and_save_comparison_plot(tcp_displacement, actions, 6, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
 
 
 
@@ -196,7 +197,7 @@ actions_cols = [f"actions_{i}" for i in range(6)]
 # Mean MSE across position dimensions: 0.0006979464525297263
 # Mean MAE across position dimensions: 0.01606827213001112
 # Total Max Error across position dimensions: 0.08964138925075535
-
+# Smoothness (Sum of Squared Accelerations): 33489.872660 m²/s⁴
 
 # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_pos_1_0_step_16000
 # Mean MSE across position dimensions: 0.00011988212159580724
@@ -286,8 +287,13 @@ print("Total Max Error across position dimensions:", np.max(max_error_per_dimens
 
 
 
-# Second derivative (acceleration estimate)
-acceleration = np.diff(filtered_tcp_displacement, axis=0)
+delta_t = 0.02  # seconds
+
+# Displacement per step -> velocity in m/s
+filtered_tcp_velocity = filtered_tcp_displacement / delta_t
+
+# Then second derivative
+acceleration = np.diff(filtered_tcp_velocity, axis=0) / delta_t
 
 # Compute squared norms
 squared_acc = np.sum(acceleration**2, axis=1)
@@ -295,4 +301,4 @@ squared_acc = np.sum(acceleration**2, axis=1)
 # Sum over all timesteps
 smoothness = np.sum(squared_acc)
 
-print(f"Smoothness (Sum of Squared Accelerations): {smoothness:.6f}")
+print(f"Smoothness (Sum of Squared Accelerations): {smoothness:.6f} m²/s⁴")

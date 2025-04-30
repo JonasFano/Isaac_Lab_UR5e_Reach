@@ -203,6 +203,18 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
 
 
 
+#####################
+# Impedance Control #
+#####################
+
+### impedance_ctrl_sb3_ppo_ur5e_reach_0_05_pose_without_gripper
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Impedance-Ctrl --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/wlfmqzp9/model.zip
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_save_observations.py --task UR5e-Impedance-Ctrl --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/wlfmqzp9/model.zip
+
+
+
+
+
 #######################
 # IK Absolute Control #
 #######################
@@ -259,7 +271,7 @@ Utilize Reinforcement Learning in Isaac Lab using the UR5e to reach desired targ
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization config_sb3_ppo.yaml
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization_800 config_sb3_ppo.yaml
 
-
+    wandb sweep --project impedance_ctrl_sb3_ppo_ur5e_reach_0_05_pose_without_gripper config_sb3_ppo.yaml
     
 
 # REL IK UR5e Wandb PPO with domain randomization
