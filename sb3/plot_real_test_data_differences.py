@@ -4,13 +4,12 @@ import os
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 
-# Path to the CSV file
-# csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_ur5e_with_unoise.csv"
-# csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/observations_1.csv"
-
-# filename = "real_observations"
-# filename = "real_observations_1"
-filename = "real_observations_2"
+filename = "standard_model_predefined_poses_scale_0_05"
+# filename = "standard_model_predefined_poses_scale_0_01"
+# filename = "optimized_model_predefined_poses_scale_0_05"
+# filename = "optimized_model_predefined_poses_scale_0_01"
+# filename = "domain_rand_model_predefined_poses_scale_0_05"
+# filename = "domain_rand_model_predefined_poses_scale_0_01"
 
 csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/" + filename + ".csv"
 
@@ -67,7 +66,7 @@ tcp_pose_error = pose_command.values - tcp_pose.values
 tcp_pose_error = pd.DataFrame(tcp_pose_error, columns=[col.replace("tcp_pose", "tcp_pose_error") for col in tcp_pose.columns], index=data.index)
 
 amount = min(3, len(tcp_pose.columns))  # Ensure we only use available columns
-save = True # False True
+save = False # False True
 
 # Function to create and save individual plots
 def create_and_save_plot(y_data, amount, title, filename):
@@ -141,6 +140,64 @@ def create_and_save_tripple_comparison_plot(y_data1, y_data2, y_data3, amount, t
 
 
 # Only visualize TCP Displacement vs Actions
-create_and_save_comparison_plot(tcp_displacement, actions, 1, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
-create_and_save_comparison_plot(tcp_pose_error, actions, 3, "Comparison between TCP Position Error and Actions - " + filename, "comparison_tcp_position_error_and_action_" + filename)
+# create_and_save_comparison_plot(tcp_displacement, actions, 3, "Comparison between TCP Displacements and Actions - " + filename, "comparison_tcp_displacement_and_action_" + filename)
+# create_and_save_comparison_plot(tcp_pose_error, actions, 3, "Comparison between TCP Position Error and Actions - " + filename, "comparison_tcp_position_error_and_action_" + filename)
 
+
+
+# Match corresponding columns manually
+tcp_displacement_cols = [f"tcp_displacement_{i}" for i in range(6)]
+
+
+# Define a threshold
+threshold = 0.0001  # You can tune this!
+
+# Only select position components (first three)
+tcp_displacement_pos = tcp_displacement[tcp_displacement_cols[:3]].values  # [:3] = x, y, z
+actions_pos = actions[actions_cols[:3]].values
+
+# Get absolute values
+tcp_displacement_abs = np.abs(tcp_displacement_pos)
+actions_abs = np.abs(actions_pos)
+
+# Create a mask: keep timesteps where any position dimension exceeds the threshold
+mask = (tcp_displacement_abs > threshold) | (actions_abs > threshold)
+mask = mask.any(axis=1)  # At least one position dimension must exceed threshold
+
+# Apply mask
+filtered_tcp_displacement = tcp_displacement_pos[mask]
+filtered_actions = actions_pos[mask]
+
+print(f"Number of selected timesteps after filtering: {filtered_tcp_displacement.shape[0]} / {tcp_displacement.shape[0]}")
+
+# Now compute errors on the filtered subset
+error = filtered_tcp_displacement - filtered_actions
+mse_per_dimension = (error ** 2).mean(axis=0)
+mae_per_dimension = np.abs(error).mean(axis=0)
+max_error_per_dimension = np.abs(error).max(axis=0)
+
+# Print nicely
+for i in range(3):
+    print(f"Position Dimension {i}: MSE = {mse_per_dimension[i]:.6f}, MAE = {mae_per_dimension[i]:.6f}, Max Error = {max_error_per_dimension[i]:.6f}")
+
+print("\nMean MSE across position dimensions:", np.mean(mse_per_dimension))
+print("Mean MAE across position dimensions:", np.mean(mae_per_dimension))
+print("Total Max Error across position dimensions:", np.max(max_error_per_dimension))
+
+
+
+delta_t = 0.02  # seconds
+
+# Displacement per step -> velocity in m/s
+filtered_tcp_velocity = filtered_tcp_displacement / delta_t
+
+# Then second derivative
+acceleration = np.diff(filtered_tcp_velocity, axis=0) / delta_t
+
+# Compute squared norms
+squared_acc = np.sum(acceleration**2, axis=1)
+
+# Sum over all timesteps
+smoothness = np.sum(squared_acc)
+
+print(f"Smoothness (Sum of Squared Accelerations): {smoothness:.6f} m²/s⁴")

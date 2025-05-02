@@ -42,7 +42,7 @@ class UR5eRobotController:
         self.ROT_180_Z = R.from_euler('z', 180, degrees=True)
 
 
-    def save_observations_to_csv(self, timestep):
+    def save_observations_to_csv(self, total_timestep):
         """Save TCP pose, target pose, and last action to a CSV file."""
         header = (
             ["timestep"]
@@ -52,7 +52,7 @@ class UR5eRobotController:
         )
 
         # Flatten all observations into a single list
-        data = [timestep] + self.tcp_pose.tolist() + self.target_pose.tolist() + self.previous_action.tolist()
+        data = [total_timestep] + self.tcp_pose.tolist() + self.target_pose.tolist() + self.previous_action.tolist()
 
         file_exists = os.path.isfile(self.csv_path)
 
@@ -82,9 +82,7 @@ class UR5eRobotController:
         roll = 0.0
         pitch = np.pi  # End-effector z-axis pointing down (180 deg rotation)
         yaw = random.uniform(-2.5*np.pi, -1.5*np.pi) # For wrist_3_joint = 0.0
-        # yaw = random.uniform(-3/2*np.pi, -1/3*np.pi) # For wrist_3_joint = 3.14
-        # yaw = random.uniform(-4/3*np.pi, -4/3*np.pi) # Target Orientation not rotated: [-3.06161700e-17  8.66025404e-01 -5.00000000e-01 -5.30287619e-17] # Rotated: [ 5.30287619e-17  5.00000000e-01  8.66025404e-01 -3.06161700e-17]
-        # yaw = random.uniform(-2/3*np.pi, -2/3*np.pi) # Target Orientation not rotated: [ 3.06161700e-17  8.66025404e-01  5.00000000e-01 -5.30287619e-17] # Rotated: [ 5.30287619e-17 -5.00000000e-01  8.66025404e-01  3.06161700e-17]
+        yaw = random.uniform(-3.0*np.pi, -1.0*np.pi) # For wrist_3_joint = 0.0
 
         # Convert Roll-Pitch-Yaw to Quaternion [w, x, y, z] format
         r = R.from_euler("xyz", [roll, pitch, yaw], degrees=False)
@@ -229,7 +227,8 @@ class UR5eRobotController:
         elif self.mode == "Sample":
             self.sample_random_pose()
         
-        timestep = 0  
+        total_timestep = 0
+        target_timestep = 0
 
         while True:
             self.get_actual_tcp_pose()
@@ -244,7 +243,7 @@ class UR5eRobotController:
                 # print(self.action)
 
             if self.save:
-                self.save_observations_to_csv(timestep)
+                self.save_observations_to_csv(total_timestep)
 
             self.previous_action = self.action
             self.execute_action_on_real_robot()  
@@ -257,9 +256,12 @@ class UR5eRobotController:
 
             print(f"Position Error: {position_distance}, Orientation Error: {orientation_distance}")
 
-            if (position_distance < 0.01 and orientation_distance < 0.06981317) or (timestep > 200):
-                print("Target reached!")
-                print("Final TCP Pose: ", self.tcp_pose)
+            if (position_distance < 0.01 and orientation_distance < 0.06981317) or (target_timestep > 800):
+                # if target_timestep > 500:
+                #     break
+                print("\nTarget reached!")
+                print("\n\nAmount of Reached Targets: ", self.current_index + 1)
+                print("\nFinal TCP Pose: ", self.tcp_pose)
                 # return
                 if self.mode == "Predefined":
                     self.current_index += 1
@@ -268,27 +270,44 @@ class UR5eRobotController:
                     self.get_predefined_pose()
                 elif self.mode == "Sample":
                     self.sample_random_pose()
-                # timestep = -1 # Reset timestep counter
+                    self.current_index += 1
+                target_timestep = -1 # Reset target_timestep counter
 
-            timestep += 1  
+            total_timestep += 1  
+            target_timestep += 1
 
 
 if __name__ == "__main__":
     # robot_ip = "10.126.51.99"
     robot_ip = "192.168.1.100"
+    
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/01gt11w7/model.zip" # Relative without normalization
-    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/4onkm2st/model.zip" # Act. Rate Pos (-1.0)
-    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/yiv7mwsi/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1)
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/4onkm2st/model.zip" # Act. Rate Pos (-1.0)
+    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/yiv7mwsi/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1)
+    
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
-    filename = "standard_model_predefined_poses.csv"
-    # filename = "standard_model_random_poses.csv"
-    # filename = "optimized_model_predefined_poses.csv"
-    # filename = "optimized_model_random_poses.csv"
-    # filename = "domain_rand_model_predefined_poses.csv"
-    # filename = "domain_rand_model_random_poses.csv"
-    action_scaling = 0.05
-    save = False # False # True
-    mode = "Predefined" # Options available: "Sample" (sample uniformly from specified range), "Predefined" (predefined poses)
+
+    # filename = "standard_model_predefined_poses_scale_0_05.csv"
+    # filename = "standard_model_predefined_poses_scale_0_01.csv"
+
+    # filename = "standard_model_random_poses_scale_0_05.csv"
+    # filename = "standard_model_random_poses_scale_0_01.csv"
+
+    # filename = "optimized_model_predefined_poses_scale_0_05.csv"
+    # filename = "optimized_model_predefined_poses_scale_0_01.csv"
+
+    # filename = "optimized_model_random_poses_scale_0_05.csv"
+    # filename = "optimized_model_random_poses_scale_0_01.csv"
+
+    # filename = "domain_rand_model_predefined_poses_scale_0_05.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_01.csv"
+
+    # filename = "domain_rand_model_random_poses_scale_0_05.csv" # 30 training steps
+    # filename = "domain_rand_model_random_poses_scale_0_01.csv"
+    
+    action_scaling = 0.01
+    save = True # False # True
+    mode = "Sample" # Options available: "Sample" (sample uniformly from specified range), "Predefined" (predefined poses)
 
     controller = UR5eRobotController(robot_ip, model_path, action_scaling, save_dir, filename, mode, save)
 
