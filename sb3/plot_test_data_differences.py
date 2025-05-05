@@ -15,7 +15,11 @@ from scipy.spatial.transform import Rotation as R
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_1_action_magnitude_0_01_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_action_rate_0_5_action_magnitude_0_02_step_16000"
 # filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper"
-filename = "impedance_ctrl_sb3_ppo_ur5e_reach_0_05_pose_without_gripper"
+# filename = "impedance_ctrl_sb3_ppo_ur5e_reach_0_05_pose_without_gripper"
+
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_domain_rand_robot_initial_joints_0_9_and_gains"
+# filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_domain_rand_robot_initial_joints_0_8_and_gains"
+filename = "rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_domain_rand_robot_initial_joints_0_7_and_gains"
 
 csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim/" + filename + ".csv"
 
@@ -251,7 +255,7 @@ actions_cols = [f"actions_{i}" for i in range(6)]
 
 
 # Define a threshold
-threshold = 0.001  # You can tune this!
+threshold = 0.0005  # You can tune this!
 
 # Only select position components (first three)
 tcp_displacement_pos = tcp_displacement[tcp_displacement_cols[:3]].values  # [:3] = x, y, z

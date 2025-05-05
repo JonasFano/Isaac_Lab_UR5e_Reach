@@ -29,7 +29,7 @@ class TaskParams:
 
     end_effector_orientation_tracking_weight = -0.1
 
-    action_rate_weight = -1e-4
+    action_rate_weight = -1.0 #-1e-4
     action_rate_curriculum_weight = -1.0
     # action_magnitude_weight = -1e-4
     # action_magnitude_curriculum_weight = -0.02

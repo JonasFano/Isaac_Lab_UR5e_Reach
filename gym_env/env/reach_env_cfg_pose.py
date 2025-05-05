@@ -82,20 +82,20 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                     "wrist_3_joint": TaskParams.robot_effort_limit,
                 },
                 stiffness = {
-                    "shoulder_pan_joint": 0, #TaskParams.robot_stiffness,
-                    "shoulder_lift_joint": 0, #TaskParams.robot_stiffness,
-                    "elbow_joint": 0, #TaskParams.robot_stiffness,
-                    "wrist_1_joint": 0, #TaskParams.robot_stiffness,
-                    "wrist_2_joint": 0, #TaskParams.robot_stiffness,
-                    "wrist_3_joint": 0, #TaskParams.robot_stiffness,
+                    "shoulder_pan_joint": TaskParams.robot_stiffness,
+                    "shoulder_lift_joint": TaskParams.robot_stiffness,
+                    "elbow_joint": TaskParams.robot_stiffness,
+                    "wrist_1_joint": TaskParams.robot_stiffness,
+                    "wrist_2_joint": TaskParams.robot_stiffness,
+                    "wrist_3_joint": TaskParams.robot_stiffness,
                 },
                 damping = {
-                    "shoulder_pan_joint": 0, #TaskParams.shoulder_pan_damping,
-                    "shoulder_lift_joint": 0, #TaskParams.shoulder_lift_damping,
-                    "elbow_joint": 0, #TaskParams.elbow_damping,
-                    "wrist_1_joint": 0, #TaskParams.wrist_1_damping,
-                    "wrist_2_joint": 0, #TaskParams.wrist_2_damping,
-                    "wrist_3_joint": 0, #TaskParams.wrist_3_damping,
+                    "shoulder_pan_joint": TaskParams.shoulder_pan_damping,
+                    "shoulder_lift_joint": TaskParams.shoulder_lift_damping,
+                    "elbow_joint": TaskParams.elbow_damping,
+                    "wrist_1_joint": TaskParams.wrist_1_damping,
+                    "wrist_2_joint": TaskParams.wrist_2_damping,
+                    "wrist_3_joint": TaskParams.wrist_3_damping,
                 }
             )
         }
@@ -250,9 +250,9 @@ class TerminationsCfg:
 class CurriculumCfg:
     """Curriculum terms for the MDP."""
 
-    action_rate = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": TaskParams.action_rate_curriculum_weight, "num_steps": TaskParams.curriculum_num_steps} 
-    )
+    # action_rate = CurrTerm(
+    #     func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": TaskParams.action_rate_curriculum_weight, "num_steps": TaskParams.curriculum_num_steps} 
+    # )
 
     # action_magnitude = CurrTerm(
     #     func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": TaskParams.action_magnitude_curriculum_weight, "num_steps": TaskParams.curriculum_num_steps}

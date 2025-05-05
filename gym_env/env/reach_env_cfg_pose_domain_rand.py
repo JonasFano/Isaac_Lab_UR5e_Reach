@@ -191,28 +191,28 @@ class EventCfg:
     """Configuration for events."""
     reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
 
-    reset_robot_joints = EventTerm(
-        func=mdp.reset_joints_by_scale,
-        mode="reset",
-        params={
-            "position_range": TaskParams.robot_reset_joints_pos_range,
-            "velocity_range": TaskParams.robot_reset_joints_vel_range,
-        },
-    )
+    # reset_robot_joints = EventTerm(
+    #     func=mdp.reset_joints_by_scale,
+    #     mode="reset",
+    #     params={
+    #         "position_range": TaskParams.robot_reset_joints_pos_range,
+    #         "velocity_range": TaskParams.robot_reset_joints_vel_range,
+    #     },
+    # )
 
-    randomize_robot_gains = EventTerm(
-        func=mdp.randomize_actuator_gains_custom,
-        mode="reset",
-        params={
-            "asset_cfg": SceneEntityCfg("robot", joint_names=TaskParams.joint_names),
-            "stiffness_distribution_params": TaskParams.robot_randomize_stiffness,
-            "damping_distribution_params": TaskParams.robot_randomize_damping,
-            "operation_stiffness": TaskParams.robot_randomize_stiffness_operation,
-            "operation_damping": TaskParams.robot_randomize_damping_operation,
-            "distribution_stiffness": TaskParams.robot_randomize_stiffness_distribution,
-            "distribution_damping": TaskParams.robot_randomize_damping_distribution,
-        }
-    )
+    # randomize_robot_gains = EventTerm(
+    #     func=mdp.randomize_actuator_gains_custom,
+    #     mode="reset",
+    #     params={
+    #         "asset_cfg": SceneEntityCfg("robot", joint_names=TaskParams.joint_names),
+    #         "stiffness_distribution_params": TaskParams.robot_randomize_stiffness,
+    #         "damping_distribution_params": TaskParams.robot_randomize_damping,
+    #         "operation_stiffness": TaskParams.robot_randomize_stiffness_operation,
+    #         "operation_damping": TaskParams.robot_randomize_damping_operation,
+    #         "distribution_stiffness": TaskParams.robot_randomize_stiffness_distribution,
+    #         "distribution_damping": TaskParams.robot_randomize_damping_distribution,
+    #     }
+    # )
 
 
 @configclass
