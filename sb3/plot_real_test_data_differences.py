@@ -4,15 +4,31 @@ import os
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 
-filename = "standard_model_predefined_poses_scale_0_05"
-# filename = "standard_model_predefined_poses_scale_0_01"
-# filename = "optimized_model_predefined_poses_scale_0_05"
-# filename = "optimized_model_predefined_poses_scale_0_01"
-# filename = "domain_rand_model_predefined_poses_scale_0_05"
-# filename = "domain_rand_model_predefined_poses_scale_0_01"
+# filename = "standard_model_predefined_poses_scale_0_05_seed_24"
+# filename = "standard_model_predefined_poses_scale_0_05_seed_42"
+# filename = "standard_model_predefined_poses_scale_0_01_seed_24"
+# filename = "standard_model_predefined_poses_scale_0_01_seed_42"
+# filename = "optimized_model_predefined_poses_scale_0_05_seed_24"
+# filename = "optimized_model_predefined_poses_scale_0_05_seed_42"
+# filename = "optimized_model_predefined_poses_scale_0_01_seed_24"
+# filename = "optimized_model_predefined_poses_scale_0_01_seed_42"
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24"
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_42"
+# filename = "domain_rand_model_predefined_poses_scale_0_01_seed_24"
+filename = "domain_rand_model_predefined_poses_scale_0_01_seed_42"
 
 csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/" + filename + ".csv"
 
+# Define a threshold
+# threshold = 0.001 # For action scaling: 0.05
+threshold = 0.0002 # For action scaling 0.01
+
+# Thresholds
+euclidean_thresh = 0.004  # in meters
+geodesic_thresh = 0.05235988  # in radians (~3 degrees)
+
+save = False # False True
+plot = True
 
 # Output directory for saving the plots
 # output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots"
@@ -66,7 +82,7 @@ tcp_pose_error = pose_command.values - tcp_pose.values
 tcp_pose_error = pd.DataFrame(tcp_pose_error, columns=[col.replace("tcp_pose", "tcp_pose_error") for col in tcp_pose.columns], index=data.index)
 
 amount = min(3, len(tcp_pose.columns))  # Ensure we only use available columns
-save = False # False True
+
 
 # Function to create and save individual plots
 def create_and_save_plot(y_data, amount, title, filename):
@@ -149,8 +165,7 @@ def create_and_save_tripple_comparison_plot(y_data1, y_data2, y_data3, amount, t
 tcp_displacement_cols = [f"tcp_displacement_{i}" for i in range(6)]
 
 
-# Define a threshold
-threshold = 0.0001  # You can tune this!
+
 
 # Only select position components (first three)
 tcp_displacement_pos = tcp_displacement[tcp_displacement_cols[:3]].values  # [:3] = x, y, z
@@ -201,3 +216,74 @@ squared_acc = np.sum(acceleration**2, axis=1)
 smoothness = np.sum(squared_acc)
 
 print(f"Smoothness (Sum of Squared Accelerations): {smoothness:.6f} m²/s⁴")
+
+
+
+
+
+
+
+
+
+
+# --- Compute Euclidean and Geodesic Distances ---
+
+# Euclidean distance between positions
+euclidean_distance = np.linalg.norm(
+    tcp_pose.iloc[:, :3].values - pose_command.iloc[:, :3].values, axis=1
+)
+
+# Geodesic distance using scipy Rotation
+tcp_rot = R.from_quat(tcp_pose.iloc[:, 3:7].values)
+target_rot = R.from_quat(pose_command.iloc[:, 3:7].values)
+relative_rot = target_rot.inv() * tcp_rot
+geodesic_distance = relative_rot.magnitude()  # Angle in radians
+
+
+if plot:
+    # --- Plotting ---
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=timesteps, y=euclidean_distance, mode='lines', name="Euclidean Distance (m)"))
+    fig.add_trace(go.Scatter(x=timesteps, y=geodesic_distance, mode='lines', name="Geodesic Distance (rad)"))
+
+    fig.update_layout(
+        title="Euclidean and Geodesic Distance over Timesteps",
+        xaxis_title="Timestep",
+        yaxis_title="Distance",
+        hovermode="x unified"
+    )
+
+    if save:
+        fig.write_image(os.path.join(output_dir, f"distance_plot_{filename}.png"), width=1100, height=600)
+
+    fig.show()
+
+
+
+
+# Define ranges
+ranges = [(0, 1001), (1002, 2003), (2004, len(timesteps)-1)]
+
+print("\n--- Threshold Check for Min Distances ---")
+for start, end in ranges:
+    if end > len(euclidean_distance):  # Avoid index errors if data is shorter
+        end = len(euclidean_distance)
+
+    euc_slice = euclidean_distance[start:end]
+    geo_slice = geodesic_distance[start:end]
+
+    # Find indices where both conditions are met
+    mask = (euc_slice < euclidean_thresh) & (geo_slice < geodesic_thresh)
+
+    if np.any(mask):
+        idx = np.where(mask)[0][0] + start  # Get global timestep index
+        print(f"✅ Timestep {idx} in range {start}-{end}: Euclidean = {euclidean_distance[idx]:.6f} m, Geodesic = {geodesic_distance[idx]:.6f} rad")
+    else:
+        # No timestep met both conditions – show best individual values
+        min_euc = np.min(euc_slice)
+        min_geo = np.min(geo_slice)
+        idx_euc = np.argmin(euc_slice) + start
+        idx_geo = np.argmin(geo_slice) + start
+        print(f"❌ No match in {start}-{end}:")
+        print(f"   Min Euclidean = {min_euc:.6f} m at timestep {idx_euc}")
+        print(f"   Min Geodesic  = {min_geo:.6f} rad at timestep {idx_geo}")

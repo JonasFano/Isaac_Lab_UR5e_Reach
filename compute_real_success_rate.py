@@ -1,8 +1,30 @@
 import pandas as pd
 import numpy as np
 
+
+# filename = "standard_model_random_poses_scale_0_05_seed_24"
+# filename = "standard_model_random_poses_scale_0_05_seed_42"
+# filename = "standard_model_random_poses_scale_0_01_seed_24"
+# filename = "standard_model_random_poses_scale_0_01_seed_42"
+filename = "optimized_model_random_poses_scale_0_05_seed_24"
+# filename = "optimized_model_random_poses_scale_0_05_seed_42"
+# filename = "optimized_model_random_poses_scale_0_01_seed_24"
+# filename = "optimized_model_random_poses_scale_0_01_seed_42"
+# filename = "domain_rand_model_random_poses_scale_0_05_seed_24"
+# filename = "domain_rand_model_random_poses_scale_0_05_seed_42"
+# filename = "domain_rand_model_random_poses_scale_0_01_seed_24"
+# filename = "domain_rand_model_random_poses_scale_0_01_seed_42"
+
+# Define thresholds
+pos_threshold = 0.004  # 4 mm
+quat_threshold = 0.05235988 # 3 degrees # 0.06981317  # ~4 degrees
+max_num_episodes = 100
+
+csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/" + filename + ".csv"
+
+
 # Load the data
-df = pd.read_csv("data/real_robot/domain_rand_model_random_poses_scale_0_05.csv")
+df = pd.read_csv(csv_path)
 
 # Define target pose columns
 target_cols = [f"target_pose_{i}" for i in range(7)]
@@ -14,9 +36,7 @@ target_change.iloc[0] = False  # First row does not count as a change
 # Assign episode numbers
 df["episode"] = target_change.cumsum()
 
-# Define thresholds
-pos_threshold = 0.01  # 1 cm
-quat_threshold = 0.06981317  # ~4 degrees
+
 
 # Define relevant pose columns
 tcp_pos_cols = [f"tcp_pose_{i}" for i in range(3)]
@@ -36,10 +56,11 @@ pos_errors = []
 quat_errors = []
 success_flags = []
 
-grouped = list(df.groupby("episode"))
+grouped = list(df.groupby("episode"))[:max_num_episodes]
+
 
 # Evaluate each episode at final timestep
-for episode_id, episode_data in grouped[:-1]:
+for episode_id, episode_data in grouped:
     final_row = episode_data.iloc[-1]
     
     tcp_pos = final_row[tcp_pos_cols].values
@@ -69,11 +90,13 @@ pos_only_success_rate = (pos_errors < pos_threshold).mean() * 100
 quat_only_success_rate = (quat_errors < quat_threshold).mean() * 100
 
 # Print summary
-print(f"Number of episodes: {df['episode'].nunique()-1}")
+print(f"Analysed episodes: {len(grouped)}")
 print(f"Min Position Error: {np.min(pos_errors):.6f}")
 print(f"Mean Position Error: {np.mean(pos_errors):.6f}")
+print(f"Max Position Error: {np.max(pos_errors):.6f}")
 print(f"Min Quaternion Error: {np.min(quat_errors):.6f}")
 print(f"Mean Quaternion Error: {np.mean(quat_errors):.6f}")
+print(f"Max Quaternion Error: {np.max(quat_errors):.6f}")
 print(f"Position Success Count: {pos_success_count}")
 print(f"Quaternion Success Count: {quat_success_count}")
 print(f"Position-only Success Rate: {pos_only_success_rate:.2f}%")

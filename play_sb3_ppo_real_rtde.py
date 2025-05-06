@@ -256,11 +256,11 @@ class UR5eRobotController:
 
             print(f"Position Error: {position_distance}, Orientation Error: {orientation_distance}")
 
-            if (position_distance < 0.0015 and orientation_distance < 0.05235988) or (target_timestep > 800): # 01745329
-                # if target_timestep > 500:
+            if target_timestep > 1000:
+            # if (position_distance < 0.0015 and orientation_distance < 0.05235988) or (target_timestep > 800): # 01745329
+                # if target_timestep > 800:
                 #     break
-                print("\nTarget reached!")
-                print("\n\nAmount of Reached Targets: ", self.current_index + 1)
+                print("\n\nAmount of Targets: ", self.current_index + 1)
                 print("\nFinal TCP Pose: ", self.tcp_pose)
                 # return
                 if self.mode == "Predefined":
@@ -278,33 +278,49 @@ class UR5eRobotController:
 
 
 if __name__ == "__main__":
-    # robot_ip = "10.126.51.99"
-    robot_ip = "192.168.1.100"
+    robot_ip = "10.126.32.155"
+    # robot_ip = "192.168.1.100"
     
-    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/01gt11w7/model.zip" # Relative without normalization # or 85arfwte
-    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/85arfwte/model.zip" # Relative without normalization # or 85arfwte
-    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/4onkm2st/model.zip" # Act. Rate Pos (-1.0)
-    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1)
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/01gt11w7/model.zip"  # Seed 24
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/85arfwte/model.zip" # Seed 42
+
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/4onkm2st/model.zip" # Act. Rate Pos (-1.0) # Seed 24
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/oshyvv4h/model.zip" # Act. Rate Pos (-1.0) # Seed 42
+
+    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 24
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/yiv7mwsi/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 42
     
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
 
-    # filename = "standard_model_predefined_poses_scale_0_05.csv"
-    # filename = "standard_model_predefined_poses_scale_0_01.csv"
+    # filename = "standard_model_predefined_poses_scale_0_05_seed_24.csv"
+    # filename = "standard_model_predefined_poses_scale_0_05_seed_42.csv"
+    # filename = "standard_model_predefined_poses_scale_0_01_seed_24.csv"
+    # filename = "standard_model_predefined_poses_scale_0_01_seed_42.csv"
 
-    filename = "standard_model_random_poses_scale_0_05.csv"
-    # filename = "standard_model_random_poses_scale_0_01.csv"
+    # filename = "standard_model_random_poses_scale_0_05_seed_24.csv"
+    # filename = "standard_model_random_poses_scale_0_05_seed_42.csv"
+    # filename = "standard_model_random_poses_scale_0_01_seed_24.csv"
+    # filename = "standard_model_random_poses_scale_0_01_seed_42.csv"
 
-    # filename = "optimized_model_predefined_poses_scale_0_05.csv"
-    # filename = "optimized_model_predefined_poses_scale_0_01.csv"
+    # filename = "optimized_model_predefined_poses_scale_0_05_seed_24.csv"
+    # filename = "optimized_model_predefined_poses_scale_0_05_seed_42.csv"
+    # filename = "optimized_model_predefined_poses_scale_0_01_seed_24.csv"
+    # filename = "optimized_model_predefined_poses_scale_0_01_seed_42.csv"
 
-    # filename = "optimized_model_random_poses_scale_0_05.csv"
-    # filename = "optimized_model_random_poses_scale_0_01.csv"
+    # filename = "optimized_model_random_poses_scale_0_05_seed_24.csv"
+    # filename = "optimized_model_random_poses_scale_0_05_seed_42.csv"
+    # filename = "optimized_model_random_poses_scale_0_01_seed_24.csv"
+    # filename = "optimized_model_random_poses_scale_0_01_seed_42.csv"
 
-    # filename = "domain_rand_model_predefined_poses_scale_0_05.csv"
-    # filename = "domain_rand_model_predefined_poses_scale_0_01.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_42.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_01_seed_24.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_01_seed_42.csv"
 
-    # filename = "domain_rand_model_random_poses_scale_0_05.csv" # 30 training steps
-    # filename = "domain_rand_model_random_poses_scale_0_01.csv"
+    filename = "domain_rand_model_random_poses_scale_0_05_seed_24.csv"
+    # filename = "domain_rand_model_random_poses_scale_0_05_seed_42.csv"
+    # filename = "domain_rand_model_random_poses_scale_0_01_seed_24.csv"
+    # filename = "domain_rand_model_random_poses_scale_0_01_seed_42.csv"
     
     action_scaling = 0.05
     save = True # False # True
