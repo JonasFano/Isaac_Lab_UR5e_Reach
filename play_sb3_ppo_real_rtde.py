@@ -74,30 +74,21 @@ class UR5eRobotController:
     def sample_random_pose(self):
         """Randomly sample a target pose within specified bounds."""
         pos_x = random.uniform(-0.2, 0.2)
-        pos_y = random.uniform(-0.45, -0.25)
+        pos_y = random.uniform(0.45, 0.25)
         pos_z = random.uniform(0.2, 0.5)
         # pos_x = random.uniform(0.1, 0.1)
-        # pos_y = random.uniform(-0.3, -0.3)
+        # pos_y = random.uniform(0.3, 0.3)
         # pos_z = random.uniform(0.3, 0.3)
         roll = 0.0
         pitch = np.pi  # End-effector z-axis pointing down (180 deg rotation)
-        yaw = random.uniform(-2.5*np.pi, -1.5*np.pi) # For wrist_3_joint = 0.0
-        yaw = random.uniform(-3.0*np.pi, -1.0*np.pi) # For wrist_3_joint = 0.0
+        yaw = random.uniform(-np.pi, np.pi) # For wrist_3_joint = 0.0
+        # yaw = random.uniform(-0.5*np.pi, 0.5*np.pi) # For wrist_3_joint = 0.0
 
         # Convert Roll-Pitch-Yaw to Quaternion [w, x, y, z] format
         r = R.from_euler("xyz", [roll, pitch, yaw], degrees=False)
         quat_wxyz = r.as_quat(scalar_first=True)
 
-        rotated_quat = self.ROT_180_Z * R.from_quat(quat_wxyz, scalar_first=True)
-        rotated_quat_wxyz = rotated_quat.as_quat(scalar_first=True)
-
-        # print(quat_wxyz)
-        # print(rotated_quat_wxyz)
-
-        # Apply 180-degree rotation to the position
-        rotated_pos = self.ROT_180_Z.apply([pos_x, pos_y, pos_z])
-
-        self.target_pose = np.concatenate((rotated_pos, rotated_quat_wxyz), axis=0)
+        self.target_pose = np.concatenate(([pos_x, pos_y, pos_z], quat_wxyz), axis=0)
 
 
     def get_predefined_pose(self):
@@ -256,7 +247,7 @@ class UR5eRobotController:
 
             print(f"Position Error: {position_distance}, Orientation Error: {orientation_distance}")
 
-            if target_timestep > 1000:
+            if target_timestep > 250:
             # if (position_distance < 0.0015 and orientation_distance < 0.05235988) or (target_timestep > 800): # 01745329
                 # if target_timestep > 800:
                 #     break
@@ -269,6 +260,7 @@ class UR5eRobotController:
                         return
                     self.get_predefined_pose()
                 elif self.mode == "Sample":
+                    self.move_robot_to_home()
                     self.sample_random_pose()
                     self.current_index += 1
                 target_timestep = -1 # Reset target_timestep counter
@@ -278,16 +270,16 @@ class UR5eRobotController:
 
 
 if __name__ == "__main__":
-    robot_ip = "10.126.32.155"
+    robot_ip = "10.52.4.184"
     # robot_ip = "192.168.1.100"
     
-    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/01gt11w7/model.zip"  # Seed 24
+    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/01gt11w7/model.zip"  # Seed 24
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/85arfwte/model.zip" # Seed 42
 
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/4onkm2st/model.zip" # Act. Rate Pos (-1.0) # Seed 24
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/oshyvv4h/model.zip" # Act. Rate Pos (-1.0) # Seed 42
 
-    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 24
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 24
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/yiv7mwsi/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 42
     
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
@@ -297,7 +289,7 @@ if __name__ == "__main__":
     # filename = "standard_model_predefined_poses_scale_0_01_seed_24.csv"
     # filename = "standard_model_predefined_poses_scale_0_01_seed_42.csv"
 
-    # filename = "standard_model_random_poses_scale_0_05_seed_24.csv"
+    filename = "standard_model_random_poses_scale_0_05_seed_24.csv"
     # filename = "standard_model_random_poses_scale_0_05_seed_42.csv"
     # filename = "standard_model_random_poses_scale_0_01_seed_24.csv"
     # filename = "standard_model_random_poses_scale_0_01_seed_42.csv"
@@ -317,10 +309,12 @@ if __name__ == "__main__":
     # filename = "domain_rand_model_predefined_poses_scale_0_01_seed_24.csv"
     # filename = "domain_rand_model_predefined_poses_scale_0_01_seed_42.csv"
 
-    filename = "domain_rand_model_random_poses_scale_0_05_seed_24.csv"
+    # filename = "domain_rand_model_random_poses_scale_0_05_seed_24.csv"
     # filename = "domain_rand_model_random_poses_scale_0_05_seed_42.csv"
     # filename = "domain_rand_model_random_poses_scale_0_01_seed_24.csv"
     # filename = "domain_rand_model_random_poses_scale_0_01_seed_42.csv"
+
+    # filename = "test_orientation.csv"
     
     action_scaling = 0.05
     save = True # False # True

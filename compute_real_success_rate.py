@@ -2,11 +2,11 @@ import pandas as pd
 import numpy as np
 
 
-# filename = "standard_model_random_poses_scale_0_05_seed_24"
+filename = "standard_model_random_poses_scale_0_05_seed_24"
 # filename = "standard_model_random_poses_scale_0_05_seed_42"
 # filename = "standard_model_random_poses_scale_0_01_seed_24"
 # filename = "standard_model_random_poses_scale_0_01_seed_42"
-filename = "optimized_model_random_poses_scale_0_05_seed_24"
+# filename = "optimized_model_random_poses_scale_0_05_seed_24"
 # filename = "optimized_model_random_poses_scale_0_05_seed_42"
 # filename = "optimized_model_random_poses_scale_0_01_seed_24"
 # filename = "optimized_model_random_poses_scale_0_01_seed_42"
@@ -57,6 +57,8 @@ quat_errors = []
 success_flags = []
 
 grouped = list(df.groupby("episode"))[:max_num_episodes]
+# grouped_all = list(df.groupby("episode"))
+# grouped = grouped_all[0:99] + [grouped_all[100]]
 
 
 # Evaluate each episode at final timestep

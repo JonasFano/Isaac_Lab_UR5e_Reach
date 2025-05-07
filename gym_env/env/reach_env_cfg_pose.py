@@ -219,11 +219,11 @@ class RewardsCfg:
         weight=TaskParams.end_effector_position_tracking_fine_grained_weight,
         params={"gripper_offset": TaskParams.gripper_offset, "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": TaskParams.end_effector_position_tracking_fine_grained_std, "command_name": "ee_pose"},
     )
-    # end_effector_orientation_tracking = RewTerm(
-    #     func=mdp.orientation_command_error,
-    #     weight=TaskParams.end_effector_orientation_tracking_weight,
-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
-    # )
+    end_effector_orientation_tracking = RewTerm(
+        func=mdp.orientation_command_error,
+        weight=TaskParams.end_effector_orientation_tracking_weight,
+        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
+    )
 
     # action_rate = RewTerm(func=mdp.action_rate_l2, weight=TaskParams.action_rate_weight)
     action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=TaskParams.action_rate_weight)

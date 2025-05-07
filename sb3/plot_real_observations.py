@@ -10,17 +10,11 @@ os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
 
 # filename = 'real_observations_pos_only'
 # filename = 'real_observations_rotate_rx'
-filename = 'real_observations_rotate_rz'
-
-# filename = "ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
-# filename = "ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_random_poses"
-# filename = "ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_random_poses_initial_wrist_3_is_0"
-
-# filename = "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_predefined_poses"
-# filename = "real_observation_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_01_random_poses"
-# filename = "ursim_predefined_pose_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_0_0025_orientation_issue"
+# filename = 'real_observations_rotate_rz'
 
 save = False  # True False
+
+filename = "test_orientation"
 
 
 # Read data from a CSV file

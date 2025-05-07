@@ -4,7 +4,7 @@ from scipy.spatial.transform import Rotation as R
 import os
 import numpy as np
 
-file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/"
+file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim/"
 output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/comparison/"
 os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
 
@@ -14,13 +14,12 @@ os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_01"
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_0025"
 # filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_v2_without_gripper_scale_0_0025_v2"
-filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025"
+# filename = "observations_rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_stiffness_10000000_without_gripper_v2_scale_0_0025"
 
 
-# filename = "observations_1"
+filename = "test_orientation"
 
-
-save = True  # False # True
+save = False  # False # True
 
 # Read data from a CSV file
 df = pd.read_csv(os.path.join(file_dir, filename + ".csv"))
