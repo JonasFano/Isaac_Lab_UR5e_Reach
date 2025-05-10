@@ -152,22 +152,3 @@ def action_rate_l2_position(env: ManagerBasedRLEnv) -> torch.Tensor:
 def action_l2_position(env: ManagerBasedRLEnv) -> torch.Tensor:
     """Penalize the actions using L2 squared kernel."""
     return torch.sum(torch.square(env.action_manager.action[:, :3]), dim=1)
-
-
-def action_clip(env: ManagerBasedRLEnv, pos_threshold: float, axis_angle_threshold: float) -> torch.Tensor:
-    """Penalize the actions if their absolute values exceed specified limits"""
-    action_pos = env.action_manager.action[:, :3]  # Smaller than 0.05
-    action_quat = env.action_manager.action[:, 3:7]  # Smaller than 0.08
-
-    # Check if any element of the absolute action_pos exceeds pos_threshold
-    pos_exceeds = (torch.abs(action_pos) > pos_threshold).any(dim=1)
-
-    # Check if any element of the absolute action_quat exceeds quat_threshold
-    quat_exceeds = (torch.abs(action_quat) > axis_angle_threshold).any(dim=1)
-
-    # Return 1 if any condition is met, otherwise return 0
-    reward = torch.where(pos_exceeds | quat_exceeds, 
-                         torch.tensor(1.0, device=env.action_manager.action.device), 
-                         torch.tensor(0.0, device=env.action_manager.action.device))
-
-    return reward

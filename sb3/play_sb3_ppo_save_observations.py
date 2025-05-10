@@ -110,7 +110,7 @@ def main():
     timestep = 0
 
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim"
-    csv_path = os.path.join(save_dir, "test_orientation.csv")
+    csv_path = os.path.join(save_dir, "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_continuity_sim.csv")
 
     # simulate environment
     while simulation_app.is_running():
@@ -125,7 +125,7 @@ def main():
             # print(timestep)
             timestep += 1
 
-            if timestep > 249: # 373: # 748:
+            if timestep > 1000: # 373: # 748:
                 env.close()
 
     # close the simulator

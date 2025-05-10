@@ -13,26 +13,9 @@ from isaaclab.managers import TerminationTermCfg as DoneTerm
 from isaaclab.scene import InteractiveSceneCfg
 from isaaclab.utils import configclass
 from isaaclab.actuators import ImplicitActuatorCfg
-from isaaclab.utils.noise import AdditiveUniformNoiseCfg as Unoise
 from . import mdp
 import os
-import math
-
-# This script includes several parts that can be commented in/out depending on the specific preference. 
-# This can be used to run pretrained models with the specific setting used to train these models in sb3/models/
-# This folder includes several subfolders that are named according to the wandb run name. Possible names are:
-# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
-# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
-# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
-# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3
-# rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
-
-# With ctrl + F and these names, it is possible to comment in the specific settings used during training of these models.
-
-# Or search for 
-# New training setting
-# to start a new training with new settings.
-
+from taskparameters_ur5e import TaskParams
 
 ##
 # Scene definition
@@ -43,185 +26,83 @@ MODEL_PATH = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__)
 @configclass
 class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     """Configuration for the lift scene with a robot and a object."""
-    # articulation
-    # robot = ArticulationCfg(
-    #     prim_path="{ENV_REGEX_NS}/robot", 
-    #     spawn=sim_utils.UsdFileCfg(
-    #         # usd_path=os.path.join(MODEL_PATH, "ur5e_robotiq_new.usd"), # SDU gripper
-    #         usd_path=os.path.join(MODEL_PATH, "ur5e_with_gripper.usd"), # Robotiq Hand E
-    #         rigid_props=sim_utils.RigidBodyPropertiesCfg(
-    #             disable_gravity=False,
-    #             max_depenetration_velocity=5.0,
-    #         ),
-    #         # articulation_props=sim_utils.ArticulationRootPropertiesCfg(
-    #         #     enabled_self_collisions=True, 
-    #         #     solver_position_iteration_count=8, 
-    #         #     solver_velocity_iteration_count=0
-    #         # ),
-    #         activate_contact_sensors=True,), 
-    #     init_state=ArticulationCfg.InitialStateCfg(
-    #         pos=(0.175, -0.175, 0.0), 
-    #         joint_pos={
-    #             "shoulder_pan_joint": 1.3, 
-    #             "shoulder_lift_joint": -2.0, 
-    #             "elbow_joint": 2.0, 
-    #             "wrist_1_joint": -1.5, 
-    #             "wrist_2_joint": -1.5, 
-    #             "wrist_3_joint": 3.14, 
-    #             "robotiq_hande_left_finger_joint": 0.0, 
-    #             "robotiq_hande_right_finger_joint": 0.0,
-    #         }
-    #     ),
-    #     actuators={
-    #         "all_joints": ImplicitActuatorCfg(
-    #             joint_names_expr=[".*"],  # Match all joints
-    #             velocity_limit={
-    #                 "shoulder_pan_joint": 180.0,
-    #                 "shoulder_lift_joint": 180.0,
-    #                 "elbow_joint": 180.0,
-    #                 "wrist_1_joint": 180.0,
-    #                 "wrist_2_joint": 180.0,
-    #                 "wrist_3_joint": 180.0,
-    #                 "robotiq_hande_left_finger_joint": 0.15,
-    #                 "robotiq_hande_right_finger_joint": 0.15,
-    #             },
-    #             effort_limit={
-    #                 "shoulder_pan_joint": 150.0,
-    #                 "shoulder_lift_joint": 150.0,
-    #                 "elbow_joint": 150.0,
-    #                 "wrist_1_joint": 28.0,
-    #                 "wrist_2_joint": 28.0,
-    #                 "wrist_3_joint": 28.0,
-    #                 "robotiq_hande_left_finger_joint": 130.0,
-    #                 "robotiq_hande_right_finger_joint": 130.0,
-    #             },
-    #             # stiffness={
-    #             #     "shoulder_pan_joint": 261.79941,
-    #             #     "shoulder_lift_joint": 261.79941,
-    #             #     "elbow_joint": 261.79941,
-    #             #     "wrist_1_joint": 261.79941,
-    #             #     "wrist_2_joint": 261.79941,
-    #             #     "wrist_3_joint": 261.79941,
-    #             #     "robotiq_hande_left_finger_joint": 3000.0,
-    #             #     "robotiq_hande_right_finger_joint": 3000.0,
-    #             # },
-    #             # damping={
-    #             #     "shoulder_pan_joint": 26.17994,
-    #             #     "shoulder_lift_joint": 26.17994,
-    #             #     "elbow_joint": 26.17994,
-    #             #     "wrist_1_joint": 26.17994,
-    #             #     "wrist_2_joint": 26.17994,
-    #             #     "wrist_3_joint": 26.17994,
-    #             #     "robotiq_hande_left_finger_joint": 800.0,
-    #             #     "robotiq_hande_right_finger_joint": 800.0,
-    #             # }
-    #             # stiffness={
-    #             #     "shoulder_pan_joint": 1000.0,
-    #             #     "shoulder_lift_joint": 1000.0,
-    #             #     "elbow_joint": 1000.0,
-    #             #     "wrist_1_joint": 1000.0,
-    #             #     "wrist_2_joint": 1000.0,
-    #             #     "wrist_3_joint": 1000.0,
-    #             #     "robotiq_hande_left_finger_joint": 3000.0,
-    #             #     "robotiq_hande_right_finger_joint": 3000.0,
-    #             # },
-    #             # damping={
-    #             #     "shoulder_pan_joint": 121.66,
-    #             #     "shoulder_lift_joint": 183.23,
-    #             #     "elbow_joint": 96.54,
-    #             #     "wrist_1_joint": 69.83,
-    #             #     "wrist_2_joint": 69.83,
-    #             #     "wrist_3_joint": 27.42,
-    #             #     "robotiq_hande_left_finger_joint": 500.0,
-    #             #     "robotiq_hande_right_finger_joint": 500.0,
-    #             # }
-    #             ############### Stiffness 800 ###############
-    #             stiffness={
-    #                 "shoulder_pan_joint": 800.0,
-    #                 "shoulder_lift_joint": 800.0,
-    #                 "elbow_joint": 800.0,
-    #                 "wrist_1_joint": 800.0,
-    #                 "wrist_2_joint": 800.0,
-    #                 "wrist_3_joint": 800.0,
-    #                 "robotiq_hande_left_finger_joint": 3000.0,
-    #                 "robotiq_hande_right_finger_joint": 3000.0,
-    #             },
-    #             damping={
-    #                 "shoulder_pan_joint": 108.82,
-    #                 "shoulder_lift_joint": 163.89,
-    #                 "elbow_joint": 86.35,
-    #                 "wrist_1_joint": 62.46,
-    #                 "wrist_2_joint": 62.46,
-    #                 "wrist_3_joint": 24.53,
-    #                 "robotiq_hande_left_finger_joint": 500.0,
-    #                 "robotiq_hande_right_finger_joint": 500.0,
-    #             }
-    #         )
-    #     }
-    # )
-
     robot = ArticulationCfg(
         prim_path="{ENV_REGEX_NS}/robot", 
         spawn=sim_utils.UsdFileCfg(
-            # usd_path=os.path.join(MODEL_PATH, "ur5e_robotiq_new.usd"), # SDU gripper
-            # usd_path=os.path.join(MODEL_PATH, "ur5e_with_gripper.usd"), # Robotiq Hand E
-            usd_path=os.path.join(MODEL_PATH, "ur5e.usd"), # UR5e
+            usd_path=os.path.join(MODEL_PATH, "ur5e_robotiq_hand_e.usd"), # Robotiq Hand E
             rigid_props=sim_utils.RigidBodyPropertiesCfg(
                 disable_gravity=False,
                 max_depenetration_velocity=5.0,
+                linear_damping=0.0,
+                angular_damping=0.0,
+                max_linear_velocity=1000.0,
+                max_angular_velocity=3666.0,
+                enable_gyroscopic_forces=True,
+                solver_position_iteration_count=192,
+                solver_velocity_iteration_count=1,
+                max_contact_impulse=1e32,
             ),
             articulation_props=sim_utils.ArticulationRootPropertiesCfg(
                 enabled_self_collisions=True, 
                 solver_position_iteration_count=8, 
                 solver_velocity_iteration_count=0
             ),
-            activate_contact_sensors=True,), 
+            activate_contact_sensors=False,), 
         init_state=ArticulationCfg.InitialStateCfg(
-            pos=(0.175, -0.175, 0.0), 
+            pos=TaskParams.robot_base_init_position, 
             joint_pos={
-                "shoulder_pan_joint": 1.3, 
-                "shoulder_lift_joint": -2.0, 
-                "elbow_joint": 2.0, 
-                "wrist_1_joint": -1.5, 
-                "wrist_2_joint": -1.5, 
-                "wrist_3_joint": 3.14, 
+                "shoulder_pan_joint": TaskParams.robot_initial_joint_pos[0], 
+                "shoulder_lift_joint": TaskParams.robot_initial_joint_pos[1], 
+                "elbow_joint": TaskParams.robot_initial_joint_pos[2], 
+                "wrist_1_joint": TaskParams.robot_initial_joint_pos[3], 
+                "wrist_2_joint": TaskParams.robot_initial_joint_pos[4], 
+                "wrist_3_joint": TaskParams.robot_initial_joint_pos[5], 
+                "joint_left": TaskParams.robot_initial_joint_pos[6],
+                "joint_right": TaskParams.robot_initial_joint_pos[7],
             }
         ),
         actuators={
             "all_joints": ImplicitActuatorCfg(
                 joint_names_expr=[".*"],  # Match all joints
                 velocity_limit={
-                    "shoulder_pan_joint": 180.0,
-                    "shoulder_lift_joint": 180.0,
-                    "elbow_joint": 180.0,
-                    "wrist_1_joint": 180.0,
-                    "wrist_2_joint": 180.0,
-                    "wrist_3_joint": 180.0,
+                    "shoulder_pan_joint": TaskParams.robot_vel_limit,
+                    "shoulder_lift_joint": TaskParams.robot_vel_limit,
+                    "elbow_joint": TaskParams.robot_vel_limit,
+                    "wrist_1_joint": TaskParams.robot_vel_limit,
+                    "wrist_2_joint": TaskParams.robot_vel_limit,
+                    "wrist_3_joint": TaskParams.robot_vel_limit,
+                    "joint_left": TaskParams.robot_vel_limit,
+                    "joint_right": TaskParams.robot_vel_limit,
                 },
                 effort_limit={
-                    "shoulder_pan_joint": 150.0,
-                    "shoulder_lift_joint": 150.0,
-                    "elbow_joint": 150.0,
-                    "wrist_1_joint": 28.0,
-                    "wrist_2_joint": 28.0,
-                    "wrist_3_joint": 28.0,
+                    "shoulder_pan_joint": TaskParams.robot_effort_limit,
+                    "shoulder_lift_joint": TaskParams.robot_effort_limit,
+                    "elbow_joint": TaskParams.robot_effort_limit,
+                    "wrist_1_joint": TaskParams.robot_effort_limit,
+                    "wrist_2_joint": TaskParams.robot_effort_limit,
+                    "wrist_3_joint": TaskParams.robot_effort_limit,
+                    "joint_left": TaskParams.robot_effort_limit,
+                    "joint_right": TaskParams.robot_effort_limit,
                 },
-                ############### Stiffness 800 ###############
-                stiffness={
-                    "shoulder_pan_joint": 800.0,
-                    "shoulder_lift_joint": 800.0,
-                    "elbow_joint": 800.0,
-                    "wrist_1_joint": 800.0,
-                    "wrist_2_joint": 800.0,
-                    "wrist_3_joint": 800.0,
+                stiffness = {
+                    "shoulder_pan_joint": TaskParams.robot_stiffness,
+                    "shoulder_lift_joint": TaskParams.robot_stiffness,
+                    "elbow_joint": TaskParams.robot_stiffness,
+                    "wrist_1_joint": TaskParams.robot_stiffness,
+                    "wrist_2_joint": TaskParams.robot_stiffness,
+                    "wrist_3_joint": TaskParams.robot_stiffness,
+                    "joint_left": TaskParams.robot_stiffness,
+                    "joint_right": TaskParams.robot_stiffness,
                 },
-                damping={
-                    "shoulder_pan_joint": 108.82,
-                    "shoulder_lift_joint": 163.89,
-                    "elbow_joint": 86.35,
-                    "wrist_1_joint": 62.46,
-                    "wrist_2_joint": 62.46,
-                    "wrist_3_joint": 24.53,
+                damping = {
+                    "shoulder_pan_joint": TaskParams.shoulder_pan_damping,
+                    "shoulder_lift_joint": TaskParams.shoulder_lift_damping,
+                    "elbow_joint": TaskParams.elbow_damping,
+                    "wrist_1_joint": TaskParams.wrist_1_damping,
+                    "wrist_2_joint": TaskParams.wrist_2_damping,
+                    "wrist_3_joint": TaskParams.wrist_3_damping,
+                    "joint_left": TaskParams.wrist_3_damping,
+                    "joint_right": TaskParams.wrist_3_damping,
                 }
             )
         }
@@ -256,68 +137,20 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
 @configclass
 class CommandsCfg:
     """Command terms for the MDP."""
-    # New training setting
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
-        body_name="wrist_3_link",
-        resampling_time_range=(5.0, 5.0),
-        debug_vis=True,
+        body_name=TaskParams.ee_body_name,
+        resampling_time_range=TaskParams.resampling_time_range,
+        debug_vis=TaskParams.visualize_frame,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(-0.15, 0.15),
-            pos_y=(0.25, 0.5),
-            pos_z=(0.1, 0.4),
-            roll=(0.0, 0.0),
-            pitch=(math.pi, math.pi),  # depends on end-effector axis
-            yaw=(-3.14, 3.14), # (0.0, 0.0), # y
+            pos_x=TaskParams.sample_range_pos_x,
+            pos_y=TaskParams.sample_range_pos_y,
+            pos_z=TaskParams.sample_range_pos_z,
+            roll=TaskParams.sample_range_roll,
+            pitch=TaskParams.sample_range_pitch,  
+            yaw=TaskParams.sample_range_yaw,
         ),
     )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
-    # ee_pose = mdp.UniformPoseCommandCfg(
-    #     asset_name="robot",
-    #     body_name="wrist_3_link",
-    #     resampling_time_range=(5.0, 5.0),
-    #     debug_vis=True,
-    #     ranges=mdp.UniformPoseCommandCfg.Ranges(
-    #         pos_x=(-0.05, 0.05),
-    #         pos_y=(0.35, 0.45),
-    #         pos_z=(0.25, 0.35),
-    #         roll=(0.0, 0.0),
-    #         pitch=(math.pi, math.pi),  # depends on end-effector axis
-    #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
-    #     ),
-    # )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
-    # ee_pose = mdp.UniformPoseCommandCfg(
-    #     asset_name="robot",
-    #     body_name="wrist_3_link",
-    #     resampling_time_range=(5.0, 5.0),
-    #     debug_vis=True,
-    #     ranges=mdp.UniformPoseCommandCfg.Ranges(
-    #         pos_x=(-0.2, 0.2),
-    #         pos_y=(0.25, 0.5),
-    #         pos_z=(0.1, 0.4),
-    #         roll=(0.0, 0.0),
-    #         pitch=(math.pi, math.pi),  # depends on end-effector axis
-    #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
-    #     ),
-    # )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
-    # ee_pose = mdp.UniformPoseCommandCfg(
-    #     asset_name="robot",
-    #     body_name="wrist_3_link",
-    #     resampling_time_range=(5.0, 5.0),
-    #     debug_vis=True,
-    #     ranges=mdp.UniformPoseCommandCfg.Ranges(
-    #         pos_x=(-0.15, 0.15),
-    #         pos_y=(0.25, 0.5),
-    #         pos_z=(0.1, 0.4),
-    #         roll=(0.0, 0.0),
-    #         pitch=(math.pi, math.pi),  # depends on end-effector axis
-    #         yaw=(-3.14, 3.14), # (0.0, 0.0), # y
-    #     ),
-    # )
 
 
 @configclass
@@ -337,12 +170,7 @@ class ObservationsCfg:
         # TCP pose in base frame
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
-            params={"gripper_offset": [0.0, 0.0, 0.15], "robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
-            noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
-            # # No Unoise for rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
-            # noise=Unoise(n_min=-0.001, n_max=0.001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
-            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
-
+            params={"gripper_offset": TaskParams.gripper_offset, "robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
         )
 
         # Desired ee (or tcp) pose in base frame
@@ -351,13 +179,10 @@ class ObservationsCfg:
         #     params={"command_name": "ee_pose"},
         # )
 
+        # Target pose in base frame
         pose_command = ObsTerm(
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
-            noise=Unoise(n_min=-0.0001, n_max=0.0001), # New training setting
-            # No Unoise for rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
-            # noise=Unoise(n_min=-0.001, n_max=0.001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
-            # noise=Unoise(n_min=-0.0001, n_max=0.0001), # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3, rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
         )
 
         # Previous action
@@ -378,89 +203,44 @@ class EventCfg:
     """Configuration for events."""
     reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
 
-    # New training setting
     reset_robot_joints = EventTerm(
         func=mdp.reset_joints_by_scale,
         mode="reset",
         params={
-            "position_range": (0.8, 1.2),
+            "position_range": (1.0, 1.0),
             "velocity_range": (0.0, 0.0),
         },
     )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e
-    # reset_robot_joints = EventTerm(
-    #     func=mdp.reset_joints_by_scale,
-    #     mode="reset",
-    #     params={
-    #         "position_range": (1.0, 1.0),
-    #         "velocity_range": (0.0, 0.0),
-    #     },
-    # )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v2
-    # reset_robot_joints = EventTerm(
-    #     func=mdp.reset_joints_by_scale,
-    #     mode="reset",
-    #     params={
-    #         "position_range": (0.5, 1.5),
-    #         "velocity_range": (0.0, 0.0),
-    #     },
-    # )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v3
-    # reset_robot_joints = EventTerm(
-    #     func=mdp.reset_joints_by_scale,
-    #     mode="reset",
-    #     params={
-    #         "position_range": (0.8, 1.2),
-    #         "velocity_range": (0.0, 0.0),
-    #     },
-    # )
-    # # rel_ik_sb3_ppo_ur5e_reach_0_05_pose_hand_e_final_v4
-    # reset_robot_joints = EventTerm(
-    #     func=mdp.reset_joints_by_scale,
-    #     mode="reset",
-    #     params={
-    #         "position_range": (0.7, 1.3),
-    #         "velocity_range": (0.0, 0.0),
-    #     },
-    # )
 
 
 @configclass
 class RewardsCfg:
     """Reward terms for the MDP."""
-    # task terms
     end_effector_position_tracking = RewTerm(
         func=mdp.position_command_error,
-        weight=-0.2,
-        params={"gripper_offset": [0.0, 0.0, 0.15], "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
+        weight=TaskParams.end_effector_position_tracking_weight,
+        params={"gripper_offset": TaskParams.gripper_offset, "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
     )
     end_effector_position_tracking_fine_grained = RewTerm(
         func=mdp.position_command_error_tanh,
-        weight=0.1,
-        params={"gripper_offset": [0.0, 0.0, 0.15], "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": 0.1, "command_name": "ee_pose"},
+        weight=TaskParams.end_effector_position_tracking_fine_grained_weight,
+        params={"gripper_offset": TaskParams.gripper_offset, "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": TaskParams.end_effector_position_tracking_fine_grained_std, "command_name": "ee_pose"},
     )
     end_effector_orientation_tracking = RewTerm(
         func=mdp.orientation_command_error,
-        weight=-0.1,
+        weight=TaskParams.end_effector_orientation_tracking_weight,
         params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
     )
 
+    # action_rate = RewTerm(func=mdp.action_rate_l2, weight=TaskParams.action_rate_weight)
+    action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=TaskParams.action_rate_weight)
 
-    # action penalty
-    action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-4)
-
-    action_magnitude = RewTerm(func=mdp.action_l2, weight=-1e-4)
-
-    # joint_vel = RewTerm(
-    #     func=mdp.joint_vel_l2,
-    #     weight=-1e-4,
-    #     params={"asset_cfg": SceneEntityCfg("robot")},
-    # )
+    # action_magnitude = RewTerm(func=mdp.action_l2, weight=TaskParams.action_magnitude_weight)
+    # action_magnitude = RewTerm(func=mdp.action_l2_position, weight=TaskParams.action_magnitude_weight)
 
     # ee_acc = RewTerm(
     #     func=mdp.body_lin_acc_l2,
-    #     weight=-1e-4,
+    #     weight=TaskParams.ee_acc_weight,
     #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]),}
     # )
 
@@ -468,7 +248,6 @@ class RewardsCfg:
 @configclass
 class TerminationsCfg:
     """Termination terms for the MDP."""
-
     time_out = DoneTerm(func=mdp.time_out, time_out=True)
 
 
@@ -476,21 +255,16 @@ class TerminationsCfg:
 @configclass
 class CurriculumCfg:
     """Curriculum terms for the MDP."""
-
     action_rate = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.1, "num_steps": 40000} #15000 #4500
+        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": TaskParams.action_rate_curriculum_weight, "num_steps": TaskParams.curriculum_num_steps} 
     )
 
-    action_magnitude = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": -0.1, "num_steps": 40000} #15000 #4500
-    )
-
-    # joint_vel = CurrTerm(
-    #     func=mdp.modify_reward_weight, params={"term_name": "joint_vel", "weight": -0.01, "num_steps": 4500}
+    # action_magnitude = CurrTerm(
+    #     func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": TaskParams.action_magnitude_curriculum_weight, "num_steps": TaskParams.curriculum_num_steps}
     # )
 
     # ee_acc = CurrTerm(
-    #     func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": -0.005, "num_steps": 20000} #4500
+    #     func=mdp.modify_reward_weight, params={"term_name": "ee_acc", "weight": TaskParams.ee_acc_curriculum_weight, "num_steps": TaskParams.curriculum_num_steps}
     # )
 
 
@@ -518,11 +292,11 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
     def __post_init__(self):
         """Post initialization."""
         # general settings
-        self.decimation = 2
-        self.episode_length_s = 15.0
+        self.decimation = TaskParams.decimation
+        self.episode_length_s = TaskParams.episode_length_s
         # simulation settings
-        self.sim.dt = 0.01 #1/60
-        self.sim.render_interval = self.decimation
+        self.sim.dt = TaskParams.dt
+        self.sim.render_interval = TaskParams.render_interval
 
         self.sim.physx.bounce_threshold_velocity = 0.2
         self.sim.physx.bounce_threshold_velocity = 0.01

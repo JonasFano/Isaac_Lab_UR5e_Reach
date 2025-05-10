@@ -6,6 +6,7 @@ from isaaclab.controllers.differential_ik_cfg import DifferentialIKControllerCfg
 from isaaclab.envs.mdp.actions.actions_cfg import DifferentialInverseKinematicsActionCfg
 
 from . import reach_env_cfg_pose_hand_e
+from taskparameters_ur5e import TaskParams
 
 @configclass
 class AbsIK_UR5e_ReachEnvCfg(reach_env_cfg_pose_hand_e.UR5e_ReachEnvCfg):
@@ -18,14 +19,14 @@ class AbsIK_UR5e_ReachEnvCfg(reach_env_cfg_pose_hand_e.UR5e_ReachEnvCfg):
         marker_cfg.prim_path = "/Visuals/FrameTransformer"
         self.scene.ee_frame = FrameTransformerCfg(
             prim_path="{ENV_REGEX_NS}/robot/base_link",
-            debug_vis=False,
+            debug_vis=True,
             visualizer_cfg=marker_cfg,
             target_frames=[
                 FrameTransformerCfg.FrameCfg(
                     prim_path="{ENV_REGEX_NS}/robot/wrist_3_link",
                     name="end_effector",
                     offset=OffsetCfg(
-                        pos=[0.0, 0.0, 0.15],
+                        pos=TaskParams.gripper_offset,
                     ),
                 ),
             ],
@@ -36,12 +37,12 @@ class AbsIK_UR5e_ReachEnvCfg(reach_env_cfg_pose_hand_e.UR5e_ReachEnvCfg):
 
         self.actions.arm_action = DifferentialInverseKinematicsActionCfg(
             asset_name="robot",
-            joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
-            body_name="wrist_3_link",
-            controller=DifferentialIKControllerCfg(command_type="pose", use_relative_mode=False, ik_method="dls"), # DifferentialIKControllerCfg(command_type="pose", use_relative_mode=True, ik_method="dls"),
-            body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.0, 0.0, 0.15]),
-            scale=1.0,
-            debug_vis=True  # Enable debug visualization, set to False for production
+            joint_names=TaskParams.joint_names,
+            body_name=TaskParams.ee_body_name,
+            controller=DifferentialIKControllerCfg(command_type=TaskParams.command_type, use_relative_mode=False, ik_method=TaskParams.ik_method),
+            body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=TaskParams.gripper_offset),
+            scale=TaskParams.action_scale,
+            debug_vis=False  # Enable debug visualization
         )
 
 

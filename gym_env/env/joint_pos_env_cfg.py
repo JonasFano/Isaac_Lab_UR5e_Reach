@@ -3,10 +3,11 @@ from isaaclab.sensors import FrameTransformerCfg
 from isaaclab.markers.config import FRAME_MARKER_CFG  # isort: skip
 from isaaclab.sensors.frame_transformer.frame_transformer_cfg import OffsetCfg
 
-from . import reach_env_cfg, mdp
+from . import reach_env_cfg_pose, mdp
+from taskparameters_ur5e import TaskParams
 
 @configclass
-class JointPos_UR5e_ReachEnvCfg(reach_env_cfg.UR5e_ReachEnvCfg):
+class JointPos_UR5e_ReachEnvCfg(reach_env_cfg_pose.UR5e_ReachEnvCfg):
     def __post_init__(self):
         super().__post_init__()
 
@@ -23,15 +24,18 @@ class JointPos_UR5e_ReachEnvCfg(reach_env_cfg.UR5e_ReachEnvCfg):
                     prim_path="{ENV_REGEX_NS}/robot/wrist_3_link",
                     name="end_effector",
                     offset=OffsetCfg(
-                        pos=[0.0, 0.0, 0.135],
+                        pos=TaskParams.gripper_offset,
                     ),
                 ),
             ],
         )
 
+        # print(self.commands.ee_pose) # Do not show current end-effector frame
+        self.commands.ee_pose.current_pose_visualizer_cfg.markers['frame'].visible = False
+
         self.actions.arm_action = mdp.JointPositionActionCfg(
             asset_name="robot", 
-            joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"], 
+            joint_names=TaskParams.joint_names, 
             scale=0.5, 
             use_default_offset=True,
         )

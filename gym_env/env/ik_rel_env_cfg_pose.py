@@ -7,7 +7,7 @@ from isaaclab.envs.mdp.actions.actions_cfg import DifferentialInverseKinematicsA
 
 from . import reach_env_cfg_pose
 
-from taskparameters import TaskParams
+from taskparameters_ur5e import TaskParams
 
 @configclass
 class RelIK_UR5e_ReachEnvCfg(reach_env_cfg_pose.UR5e_ReachEnvCfg):
@@ -39,7 +39,7 @@ class RelIK_UR5e_ReachEnvCfg(reach_env_cfg_pose.UR5e_ReachEnvCfg):
         self.actions.arm_action = DifferentialInverseKinematicsActionCfg(
             asset_name="robot",
             joint_names=TaskParams.joint_names,
-            body_name="wrist_3_link",
+            body_name=TaskParams.ee_body_name,
             controller=DifferentialIKControllerCfg(command_type=TaskParams.command_type, use_relative_mode=TaskParams.use_relative_mode, ik_method=TaskParams.ik_method),
             body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=TaskParams.gripper_offset),
             scale=TaskParams.action_scale,

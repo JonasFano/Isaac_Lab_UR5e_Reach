@@ -17,7 +17,7 @@ from . import mdp
 import os
 from gym_env.env.controller.impedance_control_cfg import ImpedanceControllerCfg
 
-from taskparameters import TaskParams
+from taskparameters_ur5e import TaskParams
 
 ##
 # Scene definition
@@ -28,11 +28,10 @@ MODEL_PATH = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__)
 @configclass
 class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     """Configuration for the lift scene with a robot and a object."""
-    # articulation
     robot = ArticulationCfg(
         prim_path="{ENV_REGEX_NS}/robot", 
         spawn=sim_utils.UsdFileCfg(
-            usd_path=os.path.join(MODEL_PATH, "ur5e_old.usd"),
+            usd_path=os.path.join(MODEL_PATH, "ur5e.usd"),
             rigid_props=sim_utils.RigidBodyPropertiesCfg(
                 disable_gravity=False,
                 max_depenetration_velocity=5.0,
@@ -46,11 +45,11 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                 max_contact_impulse=1e32,
             ),
             articulation_props=sim_utils.ArticulationRootPropertiesCfg(
-                enabled_self_collisions=False, 
+                enabled_self_collisions=True, 
                 solver_position_iteration_count=8, 
                 solver_velocity_iteration_count=0
             ),
-            activate_contact_sensors=True,), 
+            activate_contact_sensors=False,), 
         init_state=ArticulationCfg.InitialStateCfg(
             pos=TaskParams.robot_base_init_position, 
             joint_pos={
@@ -82,20 +81,20 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                     "wrist_3_joint": TaskParams.robot_effort_limit,
                 },
                 stiffness = {
-                    "shoulder_pan_joint": 0, #TaskParams.robot_stiffness,
-                    "shoulder_lift_joint": 0, #TaskParams.robot_stiffness,
-                    "elbow_joint": 0, #TaskParams.robot_stiffness,
-                    "wrist_1_joint": 0, #TaskParams.robot_stiffness,
-                    "wrist_2_joint": 0, #TaskParams.robot_stiffness,
-                    "wrist_3_joint": 0, #TaskParams.robot_stiffness,
+                    "shoulder_pan_joint": 0,
+                    "shoulder_lift_joint": 0, 
+                    "elbow_joint": 0,
+                    "wrist_1_joint": 0,
+                    "wrist_2_joint": 0,
+                    "wrist_3_joint": 0,
                 },
                 damping = {
-                    "shoulder_pan_joint": 0, #TaskParams.shoulder_pan_damping,
-                    "shoulder_lift_joint": 0, #TaskParams.shoulder_lift_damping,
-                    "elbow_joint": 0, #TaskParams.elbow_damping,
-                    "wrist_1_joint": 0, #TaskParams.wrist_1_damping,
-                    "wrist_2_joint": 0, #TaskParams.wrist_2_damping,
-                    "wrist_3_joint": 0, #TaskParams.wrist_3_damping,
+                    "shoulder_pan_joint": 0,
+                    "shoulder_lift_joint": 0, 
+                    "elbow_joint": 0,
+                    "wrist_1_joint": 0,
+                    "wrist_2_joint": 0,
+                    "wrist_3_joint": 0
                 }
             )
         }
@@ -132,7 +131,7 @@ class CommandsCfg:
     """Command terms for the MDP."""
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
-        body_name="wrist_3_link",
+        body_name=TaskParams.ee_body_name,
         resampling_time_range=TaskParams.resampling_time_range,
         debug_vis=TaskParams.visualize_frame,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
@@ -166,12 +165,7 @@ class ObservationsCfg:
             params={"gripper_offset": TaskParams.gripper_offset, "robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
         )
 
-        # Desired ee (or tcp) pose in base frame
-        # pose_command = ObsTerm(
-        #     func=mdp.generated_commands_axis_angle,
-        #     params={"command_name": "ee_pose"},
-        # )
-
+        # Target pose in base frame
         pose_command = ObsTerm(
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
@@ -208,7 +202,6 @@ class EventCfg:
 @configclass
 class RewardsCfg:
     """Reward terms for the MDP."""
-    # task terms
     end_effector_position_tracking = RewTerm(
         func=mdp.position_command_error,
         weight=TaskParams.end_effector_position_tracking_weight,
@@ -241,7 +234,6 @@ class RewardsCfg:
 @configclass
 class TerminationsCfg:
     """Termination terms for the MDP."""
-
     time_out = DoneTerm(func=mdp.time_out, time_out=True)
 
 
@@ -249,7 +241,6 @@ class TerminationsCfg:
 @configclass
 class CurriculumCfg:
     """Curriculum terms for the MDP."""
-
     action_rate = CurrTerm(
         func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": TaskParams.action_rate_curriculum_weight, "num_steps": TaskParams.curriculum_num_steps} 
     )

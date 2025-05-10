@@ -16,8 +16,7 @@ from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.utils.noise import AdditiveUniformNoiseCfg as Unoise
 from . import mdp
 import os
-
-from taskparameters import TaskParams
+from taskparameters_ur5e import TaskParams
 
 ##
 # Scene definition
@@ -28,11 +27,10 @@ MODEL_PATH = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__)
 @configclass
 class UR5e_Domain_Rand_ReachSceneCfg(InteractiveSceneCfg):
     """Configuration for the lift scene with a robot and a object."""
-    # articulation
     robot = ArticulationCfg(
         prim_path="{ENV_REGEX_NS}/robot", 
         spawn=sim_utils.UsdFileCfg(
-            usd_path=os.path.join(MODEL_PATH, "ur5e_old.usd"),
+            usd_path=os.path.join(MODEL_PATH, "ur5e.usd"),
             rigid_props=sim_utils.RigidBodyPropertiesCfg(
                 disable_gravity=False,
                 max_depenetration_velocity=5.0,
@@ -50,7 +48,7 @@ class UR5e_Domain_Rand_ReachSceneCfg(InteractiveSceneCfg):
                 solver_position_iteration_count=8, 
                 solver_velocity_iteration_count=0
             ),
-            activate_contact_sensors=True,), 
+            activate_contact_sensors=False,), 
         init_state=ArticulationCfg.InitialStateCfg(
             pos=TaskParams.robot_base_init_position, 
             joint_pos={
@@ -132,7 +130,7 @@ class CommandsCfg:
     """Command terms for the MDP."""
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
-        body_name="wrist_3_link",
+        body_name=TaskParams.ee_body_name,
         resampling_time_range=TaskParams.resampling_time_range,
         debug_vis=TaskParams.visualize_frame,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
@@ -167,6 +165,7 @@ class ObservationsCfg:
             noise=Unoise(n_min=-0.0001, n_max=0.0001),
         )
 
+        # Target pose in base frame
         pose_command = ObsTerm(
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
@@ -191,34 +190,33 @@ class EventCfg:
     """Configuration for events."""
     reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset")
 
-    # reset_robot_joints = EventTerm(
-    #     func=mdp.reset_joints_by_scale,
-    #     mode="reset",
-    #     params={
-    #         "position_range": TaskParams.robot_reset_joints_pos_range,
-    #         "velocity_range": TaskParams.robot_reset_joints_vel_range,
-    #     },
-    # )
+    reset_robot_joints = EventTerm(
+        func=mdp.reset_joints_by_scale,
+        mode="reset",
+        params={
+            "position_range": TaskParams.robot_reset_joints_pos_range,
+            "velocity_range": TaskParams.robot_reset_joints_vel_range,
+        },
+    )
 
-    # randomize_robot_gains = EventTerm(
-    #     func=mdp.randomize_actuator_gains_custom,
-    #     mode="reset",
-    #     params={
-    #         "asset_cfg": SceneEntityCfg("robot", joint_names=TaskParams.joint_names),
-    #         "stiffness_distribution_params": TaskParams.robot_randomize_stiffness,
-    #         "damping_distribution_params": TaskParams.robot_randomize_damping,
-    #         "operation_stiffness": TaskParams.robot_randomize_stiffness_operation,
-    #         "operation_damping": TaskParams.robot_randomize_damping_operation,
-    #         "distribution_stiffness": TaskParams.robot_randomize_stiffness_distribution,
-    #         "distribution_damping": TaskParams.robot_randomize_damping_distribution,
-    #     }
-    # )
+    randomize_robot_gains = EventTerm(
+        func=mdp.randomize_actuator_gains_custom,
+        mode="reset",
+        params={
+            "asset_cfg": SceneEntityCfg("robot", joint_names=TaskParams.joint_names),
+            "stiffness_distribution_params": TaskParams.robot_randomize_stiffness,
+            "damping_distribution_params": TaskParams.robot_randomize_damping,
+            "operation_stiffness": TaskParams.robot_randomize_stiffness_operation,
+            "operation_damping": TaskParams.robot_randomize_damping_operation,
+            "distribution_stiffness": TaskParams.robot_randomize_stiffness_distribution,
+            "distribution_damping": TaskParams.robot_randomize_damping_distribution,
+        }
+    )
 
 
 @configclass
 class RewardsCfg:
     """Reward terms for the MDP."""
-    # task terms
     end_effector_position_tracking = RewTerm(
         func=mdp.position_command_error,
         weight=TaskParams.end_effector_position_tracking_weight,
@@ -235,8 +233,6 @@ class RewardsCfg:
         params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
     )
 
-
-    # action penalty
     # action_rate = RewTerm(func=mdp.action_rate_l2, weight=TaskParams.action_rate_weight)
     action_rate = RewTerm(func=mdp.action_rate_l2_position, weight=TaskParams.action_rate_weight)
 
@@ -261,7 +257,6 @@ class TerminationsCfg:
 @configclass
 class CurriculumCfg:
     """Curriculum terms for the MDP."""
-
     action_rate = CurrTerm(
         func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": TaskParams.action_rate_curriculum_weight, "num_steps": TaskParams.curriculum_num_steps} 
     )

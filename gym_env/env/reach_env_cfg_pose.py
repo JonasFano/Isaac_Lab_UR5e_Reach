@@ -15,9 +15,7 @@ from isaaclab.utils import configclass
 from isaaclab.actuators import ImplicitActuatorCfg
 from . import mdp
 import os
-from gym_env.env.controller.impedance_control_cfg import ImpedanceControllerCfg
-
-from taskparameters import TaskParams
+from taskparameters_ur5e import TaskParams
 
 ##
 # Scene definition
@@ -28,11 +26,10 @@ MODEL_PATH = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__)
 @configclass
 class UR5e_ReachSceneCfg(InteractiveSceneCfg):
     """Configuration for the lift scene with a robot and a object."""
-    # articulation
     robot = ArticulationCfg(
         prim_path="{ENV_REGEX_NS}/robot", 
         spawn=sim_utils.UsdFileCfg(
-            usd_path=os.path.join(MODEL_PATH, "ur5e_old.usd"),
+            usd_path=os.path.join(MODEL_PATH, "ur5e.usd"),
             rigid_props=sim_utils.RigidBodyPropertiesCfg(
                 disable_gravity=False,
                 max_depenetration_velocity=5.0,
@@ -46,11 +43,11 @@ class UR5e_ReachSceneCfg(InteractiveSceneCfg):
                 max_contact_impulse=1e32,
             ),
             articulation_props=sim_utils.ArticulationRootPropertiesCfg(
-                enabled_self_collisions=False, 
+                enabled_self_collisions=True, 
                 solver_position_iteration_count=8, 
                 solver_velocity_iteration_count=0
             ),
-            activate_contact_sensors=True,), 
+            activate_contact_sensors=False,), 
         init_state=ArticulationCfg.InitialStateCfg(
             pos=TaskParams.robot_base_init_position, 
             joint_pos={
@@ -132,7 +129,7 @@ class CommandsCfg:
     """Command terms for the MDP."""
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
-        body_name="wrist_3_link",
+        body_name=TaskParams.ee_body_name,
         resampling_time_range=TaskParams.resampling_time_range,
         debug_vis=TaskParams.visualize_frame,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
@@ -150,7 +147,7 @@ class CommandsCfg:
 class ActionsCfg:
     """Action specifications for the MDP."""
     # Set actions
-    arm_action: mdp.JointPositionActionCfg | mdp.DifferentialInverseKinematicsActionCfg | ImpedanceControllerCfg = MISSING 
+    arm_action: mdp.JointPositionActionCfg | mdp.DifferentialInverseKinematicsActionCfg = MISSING 
 
 
 @configclass
@@ -172,6 +169,7 @@ class ObservationsCfg:
         #     params={"command_name": "ee_pose"},
         # )
 
+        # Target pose in base frame
         pose_command = ObsTerm(
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
@@ -208,7 +206,6 @@ class EventCfg:
 @configclass
 class RewardsCfg:
     """Reward terms for the MDP."""
-    # task terms
     end_effector_position_tracking = RewTerm(
         func=mdp.position_command_error,
         weight=TaskParams.end_effector_position_tracking_weight,
@@ -241,7 +238,6 @@ class RewardsCfg:
 @configclass
 class TerminationsCfg:
     """Termination terms for the MDP."""
-
     time_out = DoneTerm(func=mdp.time_out, time_out=True)
 
 
@@ -249,10 +245,9 @@ class TerminationsCfg:
 @configclass
 class CurriculumCfg:
     """Curriculum terms for the MDP."""
-
-    # action_rate = CurrTerm(
-    #     func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": TaskParams.action_rate_curriculum_weight, "num_steps": TaskParams.curriculum_num_steps} 
-    # )
+    action_rate = CurrTerm(
+        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": TaskParams.action_rate_curriculum_weight, "num_steps": TaskParams.curriculum_num_steps} 
+    )
 
     # action_magnitude = CurrTerm(
     #     func=mdp.modify_reward_weight, params={"term_name": "action_magnitude", "weight": TaskParams.action_magnitude_curriculum_weight, "num_steps": TaskParams.curriculum_num_steps}
@@ -291,7 +286,7 @@ class UR5e_ReachEnvCfg(ManagerBasedRLEnvCfg):
         self.episode_length_s = TaskParams.episode_length_s
         # simulation settings
         self.sim.dt = TaskParams.dt
-        self.sim.render_interval = self.decimation
+        self.sim.render_interval = TaskParams.render_interval
 
         self.sim.physx.bounce_threshold_velocity = 0.2
         self.sim.physx.bounce_threshold_velocity = 0.01
