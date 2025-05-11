@@ -1,8 +1,9 @@
 # Short project description
-This project was part of my Master's Thesis for the Master's programme "Robot Systems - Advanced Robotics Technology" at the University of Southern Denmark (SDU). The task was to assess the feasibility of using RL-based robot control for a peg-in-hole task using the advanced physics simulator NVIDIA Isaac Lab.
+This project was part of my Master's Thesis for the Master's programme "Robot Systems - Advanced Robotics Technology" at the University of Southern Denmark (SDU). The task was to assess the feasibility of using RL-based robot control for a peg-in-hole task using the advanced physics simulator NVIDIA Isaac Lab. A stepwise development process was used in which task complexity is gradually increased to enable systematic optimization and validation of key framework components and algorithm hyperparameters. Each task builds directly on the previous one, reusing components and introducing new challenges in isolation.
 
 This Repository includes the implementation to train PPO, DDPG or TD3 agents (from Stable-Baselines3) in Isaac Lab. The considered task includes a UR5e robot and requires the policy to move the robot such that it tracks a target pose with the robot's TCP. The implemented controllers are relative and absolute differential inverse kinematics (IK) control, joint position control, or impedance control (position tracking only).
-This simple reach task was used in the thesis project as a benchmark to test the three RL algorithms and optimize their hyperparameters. Additionally, a comparison of relative and absolute control mode, the application of curriculum-based penalty strategies on action rate, action magnitude and end-effector acceleration, as well as the use of simple domain randomization strategies was performed.
+
+This simple reach task represents the first and most simple task of the thesis project. It was used as a benchmark to test the three RL algorithms and optimize their hyperparameters. Additionally, a comparison of relative and absolute control mode, the application of curriculum-based penalty strategies on action rate, action magnitude and end-effector acceleration, as well as the use of simple domain randomization strategies was performed.
 
 The Weights&Biases tool was utilized to automate the hyperparameter search since it allows to extensively visualize the episode reward mean across training runs conducted with different hyperparameter configurations or task setups.
 
@@ -65,7 +66,7 @@ Install requirements:
     wandb sweep --project rel_ik_sb3_td3_ur5e_reach_0_05_pose_grid_search config_sb3_td3.yaml
 
 
-Notably, optimization run names and the specific environment that is used for training has to be changed inside train_sb3_wandb_ppo.py, train_sb3_wandb_ddpg.py, or train_sb3_wandb_td3.py, respectively. The task options are listed below.
+Notably, optimization project names and the specific environment that is used for training have to be changed inside train_sb3_wandb_ppo.py, train_sb3_wandb_ddpg.py, or train_sb3_wandb_td3.py, respectively. The task options are listed below. Hyperparameters and parameter sweep names have to be set inside config_sb3_ddpg.yaml, config_sb3_ppo.yaml, or config_sb3_td3.yaml, respectively.
 
 
 
@@ -92,10 +93,18 @@ Note: For this option, the hyperparameters are defined in /gym_env/env/agents/
 
 
 ## Play PPO trained agent
+Option 1:
 
     source /path/to/virtual/environment/bin/activate
     cd /path/to/repository/sb3
     python3 play_sb3_ppo.py --num_envs 4 --task UR5e-Reach-Pose-IK --checkpoint /path/to/trained/model
+
+Option 2:
+
+    source /path/to/virtual/environment/bin/activate
+    cd /path/to/isaac/lab/installation/directory
+    ./isaaclab.sh -p /path/to/repository/sb3/play_sb3_ppo.py --num_envs 4 --task UR5e-Reach-Pose-IK --checkpoint /path/to/trained/model
+
 
 Note: This repository includes several pre-trained models in sb3/models/. These models were used to obtain the result described in the Master's Thesis.
 

@@ -160,7 +160,7 @@ class ObservationsCfg:
         # TCP pose in base frame
         tcp_pose = ObsTerm(
             func=mdp.get_current_tcp_pose,
-            params={"gripper_offset": TaskParams.gripper_offset, "robot_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"])},
+            params={"gripper_offset": TaskParams.gripper_offset, "robot_cfg": SceneEntityCfg("robot", body_names=TaskParams.ee_body_name)},
         )
 
         # Desired ee (or tcp) pose in base frame
@@ -209,17 +209,17 @@ class RewardsCfg:
     end_effector_position_tracking = RewTerm(
         func=mdp.position_command_error,
         weight=TaskParams.end_effector_position_tracking_weight,
-        params={"gripper_offset": TaskParams.gripper_offset, "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
+        params={"gripper_offset": TaskParams.gripper_offset, "asset_cfg": SceneEntityCfg("robot", body_names=TaskParams.ee_body_name), "command_name": "ee_pose"},
     )
     end_effector_position_tracking_fine_grained = RewTerm(
         func=mdp.position_command_error_tanh,
         weight=TaskParams.end_effector_position_tracking_fine_grained_weight,
-        params={"gripper_offset": TaskParams.gripper_offset, "asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "std": TaskParams.end_effector_position_tracking_fine_grained_std, "command_name": "ee_pose"},
+        params={"gripper_offset": TaskParams.gripper_offset, "asset_cfg": SceneEntityCfg("robot", body_names=TaskParams.ee_body_name), "std": TaskParams.end_effector_position_tracking_fine_grained_std, "command_name": "ee_pose"},
     )
     end_effector_orientation_tracking = RewTerm(
         func=mdp.orientation_command_error,
         weight=TaskParams.end_effector_orientation_tracking_weight,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]), "command_name": "ee_pose"},
+        params={"asset_cfg": SceneEntityCfg("robot", body_names=TaskParams.ee_body_name), "command_name": "ee_pose"},
     )
 
     # action_rate = RewTerm(func=mdp.action_rate_l2, weight=TaskParams.action_rate_weight)
@@ -231,7 +231,7 @@ class RewardsCfg:
     # ee_acc = RewTerm(
     #     func=mdp.body_lin_acc_l2,
     #     weight=TaskParams.ee_acc_weight,
-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=["wrist_3_link"]),}
+    #     params={"asset_cfg": SceneEntityCfg("robot", body_names=TaskParams.ee_body_name),}
     # )
 
 

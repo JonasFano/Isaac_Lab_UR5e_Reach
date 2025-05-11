@@ -91,4 +91,4 @@ class TaskParams:
     sample_range_pos_z = (0.2, 0.5)
     sample_range_roll = (0.0, 0.0)
     sample_range_pitch = (math.pi, math.pi) # depends on end-effector axis
-    sample_range_yaw = (-3.14, 3.14)
+    sample_range_yaw = (-math.pi, math.pi)
