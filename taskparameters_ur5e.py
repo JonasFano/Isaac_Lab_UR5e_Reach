@@ -5,7 +5,7 @@ class TaskParams:
     ### General Simulation Params ###
     #################################
     decimation = 2
-    episode_length_s = 15.0
+    episode_length_s = 20.0
     dt = 1/100
     render_interval = 2
 
@@ -29,7 +29,7 @@ class TaskParams:
 
     end_effector_orientation_tracking_weight = -0.1
 
-    action_rate_weight = -1.0 #-1e-4
+    action_rate_weight = -1e-4
     action_rate_curriculum_weight = -1.0
     # action_magnitude_weight = -1e-4
     # action_magnitude_curriculum_weight = -0.02
@@ -74,7 +74,7 @@ class TaskParams:
     robot_randomize_damping_distribution = "uniform"
 
     robot_initial_joint_pos = [1.3, -2.0, 2.0, -1.5, -1.5, 0.0, 0.0, 0.0] # With gripper joint pos set to 0.0
-    robot_reset_joints_pos_range = (0.7, 1.3)
+    robot_reset_joints_pos_range = (1.0, 1.0) #(0.9, 1.1) # (1.0, 1.0) # (0.9, 1.1)
     robot_reset_joints_vel_range = (0.0, 0.0)
 
     gripper_offset = [0.0, 0.0, 0.0] # Set to [0.0, 0.0, 0.15] for Hand E Gripper
@@ -86,7 +86,7 @@ class TaskParams:
     resampling_time_range = (5.0, 5.0)
     visualize_frame = True
 
-    sample_range_pos_x = (-0.15, 0.15)
+    sample_range_pos_x = (-0.2, 0.2)
     sample_range_pos_y = (0.25, 0.5)
     sample_range_pos_z = (0.2, 0.5)
     sample_range_roll = (0.0, 0.0)

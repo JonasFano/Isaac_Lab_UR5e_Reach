@@ -112,6 +112,7 @@ def main():
 
     # reset environment
     obs = env.reset()
+    print(obs)
     timestep = 0
     # simulate environment
     while simulation_app.is_running():
@@ -123,7 +124,7 @@ def main():
             obs, rew, _, _ = env.step(actions)
             # print(timestep)
             # timestep += 1
-            # print(obs)
+            print(obs)
             # print(rew)
             # time.sleep(10)
 

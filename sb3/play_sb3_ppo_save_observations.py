@@ -110,7 +110,7 @@ def main():
     timestep = 0
 
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim"
-    csv_path = os.path.join(save_dir, "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_continuity_sim.csv")
+    csv_path = os.path.join(save_dir, "domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_counterclockwise.csv") # domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_clockwise
 
     # simulate environment
     while simulation_app.is_running():

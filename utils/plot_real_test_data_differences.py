@@ -12,12 +12,18 @@ from scipy.spatial.transform import Rotation as R
 # filename = "standard_model_predefined_poses_scale_0_01_seed_42"
 # filename = "optimized_model_predefined_poses_scale_0_05_seed_24"
 # filename = "optimized_model_predefined_poses_scale_0_05_seed_42"
-# filename = "optimized_model_predefined_poses_scale_0_01_seed_24"
+filename = "optimized_model_predefined_poses_scale_0_01_seed_24"
 # filename = "optimized_model_predefined_poses_scale_0_01_seed_42"
 # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24"
 # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_42"
 # filename = "domain_rand_model_predefined_poses_scale_0_01_seed_24"
-filename = "domain_rand_model_predefined_poses_scale_0_01_seed_42"
+# filename = "domain_rand_model_predefined_poses_scale_0_01_seed_42"
+
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_rotmat"
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_42_rotmat"
+# filename = "domain_rand_model_predefined_poses_scale_0_01_seed_24_rotmat"
+# filename = "domain_rand_model_predefined_poses_scale_0_01_seed_42_rotmat"
+
 
 csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/" + filename + ".csv"
 
@@ -264,7 +270,8 @@ if plot:
 
 
 # Define ranges
-ranges = [(0, 1001), (1002, 2003), (2004, len(timesteps)-1)]
+# ranges = [(0, 251), (252, 503), (504, len(timesteps)-1)]
+ranges = [(0, 501), (502, 1003), (1004, len(timesteps)-1)]
 
 print("\n--- Threshold Check for Min Distances ---")
 for start, end in ranges:

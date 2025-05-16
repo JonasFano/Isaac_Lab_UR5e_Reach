@@ -14,7 +14,26 @@ class RelIK_UR5e_ReachEnvCfg(reach_env_cfg_pose.UR5e_ReachEnvCfg):
     def __post_init__(self):
         super().__post_init__()
 
-        # Listens to the required transforms
+        # Visualize Base frame
+        base_marker_cfg = FRAME_MARKER_CFG.copy()
+        base_marker_cfg.markers["frame"].scale = (0.15, 0.15, 0.25)
+        base_marker_cfg.prim_path = "/Visuals/BaseFrame"
+        self.scene.world_frame = FrameTransformerCfg(
+            prim_path="{ENV_REGEX_NS}/robot/base_link",
+            debug_vis=True,
+            visualizer_cfg=base_marker_cfg,
+            target_frames=[  # Add at least one target frame
+                FrameTransformerCfg.FrameCfg(
+                    prim_path="{ENV_REGEX_NS}/robot/base_link",
+                    name="base_frame",
+                    offset=OffsetCfg(
+                        pos=[0.0, 0.0, 0.0],
+                    ),
+                )
+            ],
+        )
+
+        # Visualize TCP frame
         marker_cfg = FRAME_MARKER_CFG.copy()
         marker_cfg.markers["frame"].scale = (0.1, 0.1, 0.1)
         marker_cfg.prim_path = "/Visuals/FrameTransformer"

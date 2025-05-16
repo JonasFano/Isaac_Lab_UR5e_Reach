@@ -3,12 +3,11 @@ import csv
 import random
 import numpy as np
 import torch
-# from scipy.spatial.transform import Rotation as R
 from stable_baselines3 import PPO
 import rtde_control
 import rtde_receive
 
-from isaaclab.utils.math import quat_apply, quat_mul, quat_from_angle_axis, quat_from_euler_xyz, quat_inv, axis_angle_from_quat, apply_delta_pose
+from isaaclab.utils.math import quat_from_angle_axis, quat_from_euler_xyz, axis_angle_from_quat, apply_delta_pose
 
 class UR5eRobotController:
     """
@@ -39,12 +38,6 @@ class UR5eRobotController:
         self.rotvec_action = np.zeros(3)
         self.previous_action = np.zeros(6)
 
-        # 180-degree rotation around Z-axis
-        self.ROT_180_Z = quat_from_euler_xyz(
-            torch.tensor([0.0]), torch.tensor([0.0]), torch.tensor([np.pi])
-        )[0]
-
-
     def save_observations_to_csv(self, total_timestep):
         """Save TCP pose, target pose, and last action to a CSV file."""
         header = (
@@ -73,7 +66,8 @@ class UR5eRobotController:
 
     def move_robot_to_home(self):
         """Move robot to home pose specified with joint positions."""
-        home_pose = np.array([1.3, -2.0, 2.0, -1.5, -1.5, 0.0]) # 3.14]) # 0.0]) 
+        # Home Pose: [-0.052387334, 0.33581319, 0.43999964, -0.034106676, -0.98936063, 0.13622078, 0.040301960]
+        home_pose = np.array([-1.8416883545290688, -1.9932175928376887, 2.001572757155111, -1.5006291744829365, -1.5000795993959422, -2.1654376600288572e-05])
         speed = 1.5
         acceleration = 1.5
         self.rtde_c.moveJ(home_pose, speed=speed, acceleration=acceleration)
@@ -82,12 +76,11 @@ class UR5eRobotController:
     def sample_random_pose(self):
         """Randomly sample a target pose within specified bounds."""
         pos_x = random.uniform(-0.2, 0.2)
-        pos_y = random.uniform(0.45, 0.25)
+        pos_y = random.uniform(0.25, 0.5)
         pos_z = random.uniform(0.2, 0.5)
         roll = 0.0
         pitch = np.pi  # End-effector z-axis pointing down (180 deg rotation)
         yaw = random.uniform(-np.pi, np.pi) # For wrist_3_joint = 0.0
-        # yaw = random.uniform(-0.5*np.pi, 0.5*np.pi) # For wrist_3_joint = 0.0
 
         roll = torch.tensor(roll)
         pitch = torch.tensor(pitch)
@@ -101,17 +94,38 @@ class UR5eRobotController:
 
     def get_predefined_pose(self):
         """Get a target pose from a predefined array of poses"""
-        predefined_poses = np.array([
-            [0.2, -0.4, 0.3, 0.0, 0.0, 1.0, 0.0],
-            [0.15, -0.3, 0.15, 0.0, 0.0, 1.0, 0.0],
-            [-0.1,  -0.5,  0.4, 0.0, 0.0, 1.0, 0.0],
+        predefined_poses = torch.tensor([
+            [0.2, 0.4, 0.3, 0.0, 0.0, 1.0, 0.0],
+            [0.15, 0.3, 0.15, 0.0, 0.0, 1.0, 0.0],
+            [-0.1,  0.5,  0.4, 0.0, 0.0, 1.0, 0.0],
         ])
+
+        # Backward rotation (counterclockwise)
         # predefined_poses = torch.tensor([
         #     [-0.2, 0.4, 0.3, 0.0000146, 0.3153224, 0.9489846, -0.000044], # -2.5 yaw angle
         #     [-0.2, 0.4, 0.3, 0.0000033, 0.070737, 0.997495, -0.0000462], # -3 yaw angle
         #     [-0.2, 0.4, 0.3, -0.0000033, -0.070737, 0.997495, -0.0000462], # 3 yaw angle
         #     [-0.2, 0.4, 0.3, -0.0000146, -0.3153224, 0.9489846, -0.000044], # 2.5 yaw angle
         # ])
+
+        # Normal rotation (clockwise)
+        # predefined_poses = torch.tensor([
+        #     [-0.2, 0.4, 0.3, -0.0000146, -0.3153224, 0.9489846, -0.000044], # 2.5 yaw angle
+        #     [-0.2, 0.4, 0.3, -0.0000033, -0.070737, 0.997495, -0.0000462], # 3 yaw angle
+        #     [-0.2, 0.4, 0.3, 0.0000033, 0.070737, 0.997495, -0.0000462], # -3 yaw angle
+        #     [-0.2, 0.4, 0.3, 0.0000146, 0.3153224, 0.9489846, -0.000044], # -2.5 yaw angle
+        # ])
+
+        # Split position and quaternion
+        positions = predefined_poses[:, :3]
+        quats = predefined_poses[:, 3:]
+
+        # Normalize quaternions to unit length
+        quats = quats / quats.norm(dim=1, keepdim=True)
+
+        # Recombine into the full tensor
+        predefined_poses = torch.cat([positions, quats], dim=1)
+
         self.target_pose = predefined_poses[self.current_index]
 
 
@@ -130,20 +144,24 @@ class UR5eRobotController:
         else:
             axis = axis_angle / angle
             quat_wxyz = quat_from_angle_axis(torch.tensor([angle], device=axis_angle.device), axis.unsqueeze(0))[0]  # (4,)
-        
-        # Enforce consistent sign (e.g. w ≥ 0)
-        # if quat_wxyz[0] < 0:
-        #     quat_wxyz = -quat_wxyz
-        
+               
+        # quat_wxyz *= -1
+
         # Ensure quaternion continuity (prevent sign flips based on vector part)
         if self.prev_quaternion is not None:
             if np.dot(quat_wxyz[1:], self.prev_quaternion[1:]) < 0:  # Use only vector part [x, y, z]
                 quat_wxyz *= -1  # Flip quaternion to maintain consistency
+        else:
+            quat_wxyz *= -1
+
+        # Enforce consistent sign (e.g. w < 0)
+        # if quat_wxyz[0] > 0:
+        #     quat_wxyz = -quat_wxyz
 
         self.prev_quaternion = quat_wxyz.clone()  # Store for next iteration
 
         return quat_wxyz
-
+    
 
     def get_actual_tcp_pose(self):
         """
@@ -157,19 +175,8 @@ class UR5eRobotController:
         # Convert Axis-Angle to Quaternion with proper formatting
         quat_wxyz = self.axis_angle_to_quaternion(axis_angle)  # Extract single quaternion
 
-        # Rotate position and orientation
-        rotated_pos = quat_apply(self.ROT_180_Z, pos)
-        rotated_quat_wxyz = quat_mul(self.ROT_180_Z, quat_wxyz)
+        self.tcp_pose = np.concatenate((pos, quat_wxyz), axis=0)
 
-        self.tcp_pose = np.concatenate((rotated_pos, rotated_quat_wxyz), axis=0)
-
-
-    def rot_vec_consistency(self, rot_vec):
-        if self.prev_rot_vec is not None:
-            if np.dot(rot_vec, self.prev_rot_vec) < 0:  # Use only vector part [x, y, z]
-                rot_vec *= -1  # Flip quaternion to maintain consistency
-        self.prev_rot_vec = rot_vec.clone()  # Store for next iteration
-        return rot_vec
 
     def execute_action_on_real_robot(self):
         """Send a TCP displacement action to the robot, ensuring it is rotated back 180 degrees before execution."""
@@ -183,21 +190,13 @@ class UR5eRobotController:
         new_tcp_pos = new_tcp_pos.squeeze(0)
         new_tcp_quat = new_tcp_quat.squeeze(0)
 
-        # Define inv 180° Z rotation 
-        rot_180_z_inv = quat_inv(self.ROT_180_Z)
-
-        final_pos = quat_apply(rot_180_z_inv, new_tcp_pos)  # position rotated back
-        final_quat = quat_mul(rot_180_z_inv, new_tcp_quat)  # orientation rotated back
-        # final_quat = quat_mul(new_tcp_quat, rot_180_z_inv)  # orientation rotated back
-
-        final_rotvec = axis_angle_from_quat(final_quat)
-        final_rotvec = self.rot_vec_consistency(final_rotvec).numpy()
+        final_rotvec = axis_angle_from_quat(new_tcp_quat)
+        final_rotvec = final_rotvec.numpy()
         self.rotvec_action = final_rotvec.copy()
 
         # Combine final pose and send to robot
-        new_tcp = np.concatenate((final_pos.numpy(), final_rotvec), axis=0)
+        new_tcp = np.concatenate((new_tcp_pos.numpy(), final_rotvec), axis=0)
         
-        print("Final TCP Pose Sent to Robot:", new_tcp)
         self.rtde_c.moveL(new_tcp.tolist(), speed=1.5, acceleration=1.5)
         # self.rtde_c.moveL(new_tcp.tolist(), speed=0.2, acceleration=0.2)
 
@@ -230,7 +229,7 @@ class UR5eRobotController:
             obs = self.get_robot_state()
 
             print("Current TCP Pose: ", self.tcp_pose)
-            print("Target Pose: ", self.target_pose)
+            # print("Target Pose: ", self.target_pose)
 
             with torch.inference_mode():
                 self.action, _ = self.agent.predict(obs, deterministic=True)
@@ -250,13 +249,12 @@ class UR5eRobotController:
 
             print(f"Position Error: {position_distance}, Orientation Error: {orientation_distance}")
 
-            if target_timestep > 250: #500:
+            if target_timestep > 500: #500: #250:
                 print("\n\nAmount of Targets: ", self.current_index + 1)
-                print("\nFinal TCP Pose: ", self.tcp_pose)
 
                 if self.mode == "Predefined":
                     self.current_index += 1
-                    if self.current_index == 4: #3:
+                    if self.current_index == 3: #4: #3:
                         return
                     self.get_predefined_pose()
                 elif self.mode == "Sample":
@@ -271,16 +269,16 @@ class UR5eRobotController:
 
 if __name__ == "__main__":
     # robot_ip = "10.52.4.219"
-    robot_ip = "10.126.32.158"
+    robot_ip = "10.126.49.30"
     # robot_ip = "192.168.1.100"
     
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/01gt11w7/model.zip"  # Seed 24
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/85arfwte/model.zip" # Seed 42
 
-    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/4onkm2st/model.zip" # Act. Rate Pos (-1.0) # Seed 24
+    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/4onkm2st/model.zip" # Act. Rate Pos (-1.0) # Seed 24
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/oshyvv4h/model.zip" # Act. Rate Pos (-1.0) # Seed 42
 
-    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 24
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 24
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/yiv7mwsi/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 42
     
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
@@ -297,7 +295,7 @@ if __name__ == "__main__":
 
     # filename = "optimized_model_predefined_poses_scale_0_05_seed_24.csv"
     # filename = "optimized_model_predefined_poses_scale_0_05_seed_42.csv"
-    # filename = "optimized_model_predefined_poses_scale_0_01_seed_24.csv"
+    filename = "optimized_model_predefined_poses_scale_0_01_seed_24.csv"
     # filename = "optimized_model_predefined_poses_scale_0_01_seed_42.csv"
 
     # filename = "optimized_model_random_poses_scale_0_05_seed_24.csv"
@@ -310,16 +308,27 @@ if __name__ == "__main__":
     # filename = "domain_rand_model_predefined_poses_scale_0_01_seed_24.csv"
     # filename = "domain_rand_model_predefined_poses_scale_0_01_seed_42.csv"
 
-    filename = "domain_rand_model_random_poses_scale_0_05_seed_24.csv"
+    # filename = "domain_rand_model_random_poses_scale_0_05_seed_24.csv"
     # filename = "domain_rand_model_random_poses_scale_0_05_seed_42.csv"
     # filename = "domain_rand_model_random_poses_scale_0_01_seed_24.csv"
     # filename = "domain_rand_model_random_poses_scale_0_01_seed_42.csv"
 
-    # filename = "test_orientation.csv"
-    
-    action_scaling = 0.05
-    save = False # False # True
-    mode = "Sample" # Options available: "Sample" (sample uniformly from specified range), "Predefined" (predefined poses)
+
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_clockwise.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_counterclockwise.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_without_quat_consistency_counterclockwise.csv"
+
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_clockwise.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_correct_hemisphere_counterclockwise.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_correct_hemisphere_clockwise.csv"
+
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_enforce_w_smaller_0_clockwise.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_enforce_w_smaller_0_counterclockwise.csv"
+
+
+    action_scaling = 0.01
+    save = True # False # True
+    mode = "Predefined" # Options available: "Sample" (sample uniformly from specified range), "Predefined" (predefined poses)
 
     controller = UR5eRobotController(robot_ip, model_path, action_scaling, save_dir, filename, mode, save)
 

@@ -82,7 +82,12 @@ def get_current_tcp_pose(env: ManagerBasedRLEnv, gripper_offset: List[float], ro
     # print(robot.data.joint_pos)
     # print(robot.data.joint_limits)
 
-    # Or quaternion representation:
+
+    # rotmat = quat_to_rotmat(tcp_quat_b)  # shape: [N, 3, 3]
+    # rot = rotmat[:, :, :2].reshape(-1, 6)  # take first two columns and flatten
+    # rot = rotmat.reshape(-1, 9)  # take first two columns and flatten
+
+    # tcp_pose_b = torch.cat((tcp_pos_b, rot), dim=-1)
     tcp_pose_b = torch.cat((tcp_pos_b, tcp_quat_b), dim=-1)
     return tcp_pose_b
 
@@ -98,3 +103,41 @@ def generated_commands_axis_angle(env: ManagerBasedRLEnv, command_name: str) -> 
     pose_b = torch.cat((pose_quat_b[:, :3], axis_angle_b), dim=-1)
 
     return pose_b
+
+
+
+def generated_commands_rot6d(env: ManagerBasedRLEnv, command_name: str) -> torch.Tensor:
+    """Return command as position + 6D rotation representation (first two columns of rotation matrix)."""
+    pose_b = env.command_manager.get_command(command_name)  # shape: [N, 7], [x, y, z, qw, qx, qy, qz]
+
+    pos_b = pose_b[:, :3]
+    quat_b = pose_b[:, 3:]
+
+    rotmat = quat_to_rotmat(quat_b)  # shape: [N, 3, 3]
+    rot = rotmat[:, :, :2].reshape(-1, 6)  # take first two columns and flatten
+    # rot = rotmat.reshape(-1, 9)  # take first two columns and flatten
+
+    return torch.cat((pos_b, rot), dim=-1)  # shape: [N, 9]
+
+
+
+
+def quat_to_rotmat(q):
+    # q: [batch, 4] in (w, x, y, z) format
+    q = q / q.norm(dim=1, keepdim=True)
+
+    w, x, y, z = q[:, 0], q[:, 1], q[:, 2], q[:, 3]
+    B = q.shape[0]
+    R = torch.empty(B, 3, 3, device=q.device)
+    R[:, 0, 0] = 1 - 2*y**2 - 2*z**2
+    R[:, 0, 1] = 2*x*y - 2*z*w
+    R[:, 0, 2] = 2*x*z + 2*y*w
+
+    R[:, 1, 0] = 2*x*y + 2*z*w
+    R[:, 1, 1] = 1 - 2*x**2 - 2*z**2
+    R[:, 1, 2] = 2*y*z - 2*x*w
+
+    R[:, 2, 0] = 2*x*z - 2*y*w
+    R[:, 2, 1] = 2*y*z + 2*x*w
+    R[:, 2, 2] = 1 - 2*x**2 - 2*y**2
+    return R

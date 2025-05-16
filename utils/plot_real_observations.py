@@ -6,16 +6,31 @@ import os
 from scipy.spatial.transform import Rotation as R
 import numpy as np
 
-file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
+# file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
+file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/quaternion_analysis/"
+
 output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/real_robot"
 os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
 
 # filename = 'real_observations_rotate_rx'
-# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_without_continuity"
 
-# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_rot_vec_action_no_action_continuity"
-filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_rot_vec_action_correct_quat_mul"
-# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_rot_vec_action_wrong_quat_mul"
+# Quaternion analysis
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_clockwise"
+filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_counterclockwise"
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_without_quat_consistency_clockwise"
+
+# Correct hemisphere means quat_wxyz *= -1 for the first observation and ensured quat consistency afterwards
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_correct_hemisphere_counterclockwise"
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_correct_hemisphere_clockwise" 
+
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_enforce_w_smaller_0_clockwise"
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_enforce_w_smaller_0_counterclockwise"
+
+
+# Rotation matrix
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_rotmat_clockwise"
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_rotmat_counterclockwise"
+
 
 save = False  # True False
 
@@ -23,7 +38,7 @@ save = False  # True False
 # Read data from a CSV file
 df = pd.read_csv(os.path.join(file_dir, filename + ".csv"))
 
-max_timesteps = 850 #None
+max_timesteps = None
 
 if max_timesteps is not None:
     df = df.iloc[:max_timesteps]
@@ -81,21 +96,19 @@ fig_quaternion.add_trace(go.Scatter(x=df['timestep'], y=df['target_pose_6'], mod
 # Customize the layout for quaternion plot
 fig_quaternion.update_layout(
     xaxis_title='Timestep',
-    yaxis_title='Orientation',
+    yaxis_title='Current and Target Quaternion',
     legend_title='Legend',
     hovermode="x unified",
+    showlegend=False,
 )
 
-save = True
 
-if save:
-    png_quaternion_path = os.path.join(output_dir, "tcp_and_target_quaternion_" + filename + ".png")
+if True: #save:
+    png_quaternion_path = os.path.join(output_dir, "tcp_and_target_quaternion_" + filename + ".pdf")
     fig_quaternion.write_image(png_quaternion_path, width=1000, height=600)
 
 # Show the quaternion figure
 fig_quaternion.show()
-
-save = False
 
 
 
@@ -256,7 +269,6 @@ fig_geodesic.add_trace(go.Scatter(x=df['timestep'], y=geodesic_distance, mode='l
 fig_geodesic.update_layout(
     xaxis_title='Timestep',
     yaxis_title='Geodesic Distance (radians)',
-    title='Geodesic Distance Between TCP and Target Orientation Over Time',
     legend_title='Legend',
     hovermode="x unified"
 )

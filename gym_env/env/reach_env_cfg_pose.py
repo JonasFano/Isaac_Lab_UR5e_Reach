@@ -174,6 +174,11 @@ class ObservationsCfg:
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
         )
+        # Use Rotation 6D representation
+        # pose_command = ObsTerm(
+        #     func=mdp.generated_commands_rot6d, 
+        #     params={"command_name": "ee_pose"},
+        # )
 
         # Previous action
         actions = ObsTerm(

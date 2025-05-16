@@ -5,7 +5,7 @@ from scipy.spatial.transform import Rotation as R
 
 # Replace with the IP address of your robot
 # ROBOT_IP = "192.168.1.100"
-ROBOT_IP = "10.52.4.217"
+ROBOT_IP = "10.52.4.219"
 
 ROT_180_Z = R.from_euler('z', 180, degrees=True)
 
@@ -42,6 +42,14 @@ rotated_quat_wxyz = rotated_quat.as_quat(scalar_first=True)
 
 print("Rotated TCP Quaternion: ", rotated_quat_wxyz)
 
+
+joint_position = rtde_r.getActualQ()
+print("Joint Position: ", joint_position)
+
+
+
+home_pose = [-0.052387334, 0.33581319, 0.43999964, -3.1772155, 0.4374548, 0.129422]
+rtde_c.moveL(home_pose, speed=1.5, acceleration=1.5)
 
 joint_position = rtde_r.getActualQ()
 print("Joint Position: ", joint_position)

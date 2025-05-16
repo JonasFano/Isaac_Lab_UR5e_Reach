@@ -17,9 +17,14 @@ import numpy as np
 # filename = "domain_rand_model_random_poses_scale_0_01_seed_24"
 # filename = "domain_rand_model_random_poses_scale_0_01_seed_42"
 
-# filename = "domain_rand_model_random_poses_scale_0_05_seed_24_correct_sampling"
+# filename = "domain_rand_model_random_poses_scale_0_05_seed_24_wrong_quat"
 
-filename = "domain_rand_model_random_poses_scale_0_05_seed_24_wrong_quat"
+# filename = "domain_rand_model_random_poses_scale_0_05_seed_24_new"
+
+filename = "domain_rand_model_random_poses_scale_0_05_seed_24_rotmat"
+# filename = "domain_rand_model_random_poses_scale_0_05_seed_42_rotmat"
+# filename = "domain_rand_model_random_poses_scale_0_01_seed_24_rotmat"
+# filename = "domain_rand_model_random_poses_scale_0_01_seed_42_rotmat"
 
 csv_path = f"/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/{filename}.csv"
 max_num_episodes = 100
@@ -89,9 +94,11 @@ print(f"Analysed episodes: {len(grouped)}")
 print(f"Min Position Error:        {np.min(pos_errors):.6f}")
 print(f"Mean Position Error:       {np.mean(pos_errors):.6f}")
 print(f"Max Position Error:        {np.max(pos_errors):.6f}")
+print(f"Std Position Error:        {np.std(pos_errors):.6f}")
 print(f"Min Quaternion Error (rad): {np.min(quat_errors):.6f}")
 print(f"Mean Quaternion Error (rad): {np.mean(quat_errors):.6f}")
 print(f"Max Quaternion Error (rad): {np.max(quat_errors):.6f}")
+print(f"Std Quaternion Error (rad): {np.std(quat_errors):.6f}")
 print(f"Position Success Count:    {pos_success_count}")
 print(f"Quaternion Success Count:  {quat_success_count}")
 print(f"Position-only Success Rate:     {pos_only_success_rate:.2f}%")

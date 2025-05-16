@@ -38,7 +38,6 @@ Install requirements:
     cd /path/to/repository/sb3
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_domain_rand config_sb3_ppo.yaml
 
-
 ### UR5e without gripper - Abs IK
 
     source /path/to/virtual/environment/bin/activate
@@ -70,7 +69,7 @@ Notably, optimization project names and the specific environment that is used fo
 
 
 
-## Train PPO agent without Weights&Biases
+# Train PPO agent without Weights&Biases
 Option 1:
 
     source /path/to/virtual/environment/bin/activate
@@ -92,7 +91,7 @@ Note: For this option, the hyperparameters are defined in /gym_env/env/agents/
 
 
 
-## Play PPO trained agent
+# Play PPO trained agent
 Option 1:
 
     source /path/to/virtual/environment/bin/activate
@@ -110,38 +109,51 @@ Note: This repository includes several pre-trained models in sb3/models/. These 
 
 
 
-## Examples to play PPO trained agent
-### UR5e without gripper - Abs IK
+# Examples to play PPO trained agent
+## UR5e without gripper - Abs IK
 
     source isaaclab/bin/activate
     cd isaaclab/IsaacLab
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-Abs-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/f414sb65/model.zip
 
 
-### UR5e without gripper - Rel IK - with obs and rew normalization
+## UR5e without gripper - Rel IK - with obs and rew normalization
 
     source isaaclab/bin/activate
     cd isaaclab/IsaacLab
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/group_g/2zlcpe8a/model.zip
 
 
-### UR5e without gripper - Rel IK - without obs and rew normalization
+## UR5e without gripper - Rel IK - without obs and rew normalization
 
     source isaaclab/bin/activate
     cd isaaclab/IsaacLab
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/group_b/q229e8ps/model.zip
 
 
-### UR5e without gripper - Rel IK - with domain randomization
+## UR5e without gripper - Rel IK - with domain randomization
 
     source isaaclab/bin/activate
     cd isaaclab/IsaacLab
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Domain-Rand-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip
 
 
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_save_observations.py --task UR5e-Reach-Pose-IK --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip
 
 
-## Task options (defined in /gym_env/env/__init__.py)
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Domain-Rand-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/e3nswvly/model.zip # Always positive quat
+
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/hjh00riy/model.zip # Rot6d
+
+
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_save_observations.py --task UR5e-Reach-Pose-IK --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/hjh00riy/model.zip
+
+
+    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rr6r5rsw/model.zip # rot9d
+
+
+
+# Task options (defined in /gym_env/env/__init__.py)
 UR5e without Gripper and Relative Differential Inverse Kinematics Action Space
 
     --task UR5e-Reach-Pose-IK

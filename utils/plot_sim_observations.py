@@ -6,19 +6,27 @@ from scipy.spatial.transform import Rotation as R
 import os
 import numpy as np
 
-file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim/"
-output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/comparison/"
+# file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim/"
+file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/quaternion_analysis/"
+
+output_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/plots/simulation/"
 os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
 
-filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_check_quaternion_sim"
 # filename = "domain_rand_model_random_poses_scale_0_05_seed_24_no_reset"
+
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_positive_quat_sim"
+
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_clockwise"
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_counterclockwise"
+filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_counterclockwise_different_target_hemisphere"
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_counterclockwise_different_target_hemisphere_for_3_and_2_5"
 
 save = False  # False # True
 
 # Read data from a CSV file
 df = pd.read_csv(os.path.join(file_dir, filename + ".csv"))
 
-max_timesteps = 850 # None #500
+max_timesteps = None #500
 
 
 
@@ -79,12 +87,11 @@ fig_quaternion.add_trace(go.Scatter(x=df['timestep'], y=df['pose_command_6'], mo
 # Customize the layout for quaternion plot
 fig_quaternion.update_layout(
     xaxis_title='Timestep',
-    yaxis_title='Orientation',
+    yaxis_title='Current and Target Quaternion',
     legend_title='Legend',
     hovermode="x unified",
 )
 
-save = True
 
 if save:
     png_quaternion_path = os.path.join(output_dir, "tcp_and_target_quaternion_" + filename + ".png")
@@ -93,7 +100,6 @@ if save:
 # Show the quaternion figure
 fig_quaternion.show()
 
-save = False
 
 
 
@@ -254,13 +260,12 @@ fig_geodesic.add_trace(go.Scatter(x=df['timestep'], y=geodesic_distance, mode='l
 fig_geodesic.update_layout(
     xaxis_title='Timestep',
     yaxis_title='Geodesic Distance (radians)',
-    title='Geodesic Distance Between TCP and Target Orientation Over Time',
     legend_title='Legend',
     hovermode="x unified"
 )
 
 # Save the plot if needed
-if save:
+if True: #save:
     png_geodesic_distance_path = os.path.join(output_dir, "geodesic_distance_" + filename + ".png")
     fig_geodesic.write_image(png_geodesic_distance_path, width=1000, height=600)
 

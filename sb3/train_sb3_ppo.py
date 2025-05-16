@@ -152,65 +152,65 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
         checkpoint_callback = None
 
     
-    # train the agent
-    if checkpoint_callback is not None:
-        agent.learn(total_timesteps=n_timesteps, callback=checkpoint_callback)
-    else:
-        agent.learn(total_timesteps=n_timesteps)
+    # # train the agent
+    # if checkpoint_callback is not None:
+    #     agent.learn(total_timesteps=n_timesteps, callback=checkpoint_callback)
+    # else:
+    #     agent.learn(total_timesteps=n_timesteps)
 
 
 
 
 
 
-    # # Initialize the environment and variables
-    # obs = env.reset()
-    # print(f"Obs after reset: {obs}")
-    # total_timesteps = n_timesteps
-    # timestep = 0
-    # rollout_buffer = []  # Buffer to collect rollouts for training
+    # Initialize the environment and variables
+    obs = env.reset()
+    print(f"Obs after reset: {obs}")
+    total_timesteps = n_timesteps
+    timestep = 0
+    rollout_buffer = []  # Buffer to collect rollouts for training
 
-    # while timestep < total_timesteps:
-    #     # Predict the action using the policy
-    #     action, _states = agent.predict(obs, deterministic=False)
+    while timestep < total_timesteps:
+        # Predict the action using the policy
+        action, _states = agent.predict(obs, deterministic=False)
 
-    #     # print(f"Timestep: {timestep}, Action: {action}")
+        # print(f"Timestep: {timestep}, Action: {action}")
 
-    #     # fixed_action = np.array([[-0.0646, 0.3277, 0.3049, -0.0405, 0.1354, 0.9893, -0.0353]], dtype=np.float32)
-    #     # fixed_action = np.array([[-0.0525,  0.3357,  0.4391, -0.0405,  0.1354,  0.9893, -0.0353]], dtype=np.float32)
-    #     fixed_action = np.array([[-0.0, 0.0, 0.0, -0.0, 0.0, 0.0]], dtype=np.float32)
+        # fixed_action = np.array([[-0.0646, 0.3277, 0.3049, -0.0405, 0.1354, 0.9893, -0.0353]], dtype=np.float32)
+        # fixed_action = np.array([[-0.0525,  0.3357,  0.4391, -0.0405,  0.1354,  0.9893, -0.0353]], dtype=np.float32)
+        fixed_action = np.array([[-0.0, 0.0, 0.0, -0.0, 0.0, 0.0]], dtype=np.float32)
 
 
         
 
-    #     # Take the action in the environment
-    #     new_obs, reward, done, info = env.step(fixed_action)
+        # Take the action in the environment
+        new_obs, reward, done, info = env.step(fixed_action)
 
-    #     # Print the reward for this timestep
-    #     # print(f"Timestep: {timestep}, Reward: {reward}")
-    #     print(f"Timestep: {timestep}, Obs: {obs}")
+        # Print the reward for this timestep
+        # print(f"Timestep: {timestep}, Reward: {reward}")
+        print(f"Timestep: {timestep}, Obs: {obs}")
 
 
-    #     # Collect data for learning
-    #     rollout_buffer.append((obs, action, reward, new_obs, done))
+        # Collect data for learning
+        rollout_buffer.append((obs, action, reward, new_obs, done))
 
-    #     # Update observation
-    #     obs = new_obs
+        # Update observation
+        obs = new_obs
 
-    #     # If any of the environments are done, reset them
-    #     if np.any(done):  # Use np.any to handle the array
-    #         obs = env.reset()
+        # If any of the environments are done, reset them
+        if np.any(done):  # Use np.any to handle the array
+            obs = env.reset()
 
-    #     # Increment the timestep
-    #     timestep += 1
+        # Increment the timestep
+        timestep += 1
 
-    #     # Periodically train the agent using the collected rollouts
-    #     if len(rollout_buffer) >= agent.n_steps:  # `agent.n_steps` is the number of steps per update
-    #         for experience in rollout_buffer:
-    #             obs, action, reward, new_obs, done = experience
-    #             agent.policy.optimizer.zero_grad()
-    #             agent.policy.optimizer.step()  # Perform the training step
-    #         rollout_buffer.clear()  # Clear buffer after training
+        # Periodically train the agent using the collected rollouts
+        if len(rollout_buffer) >= agent.n_steps:  # `agent.n_steps` is the number of steps per update
+            for experience in rollout_buffer:
+                obs, action, reward, new_obs, done = experience
+                agent.policy.optimizer.zero_grad()
+                agent.policy.optimizer.step()  # Perform the training step
+            rollout_buffer.clear()  # Clear buffer after training
 
 
 

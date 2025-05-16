@@ -14,13 +14,16 @@ from scipy.spatial.transform import Rotation as R
 # filename = "optimized_model_random_poses_scale_0_05_seed_42"
 # filename = "optimized_model_random_poses_scale_0_01_seed_24"
 # filename = "optimized_model_random_poses_scale_0_01_seed_42"
-filename = "domain_rand_model_random_poses_scale_0_05_seed_24"
+# filename = "domain_rand_model_random_poses_scale_0_05_seed_24"
 # filename = "domain_rand_model_random_poses_scale_0_05_seed_42"
 # filename = "domain_rand_model_random_poses_scale_0_01_seed_24"
 # filename = "domain_rand_model_random_poses_scale_0_01_seed_42"
 
 # filename = "domain_rand_model_random_poses_scale_0_05_seed_24_correct_sampling"
 # filename = "orientation_and_sampling_issues/domain_rand_model_random_poses_scale_0_05_seed_24"
+
+filename = "domain_rand_model_random_poses_scale_0_05_seed_24_new"
+
 
 csv_path = f"/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/{filename}.csv"
 max_num_episodes = 100 #100
