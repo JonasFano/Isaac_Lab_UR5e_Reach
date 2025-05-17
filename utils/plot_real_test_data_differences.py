@@ -25,7 +25,7 @@ filename = "optimized_model_predefined_poses_scale_0_01_seed_24"
 # filename = "domain_rand_model_predefined_poses_scale_0_01_seed_42_rotmat"
 
 
-csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/" + filename + ".csv"
+csv_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/smoothness_analysis/" + filename + ".csv"
 
 # Define a threshold
 # threshold = 0.001 # For action scaling: 0.05

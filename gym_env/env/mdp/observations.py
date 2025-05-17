@@ -79,22 +79,38 @@ def get_current_tcp_pose(env: ManagerBasedRLEnv, gripper_offset: List[float], ro
     # # Concatenate the position and axis-angle into a single tensor
     # tcp_pose_b = torch.cat((tcp_pos_b, tcp_axis_angle_b), dim=-1)
 
-    # print(robot.data.joint_pos)
-    # print(robot.data.joint_limits)
-
-
-    # rotmat = quat_to_rotmat(tcp_quat_b)  # shape: [N, 3, 3]
-    # rot = rotmat[:, :, :2].reshape(-1, 6)  # take first two columns and flatten
-    # rot = rotmat.reshape(-1, 9)  # take first two columns and flatten
-
     # tcp_pose_b = torch.cat((tcp_pos_b, rot), dim=-1)
     tcp_pose_b = torch.cat((tcp_pos_b, tcp_quat_b), dim=-1)
     return tcp_pose_b
 
 
+def get_current_tcp_pose_rot6d(env: ManagerBasedRLEnv, gripper_offset: List[float], robot_cfg: SceneEntityCfg) -> torch.Tensor:
+    """
+    Compute the current TCP pose in both the base frame and world frame with Rot6D representation of orientations.
+    
+    Args:
+        env: ManagerBasedRLEnv object containing the virtual environment.
+        robot_cfg: Configuration for the robot entity, defaults to "robot".
+    
+    Returns:
+        tcp_pose_b: TCP pose in the robot's base frame (position + quaternion).
+    """
+    tcp_pose_b = get_current_tcp_pose(env, gripper_offset, robot_cfg)
+
+    tcp_pos_b = tcp_pose_b[:, :3]
+    tcp_quat_b = tcp_pose_b[:, 3:]
+
+    rotmat = quat_to_rotmat(tcp_quat_b)  # shape: [N, 3, 3]
+    rot = rotmat[:, :, :2].reshape(-1, 6)  # take first two columns and flatten
+    # rot = rotmat.reshape(-1, 9)  # take 9D representation
+
+    tcp_pose_b = torch.cat((tcp_pos_b, rot), dim=-1)
+    return tcp_pose_b
+
+
 
 def generated_commands_axis_angle(env: ManagerBasedRLEnv, command_name: str) -> torch.Tensor:
-    """The generated command from command term in the command manager with the given name."""
+    """The generated command from command term in the command manager with the given name in axis-angle representation."""
     pose_quat_b = env.command_manager.get_command(command_name)
 
     # Convert orientation from quat to euler angles xyz
@@ -115,7 +131,7 @@ def generated_commands_rot6d(env: ManagerBasedRLEnv, command_name: str) -> torch
 
     rotmat = quat_to_rotmat(quat_b)  # shape: [N, 3, 3]
     rot = rotmat[:, :, :2].reshape(-1, 6)  # take first two columns and flatten
-    # rot = rotmat.reshape(-1, 9)  # take first two columns and flatten
+    # rot = rotmat.reshape(-1, 9)  # take 9D representation
 
     return torch.cat((pos_b, rot), dim=-1)  # shape: [N, 9]
 

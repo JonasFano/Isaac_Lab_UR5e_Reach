@@ -338,14 +338,22 @@ if __name__ == "__main__":
     # robot_ip = "192.168.1.100"
     
     model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rot6d/hjh00riy/model.zip"
-    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rot6d/9vkwdb4c/model.zip"
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rot6d/9vkwdb4c/model.zip"
 
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
 
     # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_rotmat.csv"
-    # filename = "domain_rand_model_random_poses_scale_0_05_seed_24_rotmat.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_42_rotmat.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_01_seed_24_rotmat.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_01_seed_42_rotmat.csv"
 
-    filename = "domain_rand_model_random_poses_scale_0_05_seed_42_rotmat.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_rotmat_clockwise.csv"
+    # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_rotmat_counterclockwise.csv"
+
+    filename = "domain_rand_model_random_poses_scale_0_05_seed_24_rotmat.csv"
+    # filename = "domain_rand_model_random_poses_scale_0_05_seed_42_rotmat.csv"
+    # filename = "domain_rand_model_random_poses_scale_0_01_seed_24_rotmat.csv"
+    # filename = "domain_rand_model_random_poses_scale_0_01_seed_42_rotmat.csv"
     
     action_scaling = 0.05
     save = False # False # True

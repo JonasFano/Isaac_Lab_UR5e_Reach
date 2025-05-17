@@ -249,7 +249,7 @@ class UR5eRobotController:
 
             print(f"Position Error: {position_distance}, Orientation Error: {orientation_distance}")
 
-            if target_timestep > 500: #500: #250:
+            if target_timestep > 250: #500: #250:
                 print("\n\nAmount of Targets: ", self.current_index + 1)
 
                 if self.mode == "Predefined":
@@ -275,10 +275,10 @@ if __name__ == "__main__":
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/01gt11w7/model.zip"  # Seed 24
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/85arfwte/model.zip" # Seed 42
 
-    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/4onkm2st/model.zip" # Act. Rate Pos (-1.0) # Seed 24
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/4onkm2st/model.zip" # Act. Rate Pos (-1.0) # Seed 24
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/oshyvv4h/model.zip" # Act. Rate Pos (-1.0) # Seed 42
 
-    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 24
+    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 24
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/yiv7mwsi/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 42
     
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
@@ -295,7 +295,7 @@ if __name__ == "__main__":
 
     # filename = "optimized_model_predefined_poses_scale_0_05_seed_24.csv"
     # filename = "optimized_model_predefined_poses_scale_0_05_seed_42.csv"
-    filename = "optimized_model_predefined_poses_scale_0_01_seed_24.csv"
+    # filename = "optimized_model_predefined_poses_scale_0_01_seed_24.csv"
     # filename = "optimized_model_predefined_poses_scale_0_01_seed_42.csv"
 
     # filename = "optimized_model_random_poses_scale_0_05_seed_24.csv"
@@ -310,7 +310,7 @@ if __name__ == "__main__":
 
     # filename = "domain_rand_model_random_poses_scale_0_05_seed_24.csv"
     # filename = "domain_rand_model_random_poses_scale_0_05_seed_42.csv"
-    # filename = "domain_rand_model_random_poses_scale_0_01_seed_24.csv"
+    filename = "domain_rand_model_random_poses_scale_0_01_seed_24.csv"
     # filename = "domain_rand_model_random_poses_scale_0_01_seed_42.csv"
 
 
@@ -327,8 +327,8 @@ if __name__ == "__main__":
 
 
     action_scaling = 0.01
-    save = True # False # True
-    mode = "Predefined" # Options available: "Sample" (sample uniformly from specified range), "Predefined" (predefined poses)
+    save = False # False # True
+    mode = "Sample" # Options available: "Sample" (sample uniformly from specified range), "Predefined" (predefined poses)
 
     controller = UR5eRobotController(robot_ip, model_path, action_scaling, save_dir, filename, mode, save)
 

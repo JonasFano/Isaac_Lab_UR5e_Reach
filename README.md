@@ -29,6 +29,7 @@ Install requirements:
     source /path/to/virtual/environment/bin/activate
     cd /path/to/repository/sb3
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization config_sb3_ppo.yaml
+    
     wandb sweep --project impedance_ctrl_sb3_ppo_ur5e_reach_0_05_pose_without_gripper config_sb3_ppo.yaml
     
 
@@ -137,20 +138,7 @@ Note: This repository includes several pre-trained models in sb3/models/. These 
     cd isaaclab/IsaacLab
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Domain-Rand-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip
 
-
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_save_observations.py --task UR5e-Reach-Pose-IK --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip
-
-
-    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Domain-Rand-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/e3nswvly/model.zip # Always positive quat
-
-    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/hjh00riy/model.zip # Rot6d
-
-
-    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo_save_observations.py --task UR5e-Reach-Pose-IK --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/hjh00riy/model.zip
-
-
-    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rr6r5rsw/model.zip # rot9d
-
 
 
 # Task options (defined in /gym_env/env/__init__.py)

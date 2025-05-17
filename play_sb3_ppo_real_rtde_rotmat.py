@@ -294,7 +294,7 @@ class UR5eRobotController:
 
             print(f"Position Error: {position_distance}, Orientation Error: {orientation_distance}")
 
-            if target_timestep > 500: # 250: #500:
+            if target_timestep > 250: # 250: #500:
                 print("\n\nAmount of Targets: ", self.current_index + 1)
 
                 if self.mode == "Predefined":
@@ -330,14 +330,14 @@ if __name__ == "__main__":
     # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_rotmat_clockwise.csv"
     # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_rotmat_counterclockwise.csv"
 
-    # filename = "domain_rand_model_random_poses_scale_0_05_seed_24_rotmat.csv"
+    filename = "domain_rand_model_random_poses_scale_0_05_seed_24_rotmat.csv"
     # filename = "domain_rand_model_random_poses_scale_0_05_seed_42_rotmat.csv"
-    filename = "domain_rand_model_random_poses_scale_0_01_seed_24_rotmat.csv"
+    # filename = "domain_rand_model_random_poses_scale_0_01_seed_24_rotmat.csv"
     # filename = "domain_rand_model_random_poses_scale_0_01_seed_42_rotmat.csv"
     
 
-    action_scaling = 0.01
-    save = True # False # True
+    action_scaling = 0.05
+    save = False # False # True
     mode = "Sample" # Options available: "Sample" (sample uniformly from specified range), "Predefined" (predefined poses)
 
     controller = UR5eRobotController(robot_ip, model_path, action_scaling, save_dir, filename, mode, save)

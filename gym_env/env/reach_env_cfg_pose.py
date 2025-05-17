@@ -162,6 +162,11 @@ class ObservationsCfg:
             func=mdp.get_current_tcp_pose,
             params={"gripper_offset": TaskParams.gripper_offset, "robot_cfg": SceneEntityCfg("robot", body_names=TaskParams.ee_body_name)},
         )
+        # TCP pose using Rot6D representation in base frame
+        # tcp_pose = ObsTerm(
+        #     func=mdp.get_current_tcp_pose_rot6d,
+        #     params={"gripper_offset": TaskParams.gripper_offset, "robot_cfg": SceneEntityCfg("robot", body_names=TaskParams.ee_body_name)},
+        # )
 
         # Desired ee (or tcp) pose in base frame
         # pose_command = ObsTerm(
@@ -174,7 +179,7 @@ class ObservationsCfg:
             func=mdp.generated_commands, 
             params={"command_name": "ee_pose"},
         )
-        # Use Rotation 6D representation
+        # Use Rot6D representation
         # pose_command = ObsTerm(
         #     func=mdp.generated_commands_rot6d, 
         #     params={"command_name": "ee_pose"},
