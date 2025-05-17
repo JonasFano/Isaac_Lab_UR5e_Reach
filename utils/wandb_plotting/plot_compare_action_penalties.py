@@ -52,6 +52,7 @@ plt.ylabel("Average Success Rate [%]")
 # plt.title("Mean MAE vs Average Success Rate")
 plt.grid(True)
 plt.tight_layout()
+plt.savefig("action_penalty_comparison.pdf", format="pdf", bbox_inches="tight")
 plt.show()
 
 # === Plot 2: Smoothness vs Success Rate ===

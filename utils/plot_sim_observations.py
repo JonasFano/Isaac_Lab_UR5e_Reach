@@ -5,6 +5,8 @@ import pandas as pd
 from scipy.spatial.transform import Rotation as R
 import os
 import numpy as np
+import plotly.io as pio   
+pio.kaleido.scope.mathjax = None
 
 # file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/sim/"
 file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/quaternion_analysis/"
@@ -66,6 +68,9 @@ if save:
 # Show the figure
 fig.show()
 
+
+
+
 # Create a Plotly figure for TCP and Target Orientation (Quaternion)
 fig_quaternion = go.Figure()
 
@@ -90,12 +95,13 @@ fig_quaternion.update_layout(
     yaxis_title='Current and Target Quaternion',
     legend_title='Legend',
     hovermode="x unified",
+    showlegend=False,
 )
 
 
 if save:
-    png_quaternion_path = os.path.join(output_dir, "tcp_and_target_quaternion_" + filename + ".png")
-    fig_quaternion.write_image(png_quaternion_path, width=1000, height=600)
+    png_quaternion_path = os.path.join(output_dir, f"tcp_and_target_quaternion_{filename}.pdf")
+    fig_quaternion.write_image(png_quaternion_path, width=1000, height=600, engine="kaleido")
 
 # Show the quaternion figure
 fig_quaternion.show()
@@ -242,6 +248,10 @@ fig_angle.show()
 
 
 
+tcp_pos = df[['tcp_pose_0', 'tcp_pose_1', 'tcp_pose_2']].to_numpy()
+target_pos = df[['pose_command_0', 'pose_command_1', 'pose_command_2']].to_numpy()
+
+euclidean_distance = np.linalg.norm(target_pos - tcp_pos, axis=1)
 
 
 dot_products = np.einsum('ij,ij->i', tcp_quat, target_quat)  # Compute dot product row-wise
@@ -249,26 +259,31 @@ dot_products = np.clip(dot_products, -1.0, 1.0)  # Ensure values are within vali
 
 geodesic_distance = 2 * np.arccos(np.abs(dot_products))  # Compute geodesic distance
 
-# Create Plotly figure for geodesic distance
-fig_geodesic = go.Figure()
+fig_combined = go.Figure()
 
-# Add trace for geodesic distance
-fig_geodesic.add_trace(go.Scatter(x=df['timestep'], y=geodesic_distance, mode='lines',
-                                  name='Geodesic Distance', line=dict(color='purple')))
+fig_combined.add_trace(go.Scatter(
+    x=df['timestep'],
+    y=euclidean_distance.tolist(),
+    name='Euclidean Distance',
+    line=dict(color='blue', dash='dash') 
+))
 
-# Customize layout
-fig_geodesic.update_layout(
+fig_combined.add_trace(go.Scatter(
+    x=df['timestep'],
+    y=geodesic_distance.tolist(),
+    name='Geodesic Distance',
+    line=dict(color='green', dash='solid')
+))
+
+fig_combined.update_layout(
     xaxis_title='Timestep',
-    yaxis_title='Geodesic Distance (radians)',
+    yaxis_title='Distance (m or rad)',
     legend_title='Legend',
-    hovermode="x unified"
+    hovermode='x unified'
 )
 
-# Save the plot if needed
 if True: #save:
-    png_geodesic_distance_path = os.path.join(output_dir, "geodesic_distance_" + filename + ".png")
-    fig_geodesic.write_image(png_geodesic_distance_path, width=1000, height=600)
+    path = os.path.join(output_dir, f"combined_error_plot_{filename}.pdf")
+    fig_combined.write_image(path, width=1000, height=600, engine="kaleido")
 
-
-# Show the figure
-fig_geodesic.show()
+fig_combined.show()

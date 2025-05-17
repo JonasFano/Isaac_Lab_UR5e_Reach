@@ -103,27 +103,28 @@ for (policy, scale), files in file_groups.items():
 df_errors = pd.DataFrame(records)
 
 
-# Plot Position Error Boxplot
+# Plot Position Error Boxplot (log scale + save)
 plt.figure(figsize=(12, 6))
 sns.boxplot(data=df_errors[df_errors["Error Type"] == "Position"],
             x="Policy_Scale", y="Error", palette="Set2")
-# plt.title("Position (Euclidean) Error")
 plt.ylabel("Euclidean Distance [m]")
-plt.xlabel("")  # or None
+plt.xlabel("")
+plt.yscale("log")  # Logarithmic scale
 plt.xticks(rotation=45)
 plt.grid(True, axis="y")
 plt.tight_layout()
-plt.show()
+plt.savefig("position_error_boxplot.pdf", format="pdf", bbox_inches="tight")
+plt.close()
 
-
-# Plot Orientation Error Boxplot
+# Plot Orientation Error Boxplot (log scale + save)
 plt.figure(figsize=(12, 6))
 sns.boxplot(data=df_errors[df_errors["Error Type"] == "Orientation"],
             x="Policy_Scale", y="Error", palette="Set2")
-# plt.title("Orientation (Geodesic) Error")
 plt.ylabel("Geodesic Distance [rad]")
-plt.xlabel("")  # or None
+plt.xlabel("")
+plt.yscale("log")  # Logarithmic scale
 plt.xticks(rotation=45)
 plt.grid(True, axis="y")
 plt.tight_layout()
-plt.show()
+plt.savefig("orientation_error_boxplot.pdf", format="pdf", bbox_inches="tight")
+plt.close()

@@ -5,6 +5,8 @@ import pandas as pd
 import os
 from scipy.spatial.transform import Rotation as R
 import numpy as np
+import plotly.io as pio   
+pio.kaleido.scope.mathjax = None
 
 # file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/"
 file_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/quaternion_analysis/"
@@ -16,11 +18,11 @@ os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
 
 # Quaternion analysis
 # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_clockwise"
-filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_counterclockwise"
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_counterclockwise"
 # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_without_quat_consistency_clockwise"
 
 # Correct hemisphere means quat_wxyz *= -1 for the first observation and ensured quat consistency afterwards
-# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_correct_hemisphere_counterclockwise"
+filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_correct_hemisphere_counterclockwise"
 # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_with_quat_consistency_correct_hemisphere_clockwise" 
 
 # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_enforce_w_smaller_0_clockwise"
@@ -103,7 +105,7 @@ fig_quaternion.update_layout(
 )
 
 
-if True: #save:
+if save:
     png_quaternion_path = os.path.join(output_dir, "tcp_and_target_quaternion_" + filename + ".pdf")
     fig_quaternion.write_image(png_quaternion_path, width=1000, height=600)
 
@@ -249,37 +251,46 @@ fig_actions.show()
 
 
 
+tcp_pos = df[['tcp_pose_0', 'tcp_pose_1', 'tcp_pose_2']].to_numpy()
+target_pos = df[['target_pose_0', 'target_pose_1', 'target_pose_2']].to_numpy()
 
-
-
+euclidean_distance = np.linalg.norm(target_pos - tcp_pos, axis=1)
 
 dot_products = np.einsum('ij,ij->i', tcp_quat, target_quat)  # Compute dot product row-wise
 dot_products = np.clip(dot_products, -1.0, 1.0)  # Ensure values are within valid range
 
 geodesic_distance = 2 * np.arccos(np.abs(dot_products))  # Compute geodesic distance
 
-# Create Plotly figure for geodesic distance
-fig_geodesic = go.Figure()
 
-# Add trace for geodesic distance
-fig_geodesic.add_trace(go.Scatter(x=df['timestep'], y=geodesic_distance, mode='lines',
-                                  name='Geodesic Distance', line=dict(color='purple')))
+fig_combined = go.Figure()
 
-# Customize layout
-fig_geodesic.update_layout(
+fig_combined.add_trace(go.Scatter(
+    x=df['timestep'],
+    y=euclidean_distance.tolist(),
+    name='Euclidean Distance',
+    line=dict(color='blue', dash='dash') 
+))
+
+fig_combined.add_trace(go.Scatter(
+    x=df['timestep'],
+    y=geodesic_distance.tolist(),
+    name='Geodesic Distance',
+    line=dict(color='green', dash='solid')
+))
+
+fig_combined.update_layout(
     xaxis_title='Timestep',
-    yaxis_title='Geodesic Distance (radians)',
+    yaxis_title='Distance (m or rad)',
     legend_title='Legend',
-    hovermode="x unified"
+    hovermode='x unified'
 )
 
-# Save the plot if needed
-if save:
-    png_geodesic_distance_path = os.path.join(output_dir, "geodesic_distance_" + filename + ".png")
-    fig_geodesic.write_image(png_geodesic_distance_path, width=1000, height=600)
+if True: #save:
+    path = os.path.join(output_dir, f"combined_error_plot_{filename}.pdf")
+    fig_combined.write_image(path, width=1000, height=600)
 
-# Show the figure
-fig_geodesic.show()
+fig_combined.show()
+
 
 
 
