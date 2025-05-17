@@ -29,7 +29,7 @@ Install requirements:
     source /path/to/virtual/environment/bin/activate
     cd /path/to/repository/sb3
     wandb sweep --project rel_ik_sb3_ppo_ur5e_reach_0_05_pose_without_gripper_parameter_optimization config_sb3_ppo.yaml
-    
+
     wandb sweep --project impedance_ctrl_sb3_ppo_ur5e_reach_0_05_pose_without_gripper config_sb3_ppo.yaml
     
 
@@ -179,11 +179,28 @@ UR5e without Gripper and Impedance Control Action Space (position tracking only)
 
 
 # Real-world execution
-Every trained model can be transferred to real-world. To run a specific model on the physical robot, connect to the UR robot, select the correct settings in the play_sb3_ppo_real_rtde.py script and run the following commands in a terminal. Note: An Isaac Lab installation is not required for real-world execution
+All trained models are compatible with real-world execution.
+
+## Instructions
+
+1. Connect to the UR5e robot via the RTDE interface.
+2. Open the appropriate `play_sb3_ppo_real_rtde` script and select the correct configuration.
+3. Run the script using the terminal commands described below.
 
     source /path/to/virtual/environment/bin/activate
-    cd /path/to/repository
+    cd /path/to/repository/real_world_execution
     python3 play_sb3_ppo_real_rtde.py
+
+    python3 play_sb3_ppo_real_rtde_180_deg.py
+
+    python3 play_sb3_ppo_real_rtde_rotmat.py
+
+    python3 play_sb3_ppo_real_rtde_rotmat_180_deg.py
+
+
+Scripts with `180_deg` in their filename use the **simulation-aligned base frame**, where the robot's base is rotated 180° around the z-axis compared to the real-world setup. These scripts operate in the **negative y-region** of the robot's physical workspace.
+
+> **Note:** An Isaac Lab installation is **not** required for real-world execution.
 
 
 # Visualization scripts
