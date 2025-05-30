@@ -20,6 +20,11 @@ Install requirements:
     pip install -r /path/to/requirements.txt 
 
 
+# Example Video
+
+
+
+
 
 
 # Hyperparameter optimization with Weights&Biases
@@ -139,8 +144,6 @@ Note: This repository includes several pre-trained models in sb3/models/. These 
     source isaaclab/bin/activate
     cd isaaclab/IsaacLab
     ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Domain-Rand-Reach-Pose-IK --num_envs 4 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip
-
-    ./isaaclab.sh -p /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/play_sb3_ppo.py --task UR5e-Reach-Pose-IK --num_envs 1 --checkpoint /home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_with_obs_rew_normalization/4ht0r2tq/model.zip
 
 
 # Task options (defined in /gym_env/env/__init__.py)

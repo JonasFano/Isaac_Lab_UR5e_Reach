@@ -5,7 +5,7 @@ class TaskParams:
     ### General Simulation Params ###
     #################################
     decimation = 2
-    episode_length_s = 15.0
+    episode_length_s = 5.0
     dt = 1/100
     render_interval = 2
 

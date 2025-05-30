@@ -135,11 +135,11 @@ def main():
             obs, rew, _, _ = env.step(actions)
             # print(timestep)
             # timestep += 1
-            print(obs)
+            # print(obs)
             # print(rew)
             # time.sleep(10)
 
-            # if timestep > 249: # 373: # 748:
+            # if timestep > 2000: # 373: # 748:
             #     env.close()
             #     break
 
