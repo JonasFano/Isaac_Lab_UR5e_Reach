@@ -223,6 +223,12 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
     if not args_cli.no_logging:
         agent.save(os.path.join(log_dir, "model"))
 
+    # Save normalization statistics
+    if isinstance(env, VecNormalize):
+        vecnorm_path = os.path.join("model", "vecnormalize.pkl")
+        env.save(vecnorm_path)
+        print(f"[INFO] Saved VecNormalize stats to {vecnorm_path}")
+
     # Close the simulator
     env.close()
 

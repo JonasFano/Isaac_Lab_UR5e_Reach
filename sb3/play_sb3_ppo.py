@@ -94,17 +94,28 @@ def main():
     # wrap around environment for stable baselines
     env = Sb3VecEnvWrapper(env)
 
-    # normalize environment (if needed)
+    # # normalize environment
+    # if "normalize_input" in agent_cfg:
+    #     env = VecNormalize(
+    #         env,
+    #         training=False,
+    #         norm_obs="normalize_input" in agent_cfg and agent_cfg.pop("normalize_input"),
+    #         norm_reward="normalize_value" in agent_cfg and agent_cfg.pop("normalize_value"),
+    #         clip_obs="clip_obs" in agent_cfg and agent_cfg.pop("clip_obs"),
+    #         gamma=agent_cfg["gamma"],
+    #         clip_reward=np.inf,
+    #     )
+
+    # normalize environment
     if "normalize_input" in agent_cfg:
-        env = VecNormalize(
-            env,
-            training=False,
-            norm_obs="normalize_input" in agent_cfg and agent_cfg.pop("normalize_input"),
-            norm_reward="normalize_value" in agent_cfg and agent_cfg.pop("normalize_value"),
-            clip_obs="clip_obs" in agent_cfg and agent_cfg.pop("clip_obs"),
-            gamma=agent_cfg["gamma"],
-            clip_reward=np.inf,
-        )
+        vecnorm_path = os.path.join(log_dir, "vecnormalize.pkl")
+        if os.path.exists(vecnorm_path):
+            print(f"[INFO] Loading VecNormalize stats from: {vecnorm_path}")
+            env = VecNormalize.load(vecnorm_path, env)
+            env.training = False
+        else:
+            print("[WARNING] VecNormalize stats file not found, falling back to unnormalized environment.")
+
 
     # create agent from stable baselines
     print(f"Loading checkpoint from: {checkpoint_path}")

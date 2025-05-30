@@ -46,7 +46,6 @@ class UR5eRobotController:
         self.rot_180_z_inv = quat_inv(self.rot_180_z)
 
 
-
     def save_observations_to_csv(self, total_timestep):
         """Save TCP pose, target pose, and last action to a CSV file."""
         header = (
@@ -169,8 +168,8 @@ class UR5eRobotController:
         #     quat_wxyz *= -1
 
         # Enforce consistent sign (e.g. w < 0)
-        if quat_wxyz[0] > 0:
-            quat_wxyz = -quat_wxyz
+        # if quat_wxyz[0] > 0:
+        #     quat_wxyz = -quat_wxyz
 
         self.prev_quaternion = quat_wxyz.clone()  # Store for next iteration
 
@@ -298,8 +297,8 @@ class UR5eRobotController:
 
 if __name__ == "__main__":
     # robot_ip = "10.52.4.219"
-    robot_ip = "10.126.49.30"
-    # robot_ip = "192.168.1.100"
+    # robot_ip = "10.126.49.30"
+    robot_ip = "192.168.1.100"
     
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/01gt11w7/model.zip"  # Seed 24
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/relative_vs_absolute/85arfwte/model.zip" # Seed 42
@@ -307,8 +306,8 @@ if __name__ == "__main__":
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/4onkm2st/model.zip" # Act. Rate Pos (-1.0) # Seed 24
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_parameter_optimization/action_rate_pos_penalty_1_0_step_16000/oshyvv4h/model.zip" # Act. Rate Pos (-1.0) # Seed 42
 
-    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 24
-    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/yiv7mwsi/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 42
+    # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/gegtc7pj/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 24
+    model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/ppo_domain_rand/gains_0_9/yiv7mwsi/model.zip" # Domain Randomization with gains scaled between (0.9, 1.1) # Seed 42
     
     save_dir = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/data/real_robot/quaternion_analysis"
 

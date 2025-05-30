@@ -334,8 +334,8 @@ class UR5eRobotController:
 
 if __name__ == "__main__":
     # robot_ip = "10.52.4.219"
-    robot_ip = "10.126.49.30"
-    # robot_ip = "192.168.1.100"
+    # robot_ip = "10.126.49.30"
+    robot_ip = "192.168.1.100"
     
     model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rot6d/hjh00riy/model.zip"
     # model_path = "/home/jofa/Downloads/Repositories/Isaac_Lab_UR5e_Reach/sb3/models/rot6d/9vkwdb4c/model.zip"
