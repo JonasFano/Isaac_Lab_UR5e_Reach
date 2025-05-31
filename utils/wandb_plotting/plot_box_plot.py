@@ -96,12 +96,21 @@ for (policy, scale), files in file_groups.items():
                 "Action Scale": scale,
                 "Policy_Scale": f"{policy}_{scale}",
                 "Error Type": "Orientation",
-                "Error": e
+                "Error": np.degrees(e)
             })
 
 # Create final DataFrame for analysis or plotting
 df_errors = pd.DataFrame(records)
 
+
+plt.rcParams.update({
+    'font.size': 16,
+    'axes.labelsize': 18,
+    'axes.titlesize': 18,
+    'xtick.labelsize': 14,
+    'ytick.labelsize': 14,
+    'legend.fontsize': 14
+})
 
 # Plot Position Error Boxplot (log scale + save)
 plt.figure(figsize=(12, 6))
@@ -120,7 +129,7 @@ plt.close()
 plt.figure(figsize=(12, 6))
 sns.boxplot(data=df_errors[df_errors["Error Type"] == "Orientation"],
             x="Policy_Scale", y="Error", palette="Set2")
-plt.ylabel("Geodesic Distance [rad]")
+plt.ylabel("Geodesic Distance [°]")
 plt.xlabel("")
 plt.yscale("log")  # Logarithmic scale
 plt.xticks(rotation=45)

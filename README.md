@@ -1,5 +1,5 @@
 # Short project description
-This project was part of my Master's Thesis for the Master's programme "Robot Systems - Advanced Robotics Technology" at the University of Southern Denmark (SDU). The task was to assess the feasibility of using RL-based robot control for a peg-in-hole task using the advanced physics simulator NVIDIA Isaac Lab. A stepwise development process was used in which task complexity is gradually increased to enable systematic optimization and validation of key framework components and algorithm hyperparameters. Each task builds directly on the previous one, reusing components and introducing new challenges in isolation.
+This project was part of my Master's Thesis with the title "Reinforcement Learning for Robot Control in Isaac Lab: A Feasibility Study" for the Master's program "Robot Systems - Advanced Robotics Technology" at the University of Southern Denmark (SDU). The task was to assess the feasibility of using RL-based robot control for a peg-in-hole task using the advanced physics simulator NVIDIA Isaac Lab. A stepwise development process was used in which task complexity is gradually increased to enable systematic optimization and validation of key framework components and algorithm hyperparameters. Each task builds directly on the previous one, reusing components and introducing new challenges in isolation.
 
 This Repository includes the implementation to train PPO, DDPG or TD3 agents (from Stable-Baselines3) in Isaac Lab. The considered task includes a UR5e robot and requires the policy to move the robot such that it tracks a target pose with the robot's TCP. The implemented controllers are relative and absolute differential inverse kinematics (IK) control, joint position control, or impedance control (position tracking only).
 
@@ -20,10 +20,12 @@ Install requirements:
     pip install -r /path/to/requirements.txt 
 
 
-# Example Video
+# Example video
+## Random sampling test trials
+https://youtu.be/YQhsC8r1wao
 
-
-
+## Yaw boundary test with small oscillations due to quaternion sign flips 
+https://youtu.be/oq-2r9iIK8M
 
 
 

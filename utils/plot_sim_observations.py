@@ -19,8 +19,8 @@ os.makedirs(output_dir, exist_ok=True)  # Ensure the directory exists
 # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_positive_quat_sim"
 
 # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_clockwise"
-# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_counterclockwise"
-filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_counterclockwise_different_target_hemisphere"
+filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_counterclockwise"
+# filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_counterclockwise_different_target_hemisphere"
 # filename = "domain_rand_model_predefined_poses_scale_0_05_seed_24_sim_counterclockwise_different_target_hemisphere_for_3_and_2_5"
 
 save = False  # False # True
@@ -96,10 +96,11 @@ fig_quaternion.update_layout(
     legend_title='Legend',
     hovermode="x unified",
     showlegend=False,
+    font=dict(size=20),
 )
 
 
-if save:
+if True: #save:
     png_quaternion_path = os.path.join(output_dir, f"tcp_and_target_quaternion_{filename}.pdf")
     fig_quaternion.write_image(png_quaternion_path, width=1000, height=600, engine="kaleido")
 
@@ -257,7 +258,7 @@ euclidean_distance = np.linalg.norm(target_pos - tcp_pos, axis=1)
 dot_products = np.einsum('ij,ij->i', tcp_quat, target_quat)  # Compute dot product row-wise
 dot_products = np.clip(dot_products, -1.0, 1.0)  # Ensure values are within valid range
 
-geodesic_distance = 2 * np.arccos(np.abs(dot_products))  # Compute geodesic distance
+geodesic_distance = np.degrees(2 * np.arccos(np.abs(dot_products)))  # Convert to degrees
 
 fig_combined = go.Figure()
 
@@ -277,9 +278,11 @@ fig_combined.add_trace(go.Scatter(
 
 fig_combined.update_layout(
     xaxis_title='Timestep',
-    yaxis_title='Distance (m or rad)',
+    yaxis_title='Distance (m or °)',
     legend_title='Legend',
-    hovermode='x unified'
+    hovermode='x unified',
+    showlegend=False,
+    font=dict(size=20),
 )
 
 if True: #save:
